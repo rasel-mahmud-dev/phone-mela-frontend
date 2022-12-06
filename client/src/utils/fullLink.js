@@ -6,16 +6,17 @@ import { baseUri  } from "src/apis/api"
 function fullLink(link){
 	
   if(link) {
-      if(import.meta.env.MODE === "development"){
-		  if(link.startsWith("http")){
-			  return link
-		  } else {
-			  let a = link.indexOf("phone_mela")
-			  let aa = baseUri + "/" + link.slice(a + 11)
-			  return aa
-		  }
+      if(link.startsWith("http")){
+          return link
       } else {
-        return link
+          let a = link.indexOf("phone_mela")
+
+          if(a !== -1) {
+              let aa = baseUri + "/" + link.slice(a + 11)
+              return aa
+          } else {
+              return  link
+          }
       }
   } else {
     return  ""

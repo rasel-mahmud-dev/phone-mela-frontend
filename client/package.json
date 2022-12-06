@@ -24,7 +24,7 @@
     "react-transition-group": "^4.4.2",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "swiper": "^8.1.3"
+    "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "file:fortawesome/fortawesome-fontawesome-svg-core-1.2.36.tgz",

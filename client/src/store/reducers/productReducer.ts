@@ -165,17 +165,20 @@ fetchedHomePageSectionProduct: {},
       products: [],
       sliderImages: [
         {
-          url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+          url: "/images/h10-slider copy-hd.webp",
+          low: "/images/h10-slider copy.webp"
+        }, {
+          url: "/images/motoedge20pro copy-hd.webp",
+          low: "/images/motoedge20pro copy.webp"
         },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c3.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        {url: "/images/a99e09a1-9edb-45b5-81fd-a4db52828e83___d42a8f07dd542a306c582345181ce344 copy.webp",
+          low: "/images/a99e09a1-9edb-45b5-81fd-a4db52828e83___d42a8f07dd542a306c582345181ce344 copy 2.webp"
         },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c6.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        {url: "/images/ECabQNuW4AEVEdr copy.webp",
+          low: "/images/ECabQNuW4AEVEdr copy-low.webp"
         },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c7.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        {url: "/images/nx6-slider copy.webp",
+          low: "/images/nx6-slider copy_low.webp"
         },
       ]
     },
@@ -184,19 +187,19 @@ fetchedHomePageSectionProduct: {},
       // fields: ["discount"],
       products: [],
       sliderImages: [
-        {
-          url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c3.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c6.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c7.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
+        // {
+        //   url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4.jpg",
+        //   low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        // },
+        // {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c3.jpg",
+        //   low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        // },
+        // {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c6.jpg",
+        //   low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        // },
+        // {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c7.jpg",
+        //   low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
+        // },
       ]
     },
     topRating: {
@@ -204,19 +207,19 @@ fetchedHomePageSectionProduct: {},
       fields: ["rate"],
       products: [],
       sliderImages: [
-        {
-          url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c3.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c6.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
-        {url: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c7.jpg",
-          low: "https://res.cloudinary.com/rasel/image/upload/v1650653556/phone_mela/products/c4_low.jpg"
-        },
+          {url: "/images/ECabQNuW4AEVEdr copy.webp",
+              low: "/images/ECabQNuW4AEVEdr copy-low.webp"
+          },
+          {url: "/images/a99e09a1-9edb-45b5-81fd-a4db52828e83___d42a8f07dd542a306c582345181ce344 copy.webp",
+              low: "/images/a99e09a1-9edb-45b5-81fd-a4db52828e83___d42a8f07dd542a306c582345181ce344 copy 2.webp"
+          },
+          {
+              url: "/images/motoedge20pro copy-hd.webp",
+              low: "/images/motoedge20pro copy.webp"
+          },
+          {url: "/images/nx6-slider copy.webp",
+              low: "/images/nx6-slider copy_low.webp"
+          },
       ]
     }
   },
