@@ -1,36 +1,34 @@
-client/node_modules
-client/.idea
-client/src/asserts
+# Logs
+logs
+*.log
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 client/fortawesome
-client/.vercel
-client/dist
-client/.gita
-client/.gitignore
+client/.netlify
+node_modules
+dist
+dist-ssr
+*.local
+fortawesome
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+src/routes.ts.back
+.vercel
+js.js
+src/a.css
+bkash.html
+src/pages.rar
+a.css
 
-New folder
-go-api/.gita
-go-api/.idea
-go-api/.gitignore
-go-api/src/static
-go-api/src/logs
-go-api/src/auto/sql
-go-api/src/middleware
-go-api/node_modules
-go-api/src/auto
-go-api/src/FileUpload
-go-api/src/middleware/
-go-api/src/console
-go-api/.env
-
-nodejs-api/node_modules
-nodejs-api/.gita
-nodejs-api/.env
-nodejs-api/.idea
-nodejs-api/netlify.toml
-nodejs-api/.gitignore
-# Local Netlify folder
-.netlify
-
-
-# deploy on vercel rasel.mahmud.dev
