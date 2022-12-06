@@ -1,15 +1,16 @@
-import { lazy, Suspense } from "react";
-import { useRoutes } from "react-router-dom";
+import {lazy, Suspense} from "react";
+import {useRoutes} from "react-router-dom";
 import ProgressBar from "UI/ProgressBar/ProgressBar";
-import AccountInfo from "pages/Customer/Dashboard/accountInfo/AccountInfo";
+import AccountInfo from "pages/Dashboard/Customer/AccountInfo/AccountInfo";
 import AddressBook from "pages/Customer/Dashboard/AddressBook/AddressBook";
-import Orders from "pages/Customer/Dashboard/Orders/Orders";
+import Orders from "pages/Dashboard/Customer/Orders/Orders";
 import MyReviews from "pages/Customer/Dashboard/myReviews/MyReviews";
 import OrderDetails from "pages/Customer/Dashboard/OrderDetails/OrderDetails";
-import MyCart from "pages/Customer/Dashboard/myCart/MyCart";
-import MyWishlist from "pages/Customer/Dashboard/myWishlist/MyWishlist";
+import MyCart from "pages/Dashboard/Customer/MyCart/MyCart";
+import MyWishlist from "pages/Dashboard/Customer/MyWishlist/MyWishlist";
 import DashboardHome from "pages/Customer/Dashboard/dashboardHome/DashboardHome";
 import PrivateRoute from "./middleware/PrivateRoute";
+import Dashboard from "pages/Dashboard/Dashboard";
 
 // this function for lazy route load...........
 const ReactLazyPreload = (importStatement: any) => {
@@ -56,60 +57,55 @@ export let myRoutes: any = [];
 let isAuth: boolean | null = null;
 
 function MyRoutes(props: any) {
-    let { auth, where } = props;
+    let {auth, where} = props;
 
-    if (where === "app") {
-        isAuth = auth.isAuthenticated;
-    }
-
-    // if(isAuth){
     myRoutes = [
-        { path: "/", index: true, element: <HomePage /> },
-        { path: "/products", index: true, element: <ProductPage /> },
-        { path: "/products/:slug", index: true, element: <MoreProducts /> },
-        { path: "/q", element: <ProductPage /> },
-        { path: "/product/:title/:productId", element: <ProductDetails /> },
+        {path: "/", index: true, element: <HomePage/>},
+        {path: "/products", index: true, element: <ProductPage/>},
+        {path: "/products/:slug", index: true, element: <MoreProducts/>},
+        {path: "/q", element: <ProductPage/>},
+        {path: "/product/:title/:productId", element: <ProductDetails/>},
         {
-            path: "/auth/customer",
-            element: <CustomerDashboardHome />,
+            path: "/dashboard",
+            element: <PrivateRoute><Dashboard/></PrivateRoute>,
             children: [
-                { path: "", index: true, element: <DashboardHome /> },
-                { path: "account-info", index: true, element: <AccountInfo /> },
-                { path: "address-book", index: true, element: <AddressBook /> },
-                { path: "my-orders", index: true, element: <Orders /> },
-                { path: "my-carts", index: true, element: <MyCart /> },
-                { path: "my-wishlist", index: true, element: <MyWishlist /> },
-                { path: "my-reviews", index: true, element: <MyReviews /> },
-                { path: "my-orders/details/:orderId", index: true, element: <OrderDetails /> },
+                {path: "", index: true, element: <DashboardHome/>},
+                {path: "account-info", index: true, element: <AccountInfo/>},
+                {path: "address-book", index: true, element: <AddressBook/>},
+                {path: "orders", index: true, element: <Orders/>},
+                {path: "orders/:orderId", index: true, element: <OrderDetails/>},
+                {path: "carts", index: true, element: <MyCart/>},
+                {path: "wishlist", index: true, element: <MyWishlist/>},
+                {path: "reviews", index: true, element: <MyReviews/>},
             ],
         },
 
-        { path: "/faqs", element: <Faq /> },
-        { path: "/about-me", element: <AboutMe /> },
-        { path: "/contact-me", element: <ContactMe /> },
+        {path: "/faqs", element: <Faq/>},
+        {path: "/about-me", element: <AboutMe/>},
+        {path: "/contact-me", element: <ContactMe/>},
 
         // { path: "/add-product", index: true,  element: <AddProduct/> },
         // { path: "/update-product/:productId", index: true, element: <AddProduct/> },
         // { path: "/auth/profile",  element: <ProfilePage/ },
-        { path: "/products/:authorId", index: true, element: <ProductPage /> },
+        {path: "/products/:authorId", index: true, element: <ProductPage/>},
         // { path: "/admin/dashboard",  element: <AdminDashboard/> },
-        { path: "/auth/login", index: true, element: <LoginPage /> },
-        { path: "/auth/signup", index: true, element: <SignupPage /> },
+        {path: "/auth/login", index: true, element: <LoginPage/>},
+        {path: "/auth/signup", index: true, element: <SignupPage/>},
         {
             path: "/admin/dashboard",
-            element: <AdminDashboard />,
+            element: <AdminDashboard/>,
             children: [
-                { path: "products/product-list", index: true, element: <ProductList /> },
-                { path: "products/category", index: true, element: <Category /> },
-                { path: "products/add-product/:productId", index: true, element: <AddProduct /> },
-                { path: "products/server/logs", index: true, element: <Logs /> },
+                {path: "products/product-list", index: true, element: <ProductList/>},
+                {path: "products/category", index: true, element: <Category/>},
+                {path: "products/add-product/:productId", index: true, element: <AddProduct/>},
+                {path: "products/server/logs", index: true, element: <Logs/>},
             ],
         },
         {
             path: "/cart",
             element: (
                 <PrivateRoute>
-                    <CartPage />
+                    <CartPage/>
                 </PrivateRoute>
             ),
         },
@@ -117,7 +113,7 @@ function MyRoutes(props: any) {
             path: "/wishlist",
             element: (
                 <PrivateRoute>
-                    <Wishlist />
+                    <Wishlist/>
                 </PrivateRoute>
             ),
         },
@@ -125,7 +121,7 @@ function MyRoutes(props: any) {
             path: "/order",
             element: (
                 <PrivateRoute>
-                    <OrderHomePage />
+                    <OrderHomePage/>
                 </PrivateRoute>
             ),
             children: [
@@ -134,7 +130,7 @@ function MyRoutes(props: any) {
                     index: true,
                     element: (
                         <PrivateRoute>
-                            <CheckoutPage />{" "}
+                            <CheckoutPage/>{" "}
                         </PrivateRoute>
                     ),
                 },
@@ -143,34 +139,17 @@ function MyRoutes(props: any) {
                     index: true,
                     element: (
                         <PrivateRoute>
-                            <PaymentPage />
+                            <PaymentPage/>
                         </PrivateRoute>
                     ),
                 },
             ],
         },
-        // { path: "/admin/dashboard/products/physical/category",  component: Category },
-        // { path:"*", element: <main style={{ padding: "1rem" }}>
-        //       <p>There's nothing here!</p>
-        //     </main>
-        // }
+
     ];
-    // } else {
-    //   routes = [
-    //     ...myRoutes,
-    //     { path: "/auth/login", element: <LoginPage/> },
-    //     // { path: "/auth/signup", component: signupPage }
-    //   ]
-    // }
 
     return (
-        <Suspense fallback={<ProgressBar />}>
-            {/*<Routes>*/}
-            {/*  { routes.map(route=>(*/}
-            {/*    <Route {...route} />*/}
-            {/*  )) }*/}
-            {/*</Routes>*/}
-
+        <Suspense fallback={<ProgressBar/>}>
             {useRoutes(myRoutes)}
         </Suspense>
     );

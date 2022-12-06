@@ -2,13 +2,14 @@ import React, {FC} from "react";
 
 interface Props {
     avatar?: string
+    src?: string
     username?: string
     className?: string
     imgClass?: string
 }
 
 
-const Avatar:FC<Props> = ({avatar, username, className = "", imgClass = ""}) => {
+const Avatar:FC<Props> = ({avatar, src, username, className = "", imgClass = ""}) => {
     function chooseFirstLetter(name) {
         if (!name) {
             return "";
@@ -25,7 +26,7 @@ const Avatar:FC<Props> = ({avatar, username, className = "", imgClass = ""}) => 
     return (
         <div className={`${className}`}>
             {avatar ? (
-                <img src={avatar} alt="" className={`rounded-full w-8 ${imgClass}`}/>
+                <img src={avatar || src} alt="" className={`rounded-full w-8 ${imgClass}`}/>
             ) : (
                 <span>{chooseFirstLetter(username)}</span>
             )}

@@ -120,11 +120,10 @@ const PaymentPage = (props: any) => {
 
     function renderPayCardMedium() {
 
-        console.log(orderContext)
 
         return (
             <div>
-                <StripeForm orderState={orderState.state}></StripeForm>
+                <StripeForm></StripeForm>
                 {/*<div>*/}
                 {/*  <h1>Card Information</h1>*/}
                 {/*  <Input2 label="Enter Card Number" onChange={handleChangePaymentInformation} value={paymentInformation.card_number} name="card_number" />*/}

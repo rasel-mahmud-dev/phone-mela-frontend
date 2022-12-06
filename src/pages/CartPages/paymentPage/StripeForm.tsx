@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 const stripePromise = loadStripe(import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY);
 
-function StripeForm({ children }) {
+function StripeForm() {
     return (
         <Elements stripe={stripePromise}>
             <CheckoutForm />
@@ -144,7 +144,6 @@ function CheckoutForm() {
             />
             <Button
                 className="bg-primary-500 text-white mt-10 "
-                type="submit"
                 disabled={!(clientSecret && stripe && elements)}
             >
                 Pay

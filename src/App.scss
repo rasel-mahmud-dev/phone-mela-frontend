@@ -8,7 +8,7 @@
 }
 
 body{
-  background: rgba(67, 76, 185, 0.09);
+  background: #6d75d517
 
 }
 
@@ -68,8 +68,6 @@ padding: 0}
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 10px;
 }
 
 
@@ -374,42 +372,6 @@ $color: rgb(247, 56, 18);
 
 
 
-.sm\:flex-1{@include get_down(576px){flex: 1;}}
-.sm\:flex-2{@include get_down(576px){flex: 2;}}
-.sm\:flex-3{@include get_down(576px){flex: 3;}}
-.sm\:flex-4{@include get_down(576px){flex: 4;}}
-.sm\:flex-5{@include get_down(576px){flex: 5;}}
-.sm\:flex-6{@include get_down(576px){flex: 6;}}
-.sm\:flex-7{@include get_down(576px){flex: 7;}}
-.sm\:flex-8{@include get_down(576px){flex: 8;}}
-
-.md\:flex-1{@include get_down(768px){flex: 1;}}
-.md\:flex-2{@include get_down(768px){flex: 2;}}
-.md\:flex-3{@include get_down(768px){flex: 3;}}
-.md\:flex-4{@include get_down(768px){flex: 4;}}
-.md\:flex-5{@include get_down(768px){flex: 5;}}
-.md\:flex-6{@include get_down(768px){flex: 6;}}
-.md\:flex-7{@include get_down(768px){flex: 7;}}
-.md\:flex-8{@include get_down(768px){flex: 8;}}
-
-.lg\:flex-1{@include get_down(1192px){flex: 1;}}
-.lg\:flex-2{@include get_down(1192px){flex: 2;}}
-.lg\:flex-3{@include get_down(1192px){flex: 3;}}
-.lg\:flex-4{@include get_down(1192px){flex: 4;}}
-.lg\:flex-5{@include get_down(1192px){flex: 5;}}
-.lg\:flex-6{@include get_down(1192px){flex: 6;}}
-.lg\:flex-7{@include get_down(1192px){flex: 7;}}
-.lg\:flex-8{@include get_down(1192px){flex: 8;}}
-
-//.flex-1{flex: 1}
-//.flex-2{flex: 2}
-//.flex-3{flex: 3}
-//.flex-4{flex: 4}
-//.flex-5{flex: 5}
-//.flex-6{flex: 6}
-//.flex-7{flex: 7}
-//.flex-8{flex: 8}
-
 .link{
   cursor: pointer;
   @apply hover:text-primary-400
@@ -464,20 +426,16 @@ $color: rgb(247, 56, 18);
   }
 }
 
-
-
-.page_wrapper{
-  display: flex;
-  //position: relative;
-  //.content-overlay{
-  //  width: 100%;
-  //  height: 100vh;
-  //  position: fixed;
-  //  top: 0;
-  //  left: 0;
-  //  z-index: 205;
-  //  background: rgba(61, 61, 61, 0.55);
-  //}
+.card {
+    @apply rounded-xl bg-white;
+    box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+    .card-header{
+        background-color: #fff;
+        padding: 30px;
+        border-bottom: 1px solid #f8f8f9;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
 }
 
 
