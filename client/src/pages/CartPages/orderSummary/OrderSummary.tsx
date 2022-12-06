@@ -15,7 +15,7 @@ const OrderSummary = ({cartProducts, shippingAddress, nextLevel}) => {
   
   return (
     <div>
-      <div className="font-normal bg-primary-10 px-6 py-3 w-full">
+      <div className="font-normal bg-primary-50/10 px-6 py-3 w-full rounded-md">
         <h4 className="font-medium text-lg">Order Summary</h4>
         <div className="mt-4">
           <ul>

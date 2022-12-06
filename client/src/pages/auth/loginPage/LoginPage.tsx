@@ -5,8 +5,12 @@ import Preload from "UI/Preload/Preload";
 import { login } from "src/store/actions/authAction";
 import Loader from "src/components/UI/Loader/Loader";
 import Helmet from "react-helmet";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import Button from "UI/Button/Button";
+
+interface CustomLocation extends Location{
+    state?: { from?: string }
+}
 
 const LoginPage = (props) => {
     const [state, setState] = React.useState({
@@ -15,12 +19,12 @@ const LoginPage = (props) => {
         password: { value: "123", touched: false, errorMessage: "" },
     });
 
-    const navigator = useNavigate();
-
+    const navigate = useNavigate();
+    
+    const location = useLocation() as unknown as CustomLocation
+    
     const [message, setMessage] = React.useState("");
     const [fetchLoading, setFetchLoading] = React.useState(false);
-
-    let [searchParams, setSearchParams] = useSearchParams();
 
     function handleChange({ target: { name, value, type } }) {
         setState({
@@ -50,12 +54,17 @@ const LoginPage = (props) => {
         }
         if (isComplete) {
             props.login(body, (err, result) => {
-                setFetchLoading(false);
-                if (err) {
+                if(!err) {
+                    setFetchLoading(false);
+                    
+                    if (location?.state?.from) {
+                        navigate(location.state.from, {replace: true});
+                    } else {
+                        navigate("/", {replace: true});
+                    }
+                } else {
                     setMessage(err);
                 }
-                let callback = searchParams.get("callback");
-                callback && navigator(callback);
             });
         }
     }

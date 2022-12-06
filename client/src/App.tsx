@@ -11,6 +11,7 @@ import { FILTERED_PRODUCTS_TYPE } from "store/types/prouductReduceTypes";
 import Footer from "./Common/Footer/Footer";
 import MyRoutes from "./MyRoutes";
 import { AuthStateType } from "reducers/authReducer";
+import StripeForm from "pages/CartPages/paymentPage/StripeForm";
 
 type AppProps = {
     togglePopup: any;
@@ -20,6 +21,8 @@ type AppProps = {
     auth?: AuthStateType;
     tools: ToolsReducerType;
     filteredProducts: FILTERED_PRODUCTS_TYPE;
+    cartProducts?: any[];
+    wishlist?: any[];
 };
 
 const App: FC<AppProps> = (props) => {
@@ -35,12 +38,15 @@ const App: FC<AppProps> = (props) => {
     }, []);
 
     useEffect(() => {
-        // load Cart products
+        // load Cart products when user logged
         if (auth) {
-            props.fetchCart(auth._id);
-            props.fetchWishlist(auth._id);
-        } else {
-            props.fetchCart();
+            if (!props.cartProducts || props.cartProducts.length === 0) {
+                props.fetchCart(auth._id);
+            }
+
+            if (!props.wishlist || props.wishlist.length === 0) {
+                props.fetchWishlist(auth._id);
+            }
         }
     }, [auth]);
 
@@ -56,7 +62,13 @@ const App: FC<AppProps> = (props) => {
 };
 
 function mapStateToDispatch(state: RootStateType) {
-    return { auth: state.auth, tools: state.tools, filteredProducts: state.productState.filteredProducts };
+    return {
+        auth: state.auth,
+        tools: state.tools,
+        filteredProducts: state.productState.filteredProducts,
+        cartProducts: state.productState.cartProducts,
+        wishlist: state.productState.wishlist,
+    };
 }
 
 export default connect(mapStateToDispatch, { fetchCurrentAuth, fetchWishlist, togglePopup, fetchCart })(App);

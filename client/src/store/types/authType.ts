@@ -1,9 +1,7 @@
 import {ActionTypes} from "actions/actionTypes";
 
 
-
 export type LoginActionPayload = {
-  isAuthenticated: boolean
   username: string
   firstName?: string
   _id: string

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC} from 'react'
+import React, {ChangeEvent, FC, useEffect} from 'react'
 import {useParams, Link, useNavigate} from "react-router-dom"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faTimes} from "@fortawesome/pro-regular-svg-icons";
@@ -11,6 +11,7 @@ import OrderSummary from "pages/CartPages/orderSummary/OrderSummary";
 import {ShippingAddress} from "reducers/userReducer";
 import api, {getApi} from "src/apis/api";
 import OrderContext, {OrderContextType} from "pages/CartPages/orderContext";
+import Button from "UI/Button/Button";
 
 
 
@@ -38,20 +39,20 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
   const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>({
    firstName: "rasel",
    lastName: "mahmud",
-   phone: 1785513535,
+   phone: 1712513135,
    idDefault: true,
-   post_code: 5826,
+   post_code: 7726,
    state: "Bogra",
-   city: "sonatola",
-   address: "harikhali",
-   apartment_suit: "west-tekani",
+   city: "sodor",
+   address: "feri, sodor-bogra",
+   apartment_suit: "none",
    country: "Bangladesh",
   })
   
   const [selectShippingAddress, setSelectShippingAddress] = React.useState(0)
   
   
-  React.useEffect(()=>{
+  useEffect(()=>{
     (async function (){
       if(auth._id){
         let response = await api.get(`/api/shipping-addresses/${auth._id}`)
@@ -61,24 +62,11 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
           }
         }
         setRecentShippingAddress(response.data)
-        // let updateRenderShippingAddress = []
-        // data.shippingAddresses && data.shippingAddresses.forEach(spAdd=>{
-        //    let {_id, user_id, ...attributes } = spAdd
-        //    let labelString = JSON.stringify(attributes).replace("}", "").replace("{", "")
-        //
-        //    updateRenderShippingAddress.push({
-        //      label: labelString,
-        //      shippingAddress: spAdd
-        //    })
-        // })
-        // setRecentShippingAddress(updateRenderShippingAddress)
       } else {
-        // history.push(`/auth/login/?redirect=/shopping/cart/checkout`)
       }
     }())
   }, [auth._id])
 
-  
 
   async function handleSave(e: React.MouseEvent<HTMLButtonElement>){
     
@@ -226,9 +214,9 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
       
           <div  >
             <div className="cart_items">
-              <h1 className="text-center text-lg font-medium my-4">ORDER CHECKOUT</h1>
+              <h1 className="page-title">ORDER CHECKOUT</h1>
               
-              <div className="flex justify-between sm:flex-row flex-col">
+              <div className="flex justify-between sm:flex-row flex-col mt-10">
                 
                 <div className="sm:flex-4 lg:flex-5 mr-4">
                   <button className="btn btn-primary mt-4"onClick={handleToggleAddShippingAddressForm}>
@@ -257,12 +245,10 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
                     shippingAddress={selectShippingAddress !== 0 ? recentShippingAddress ? recentShippingAddress.find(r=>r._id === selectShippingAddress) : false: false}
                     nextLevel={
                       <div className="mt-5">
-                        <button
-                          className={["w-full justify-center flex-nowrap font-normal btn btn-primary flex items-center px-4 py-1",
-                            selectShippingAddress === 0
-                              ? "bg-primary-950"
-                              : "bg-primary-400"
-                          ].join(" ")} ><button onClick={handleToPay}>Continue To Payment</button></button>
+                        <Button
+                            disabled={selectShippingAddress === 0}
+                          className={["w-full justify-center flex-nowrap text-white flex items-center px-4 py-1 bg-primary-400",
+                          ].join(" ")} ><button onClick={handleToPay}>Continue To Payment</button></Button>
                       </div>
                     }
   
@@ -271,22 +257,6 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
                 
               </div>
               
-              {/*{ cartProducts && cartProducts.length > 0 ? renderCartItems() : (*/}
-              {/*  <div className="text-md font-medium">*/}
-              {/*    <h1>Your Cart is Empty</h1>*/}
-              {/*  </div>*/}
-              {/*)}*/}
-              
-              {/*<div className="flex justify-between mt-4">*/}
-              {/*  <button onClick={handlePushBack} className="link_btn text-sm font-normal flex items-center">*/}
-              {/*    <FontAwesomeIcon icon={faChevronLeft} className="mr-1 text-xs" />*/}
-              {/*    <span className="text-sm font-normal">Back to Shop</span>*/}
-              {/*  </button>*/}
-              {/*  /!*<Link to="/shopping/cart/checkout">*!/*/}
-              {/*  <Link to="/checkout">*/}
-              {/*    <button className="flex-nowrap btn btn-primary flex items-center  py-1" >PROCEED TO CHECKOUT</button>*/}
-              {/*  </Link>*/}
-              {/*</div>*/}
             </div>
       
           </div>

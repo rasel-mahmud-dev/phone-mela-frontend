@@ -24,7 +24,6 @@ export const register = (userData: { username: string, email: string, password: 
     return 
   }
   const payload = {
-    isAuthenticated: true,
     firstName: data.first_name,
     username: data.username,
     _id: data._id,
@@ -53,7 +52,6 @@ export const fetchCurrentAuth = () => async (dispatch: (args: LoginActionType) =
     }
 
     const payload = {
-      isAuthenticated: true,
       username: data.username,
       _id: data._id ,
       email: data.email,
@@ -109,7 +107,6 @@ export const login = (userData: { email: string, password: string }, cb: any)=> 
     }
     
     const payload = {
-      isAuthenticated: true,
       username: r.data.username,
       _id: r.data._id,
       role: r.data.role,

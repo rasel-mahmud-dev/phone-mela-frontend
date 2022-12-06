@@ -1,95 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/logo.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phone Mela</title>
-	<meta name="theme-color" content="#3942b7">
-  <meta name="description" content="Find mobiles and smartphone with phone mala">
-  <meta name="keywords" content="Phone Mela, Mobile Mela, Ecommerce, Buy Smartphone">
-  <meta name="author" content="Rasel Mahmud">
-  <style>
-    
-    body{
-      margin: 0;
-      padding: 0;
-    }
-    
-    .spin_loader_root{
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100vh;
-      /*background-image: linear-gradient(126deg, #00bf55, #bfffdc59);*/
-      z-index: 3001;
-    }
-    
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/logo.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Phone Mela</title>
+        <meta name="theme-color" content="#3942b7" />
+        <meta name="description" content="Find mobiles and smartphone with phone mala" />
+        <meta name="keywords" content="Phone Mela, Mobile Mela, Ecommerce, Buy Smartphone" />
+        <meta name="author" content="Rasel Mahmud" />
 
-    .spin_root {
-      width: 50px;
-      height: 50px;
-      position: relative;
-      display: inline-block;
-      top: 52vh;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    
-    .loader_circle {
-      position: absolute;
-      width: 100%;
-      display: inline-block;
-      height: 100%;
-      border: 5px solid transparent;
-      border-right-color: red;
-      border-radius: 100%;
-      animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    }
-    
-    .loader_circle:nth-child(1){ animation-delay: -0.45s; }
-    .loader_circle:nth-child(2){ animation-delay: -0.3s; }
-    .loader_circle:nth-child(3){ animation-delay: -0.15s; }
-    .loader_circle:nth-child(4){ animation-delay: -0.10s; }
-    
-    .loader_circle{
-      border-right-color: red
-    }
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+            rel="stylesheet"
+        />
 
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Rubik, serif;
+            }
 
-    @keyframes loader{
-      0%{ transform: rotate(0deg) }
-      100%{ transform: rotate(360deg)}
-    }
-  </style>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-    rel="stylesheet">
-  
-</head>
-<body>
+            .spin_loader_root {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100vh;
+                background: white;
+                z-index: 3001;
+            }
 
+            .loading-title {
+                font-size: 16px !important;
+                text-align: center;
+            }
 
-<div class="spin_loader_root">
+            .spin_root {
+                position: relative;
+                display: inline-block;
+                top: 22vh;
+                left: 50%;
+                transform: translateX(-50%);
+            }
 
-    
-    <div class="spin_root">
-      <div class="loader_circle"></div>
-      <div class="loader_circle"></div>
-      <div class="loader_circle"></div>
-      <div class="loader_circle"></div>
-    </div>
-    
+            @keyframes loader {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
 
-</div>
-<div id="backdrop-root"></div>
-<div id="modal-root"></div>
-<div id="root"></div>
+            @keyframes react-spinners-BounceLoader-bounce {
+                0% {
+                    transform: scale(0);
+                }
+                50% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="spin_loader_root">
+            <div class="spin_root">
+                <span style="display: inherit; position: relative; width: 120px; height: 120px">
+                    <span
+                        style="
+                            position: absolute;
+                            height: 120px;
+                            width: 120px;
+                            background-color: rgb(100, 126, 255);
+                            border-radius: 100%;
+                            opacity: 0.6;
+                            top: 0px;
+                            left: 0px;
+                            animation: 2.1s ease-in-out 1s infinite normal none running
+                                react-spinners-BounceLoader-bounce;
+                        "
+                    >
+                    </span>
 
-<script type="module" src="/src/main.tsx"></script>
-</body>
+                    <span
+                        style="
+                            position: absolute;
+                            height: 120px;
+                            width: 120px;
+                            background-color: rgb(100, 126, 255);
+                            border-radius: 100%;
+                            opacity: 0.6;
+                            top: 0px;
+                            left: 0px;
+                            animation: 2.1s ease-in-out 0s infinite normal none running
+                                react-spinners-BounceLoader-bounce;
+                        "
+                    >
+                    </span>
+                </span>
+                <h1 class="loading-title font-bold mt-2">Loading...</h1>
+            </div>
+        </div>
+        <div id="backdrop-root"></div>
+        <div id="modal-root"></div>
+        <div id="root"></div>
+
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>

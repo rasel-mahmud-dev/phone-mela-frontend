@@ -167,12 +167,12 @@ const Wishlist = () => {
       
       <div className="">
           <div className="cart_items">
-            <h1 className="text-center text-xl font-normal pt-4">My Wishlist</h1>
+            <h1 className="page-title">My Wishlist</h1>
             <FontAwesomeIcon icon={faHeart} className="text-4xl text-center block mx-auto" />
             
             <br />
             
-            <div className="px-2">
+            <div className="px-2 mt-10">
               <div className="flex justify-between items-center my-2">
                 <h4>Total items({wishlist.length})</h4>
                 <Link to="/cart"><button className="btn btn-primary flex items-center py-1 px-3">Go to Cart</button></Link>

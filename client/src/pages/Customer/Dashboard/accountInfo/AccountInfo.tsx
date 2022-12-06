@@ -180,7 +180,7 @@ const AccountInfo = (props) => {
 //     )
   
   return (
-    <div className="pt-4  bg-white sm:mx-3 mx-0 py-4 px-3">
+    <div className="pt-4  sm:mx-3 mx-0 py-4 px-3">
       
       <div className="w-full">
         
@@ -221,12 +221,6 @@ const AccountInfo = (props) => {
       </div>
     </div>
 )
-}
-
-function mapStateToProps(state){
-  return {
-    authState: state.authState
-  }
 }
 
 

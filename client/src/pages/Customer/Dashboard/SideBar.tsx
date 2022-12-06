@@ -196,8 +196,8 @@ const SideBar = () => {
     //   items: []
     // }
   ]
-  
-
+    
+    console.log(auth)
   
   return (
     <div className="dashboard-sidebar custom-scrollbar">

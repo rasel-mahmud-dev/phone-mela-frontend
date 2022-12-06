@@ -9,7 +9,7 @@ const OrderHomePage = () => {
   
   return (
     
-    <div className="bg-white pt-4">
+    <div className="py-4">
       
       <div className="container-1200 px-3">
         <OrderContext.Provider value={{

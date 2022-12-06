@@ -5,6 +5,12 @@ import { register } from "src/store/actions/authAction";
 import Input2 from "UI/Form/Input/Input2";
 import Preload from "UI/Preload/Preload";
 import Button from "UI/Button/Button";
+import {useLocation, useNavigate} from "react-router-dom";
+import a from "UI/A/A";
+
+interface CustomLocation extends Location{
+	state?: { from?: string }
+}
 
 const signupPage = (props) => {
     const [state, setState] = React.useState({
@@ -13,8 +19,17 @@ const signupPage = (props) => {
         email: { value: "rasel@gmail.com", touched: false, errorMessage: "" },
         password: { value: "123", touched: false, errorMessage: "" },
     });
-
-    function handleChange({ target: { name, value, type } }) {
+	
+	
+	const navigate = useNavigate();
+	
+	const location = useLocation() as unknown as CustomLocation
+	
+	const [message, setMessage] = React.useState("");
+	const [fetchLoading, setFetchLoading] = React.useState(false);
+	
+	
+	function handleChange({ target: { name, value, type } }) {
         setState({
             ...state,
             [name]: {
@@ -27,7 +42,7 @@ const signupPage = (props) => {
     function handleSignup(e) {
         e.preventDefault();
         let isComplete = true;
-        let body = {};
+        let body: any = {};
         const { lastName, ...other } = state;
         for (let key in other) {
             isComplete = isComplete && !!state[key].value;
@@ -40,7 +55,19 @@ const signupPage = (props) => {
         body.password = state.password.value;
 
         if (isComplete) {
-            props.register(body);
+            props.register(body, (err)=>{
+	            if(!err) {
+		            // setFetchLoading(false);
+		
+		            if (location?.state?.from) {
+			            navigate(location.state.from, {replace: true});
+		            } else {
+			            navigate("/", {replace: true});
+		            }
+	            } else {
+		            // setMessage(err);
+	            }
+            });
         }
     }
 

@@ -352,7 +352,6 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
 
 
 
-
 // fetch all cart products from database
 export function fetchCart(customer_id: string){
   return function (dispatch: any){

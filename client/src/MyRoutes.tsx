@@ -26,7 +26,7 @@ const ProductDetails = ReactLazyPreload(() => import("./pages/ProductPage/Produc
 
 // const signupPage = ReactLazyPreload( ()=>import("./pages/signupPage/signupPage") )
 const LoginPage = ReactLazyPreload(() => import("./pages/auth/loginPage/LoginPage"));
-const SignupPage = ReactLazyPreload(() => import("./pages/auth/signupPage/SignupPage"));
+const SignupPage = ReactLazyPreload(() => import("pages/auth/signupPage/SignupPage"));
 // const ProfilePage = ReactLazyPreload( ()=>import("./pages/ProfilePage/ProfilePage") )
 
 // const Category = ReactLazyPreload(()=> import("pages/Admin/Components/Category/Category") )

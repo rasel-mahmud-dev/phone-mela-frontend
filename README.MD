@@ -1,9 +1,7 @@
-## Phone Mela fullstack ecommerce website, build with Nodejs, React js and MySQL/Mongodb
+## Phone Mela fullstack ecommerce website, build with Nodejs, React js and Mongodb
 
 
 ### Nodejs + Mongodb API Endpoint Example
-I haven't MYSQL database hosting. I cannot host my go app over the internet.
-So I create nodejs + mongodb version this api server to free live on netlify.
 
 ```js
 

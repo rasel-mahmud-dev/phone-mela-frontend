@@ -1,7 +1,7 @@
-import React from 'react' 
+import React, {useEffect} from 'react'
 import {useParams,  Link, useNavigate} from "react-router-dom"
 import {connect, useDispatch} from "react-redux"
-import {fetchProduct, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
+import {fetchCart, fetchProduct, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
 import {useSelector} from "react-redux"
 
 import "./CartPage.scss"
@@ -26,26 +26,19 @@ const CartPage = () => {
     let navigate = useNavigate()
     const dispatch = useDispatch()
   
-  const { productState: { cartProducts, wishlist }, auth } = useSelector((state: RootStateType)=>state)
-  
+  const { productState: { cartProducts, wishlist }, auth: {auth} } = useSelector((state: RootStateType)=>state)
 
+    useEffect(()=>{
+        if(!cartProducts || cartProducts.length === 0) {
+            dispatch(fetchCart(auth._id))
+        }
+      
+    }, [])
+    
   function handlePushBack(){
     // history.back() 
-    navigate(-1)
+    navigate("/")
   }
-
-  
-  //
-  // function renderLoader(where){
-  //   let loadingState = loadingStates.find(ls=>ls.where === where)
-  //   return (
-  //     <div style={{textAlign: "center"}}>
-  //       { loadingState && loadingState.isLoading
-  //          && <Loader size={50} />
-  //       }
-  //     </div>
-  //   )
-  // }
   
   function calculateTotalPrice(items: any[]){
     let totalPrice = 0;
@@ -55,10 +48,6 @@ const CartPage = () => {
     return totalPrice.toFixed(2) || 0.00
   }
   
-
-  function handleRemoveFromCart(cart_id: number) {
-    // dispatch(removeFromCart(cart_id, auth._id, false))
-  }
   
   function renderCartItems(){
     const isInWished=(id: string)=> {
@@ -66,41 +55,6 @@ const CartPage = () => {
       return i !== -1
     }
     
-  
-    function handleToggleWishlist(isAdd: boolean, item: any) {
-      
-      let product: any = {
-        title: item.title,
-        cover: item.cover,
-        id: item.product_id,
-        price: item.price,
-        author_id: item.customer_id
-      }
-      
-      
-      // dispatch(toggleHandleWishlist())
-      // if(auth.isAuthenticated) {
-      //   if(isAdd){
-      //     let product: any = {
-      //       title: item.title,
-      //       cover: item.cover,
-      //       id: item.product_id,
-      //       price: item.price,
-      //       author_id: item.author_id
-      //     }
-      //     dispatch(addToWishlist(product, auth._id))
-      //   } else {
-      //     let wish = wishlist.find(w=>w.product_id === item.product_id)
-      //     if(wish) {
-      //       dispatch(removeFromWishlist(wish._id, auth._id))
-      //     }
-      //   }
-      //
-      // } else {
-      //   dispatch(togglePopup({message: "Login First", isOpen: true, isSucceed: false}))
-      // }
-    }
-  
   
     let columns = [
       {
@@ -249,8 +203,7 @@ const CartPage = () => {
         }
       }
     ]
-  
-  
+    
   
     return (
       <div className="">
@@ -274,7 +227,7 @@ const CartPage = () => {
       <div className="w-full">
         <div className="px-3">
           <div className="cart_items">
-            <h1 className="text-center text-xl font-medium mb-4">YOUR SHOPPING CART</h1>
+            <h1 className="page-title">YOUR SHOPPING CART</h1>
         
             {cartProducts && cartProducts.length > 0 ? <h3 className="font-normal">Total Items ({cartProducts && cartProducts.length})</h3> : (
               <div className="mt-8 text-center text-sm font-normal">

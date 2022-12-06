@@ -7,14 +7,14 @@ import Loader from "components/Loader/Loader";
 
 const PrivateRoute = (props) => {
     const location = useLocation();
-    const { auth } = useSelector((state: RootStateType)=>state.auth)
+    const { auth, authLoaded } = useSelector((state: RootStateType)=>state.auth)
     
-    if (!auth) {
+    if (!authLoaded) {
         return <Loader />;
     }
     
     if (!auth) {
-        return <Navigate to="/login" state={{ from: location.pathname }} />;
+        return <Navigate to="/auth/login" state={{ from: location.pathname }} />;
     }
     
     return props.children;
