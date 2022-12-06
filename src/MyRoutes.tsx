@@ -2,7 +2,7 @@ import {lazy, Suspense} from "react";
 import {useRoutes} from "react-router-dom";
 import ProgressBar from "UI/ProgressBar/ProgressBar";
 import AccountInfo from "pages/Dashboard/Customer/AccountInfo/AccountInfo";
-import AddressBook from "pages/Customer/Dashboard/AddressBook/AddressBook";
+import AddressBook from "pages/Dashboard/Customer/AddressBook/AddressBook";
 import Orders from "pages/Dashboard/Customer/Orders/Orders";
 import MyReviews from "pages/Customer/Dashboard/myReviews/MyReviews";
 import OrderDetails from "pages/Customer/Dashboard/OrderDetails/OrderDetails";

@@ -4,11 +4,12 @@ import {useSelector} from "react-redux";
 import api from "apis/api";
 import {RootStateType} from "store/index";
 import fullLink from "../../../../utils/fullLink";
+import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 
 
 interface CustomerProfileType {
     avatar: string
-    created_at: string
+    createdAt: string
     email: string
     first_name: string
     id: number
@@ -22,8 +23,7 @@ const AccountInfo = (props) => {
     const {auth: {auth}} = useSelector((state: RootStateType) => state)
 
     let [customerProfile, setCustomerProfile] = React.useState<CustomerProfileType | null>(null)
-//   let [ users, setUsers] = React.useState([])
-//   let [ isShowSetPassForm, setShowPassForm] = React.useState(false)
+
 
     React.useEffect(() => {
         if (auth) {
@@ -166,20 +166,21 @@ const AccountInfo = (props) => {
 //     )
 
     return (
-        <div className="pt-4  sm:mx-3 mx-0 py-4 px-3">
+        <div className="">
+            <WithSidebarButton>
+                <h1 className="page-title">Profile Information</h1>
+            </WithSidebarButton>
 
-            <div className="w-full">
+            <div className="card p-4">
 
-                <h1 className="text-center font-normal text-2xl">Profile Information</h1>
+
                 {customerProfile && (
-
-                    <div className="mx-2 mt-6">
-
-                        <div className="flex  mb-4  items-center flex-col">
-                            <div className="w-[100px] ">
+                    <div className="">
+                        <div className="flex">
+                            <div className="w-24">
                                 <img className="w-full rounded-full" src={fullLink(customerProfile.avatar)} alt=""/>
+                                <button className="text-sm hover:text-primary-400">Change Avatar</button>
                             </div>
-                            <button className="text-sm hover:text-primary-400">Change Avatar</button>
                         </div>
 
                         <div className="flex items-center">
@@ -199,7 +200,7 @@ const AccountInfo = (props) => {
 
                         <div className="flex items-center">
                             <label htmlFor="" className="min-w-[150px]">Customer since: </label>
-                            <h4>{new Date(customerProfile.created_at).toDateString()}</h4>
+                            <h4>{new Date(customerProfile.createdAt).toDateString()}</h4>
                         </div>
 
                     </div>

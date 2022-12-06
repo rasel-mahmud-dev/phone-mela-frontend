@@ -1,46 +1,41 @@
-import React, {CSSProperties, FC} from 'react'
+import React, {CSSProperties, FC, HTMLAttributes} from 'react'
 import ReactDOM from 'react-dom'
 
 import './Backdrop.scss'
 
-type BackdropPROPS = {
-  isOpenBackdrop?: boolean
-  bg?:any
-  style?: CSSProperties,
-  onCloseBackdrop?: ()=>void
-  transparent?: boolean
-  children?: React.ReactElement
-  as?: "appMask" | "contentMask" | "global"
+interface BackdropPROPS extends HTMLAttributes<HTMLDivElement> {
+    isOpenBackdrop?: boolean
+    bg?: any
+    style?: CSSProperties,
+    onClose?: () => void
+    transparent?: boolean
+    children?: React.ReactElement
+    as?: "appMask" | "contentMask" | "global"
 }
 
-const Backdrop:FC<BackdropPROPS> = (props)=> {
-  const { isOpenBackdrop,
-    bg,
-    style,
-    onCloseBackdrop,
-    transparent,
-    children,
-    as
-  } = props
+const Backdrop: FC<BackdropPROPS> = (props) => {
+    const {
+        isOpenBackdrop,
+        className = "",
+        onClose,
+        transparent,
+        children,
+    } = props
 
-  const handleBackdrop=(e: React.MouseEvent)=>{
-    if((e.target as HTMLDivElement).classList.contains("backdrop")){
-      if(onCloseBackdrop)
-        onCloseBackdrop()
+    const handleBackdrop = (e: React.MouseEvent) => {
+        if ((e.target as HTMLDivElement).classList.contains("backdrop")) {
+            onClose && onClose()
+        }
     }
-  }
 
-  let styles = {...style}
-  if(bg){
-    styles.background = bg
-  }
 
-  return ReactDOM.createPortal(
-    <div style={styles} onClick={handleBackdrop} className={['backdrop', as, isOpenBackdrop ? 'open' : 'close', transparent ? 'bg-transparent' : '' ].join(' ')}>
-      {children}
-    </div>,
-    document.querySelector(as === "appMask" ? '#root' : as === 'contentMask' ? '#appContent' : '#backdrop-root') as HTMLDivElement
-  )
+    return ReactDOM.createPortal(
+        <div onClick={handleBackdrop}
+             className={`backdrop ${className}  ${isOpenBackdrop ? 'open' : 'close'} ${transparent ? 'bg-transparent' : ""}`}>
+            {children}
+        </div>,
+        document.querySelector("#backdrop-root") as HTMLDivElement
+    )
 }
 
 export default Backdrop
