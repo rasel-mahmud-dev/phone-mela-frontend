@@ -89,7 +89,7 @@ const AddressBook = (props) => {
     function renderShippingAddress() {
         return (
             <div className="">
-                <h2>{typeof isShowAddShippingForm === "boolean" ? "Add New Shipping Address" : "Update Shipping Address"}</h2>
+                <h2 className="card-title">{typeof isShowAddShippingForm === "boolean" ? "Add New Shipping Address" : "Update Shipping Address"}</h2>
                 <Input
                     name="name"
                     label="Your Full Name"
@@ -140,20 +140,20 @@ const AddressBook = (props) => {
                     onChange={handleChange}
                 />
 
-                <Input
-                    type="checkbox"
-                    // value={shippingAddress.address}
-                    value={shippingAddress.is_default}
-                    checked={shippingAddress.is_default}
-                    name="is_default"
-                    label="Make Default Shipping Address"
-                    onChange={handleChange}
-                />
+                {/*<Input*/}
+                {/*    type="checkbox"*/}
+                {/*    // value={shippingAddress.address}*/}
+                {/*    value={shippingAddress.is_default}*/}
+                {/*    checked={shippingAddress.is_default}*/}
+                {/*    name="is_default"*/}
+                {/*    label="Make Default Shipping Address"*/}
+                {/*    onChange={handleChange}*/}
+                {/*/>*/}
 
-                <div className="d-flex">
-                    <button onClick={() => setShowAddShippingForm(false)}>Cancel</button>
-                    <button
-                        onClick={handleSave}>{typeof isShowAddShippingForm === "boolean" ? "Save Shipping Address" : "Update"}</button>
+                <div className="flex gap-x-4 mt-5">
+                    <Button className="btn-primary" onClick={() => setShowAddShippingForm(false)}>Cancel</Button>
+                    <Button className="btn-primary"
+                            onClick={handleSave}>{typeof isShowAddShippingForm === "boolean" ? "Save Shipping Address" : "Update"}</Button>
                 </div>
             </div>
         )
@@ -166,7 +166,8 @@ const AddressBook = (props) => {
                 <h1 className="sm:text-2xl text-xl text-center font-medium pt-4">Your Shipping Addresses</h1>
             </WithSidebarButton>
 
-            <Button onClick={()=>setShowAddShippingForm(!isShowAddShippingForm)} className="btn-primary">Add a new shipping address</Button>
+            <Button onClick={() => setShowAddShippingForm(!isShowAddShippingForm)} className="btn-primary">Add a new
+                shipping address</Button>
 
             {recentShippingAddress && recentShippingAddress.map((sp: any) => (
                 <div className="card overflow-hidden p-4 my-4">
@@ -207,12 +208,11 @@ const AddressBook = (props) => {
             ))}
 
 
-
-            <Modal className="max-w-md" inProp={isShowAddShippingForm}>
+            <Modal className="max-w-md top-20 lg:top-36" inProp={isShowAddShippingForm}>
                 {renderShippingAddress()}
             </Modal>
-            <Backdrop onClose={()=>setShowAddShippingForm(false)} isOpenBackdrop={isShowAddShippingForm} className="bg-dark-900/40" />
-
+            <Backdrop onClose={() => setShowAddShippingForm(false)} isOpenBackdrop={isShowAddShippingForm}
+                      className="bg-dark-900/40"/>
 
 
         </div>

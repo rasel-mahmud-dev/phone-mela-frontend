@@ -91,7 +91,7 @@ const Navigation = (props) => {
                                     <Preload
                                         onClickCallback={() => setExpandDropdown("_")}
                                         className="text-sm font-normal"
-                                        to={`/auth/customer`}
+                                        to={`/dashboard`}
                                     >
                                         <FontAwesomeIcon icon={faUserAlt} className="mr-2 dark_title text-gray-800" />
                                         Profile
@@ -102,7 +102,7 @@ const Navigation = (props) => {
                                     <Preload
                                         onClickCallback={() => setExpandDropdown("_")}
                                         className=""
-                                        to={`/wishlist`}
+                                        to={`/dashboard/wishlist`}
                                     >
                                         <FontAwesomeIcon
                                             icon={faHeart}
@@ -113,7 +113,7 @@ const Navigation = (props) => {
                                 </li>
 
                                 <li className="auth-menu__item">
-                                    <Preload onClickCallback={() => setExpandDropdown("_")} className="" to={`/cart`}>
+                                    <Preload onClickCallback={() => setExpandDropdown("_")} className="" to={`/dashboard/carts`}>
                                         <FontAwesomeIcon
                                             icon={faShoppingCart}
                                             className="mr-2 w-4 dark_title text-gray-800"
@@ -408,7 +408,7 @@ const Navigation = (props) => {
                             </li>
 
                             <li className="nav_item relative ">
-                                <Preload to="/cart" className="flex justify-center items-center gap-x-2">
+                                <Preload to="/dashboard/carts" className="flex justify-center items-center gap-x-2">
                                     <span className="hidden text-sm font-normal sm:inline-block">My Cart</span>
 	                                <HiOutlineShoppingBag className="!text-light-500 text-2xl"  />
                                     {/*<FontAwesomeIcon icon={faShoppingBag} className="!text-light-700 !text-2xl" />*/}

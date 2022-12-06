@@ -55,9 +55,9 @@ const HomePageSidebar = (props) => {
                                   <div>
                                       <div className="mx-auto w-8">
                                           <img
-                                              className="w-full flex"
+                                              className="w-full flex text-xs"
                                               src={fullLink(discountProd.cover)}
-                                              alt={discountProd.cover}
+                                              alt={discountProd.title}
                                           />
                                       </div>
                                       <h4 className="font-normal text-gray-600 text-[13px] mt-2 text-center ">
@@ -86,9 +86,9 @@ const HomePageSidebar = (props) => {
                                           <div>
                                               <div className="mx-auto w-8">
                                                   <img
-                                                      className="w-full flex"
+                                                      className="w-full flex text-xs"
                                                       src={fullLink(discountProd.cover)}
-                                                      alt={discountProd.cover}
+                                                      alt={discountProd.title}
                                                   />
                                               </div>
                                               <h4 className="font-normal text-gray-600 text-[13px] mt-2 text-center ">

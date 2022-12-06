@@ -438,6 +438,10 @@ $color: rgb(247, 56, 18);
     }
 }
 
+.card-title {
+    @apply text-center font-medium text-2xl;
+}
+
 
 .swiper{
     .swiper-button-prev, .swiper-button-next {

@@ -73,11 +73,7 @@ const Input2 = (props) => {
         "input_label",
         focus ? "input_label--active" : "",
         ((value === 0) || value)  && !focus ? "input_label--active" : "",
-        errorMessage ? "input_label--error input_label--active" : "",
-
-        // !tauched && ((value !== 0) || value) && !focus ? "input_label--active" : "",
-        // tauched && !((value !== 0) || value) && !focus ? "input_label--inactive" : "",
-        // tauched && ((value !== 0) || value) && !focus ? "input_label--active" : ""
+        errorMessage ? "input_label--error input_label--active" : ""
       ].join(" ")}
       >
         <span>{label} </span>
