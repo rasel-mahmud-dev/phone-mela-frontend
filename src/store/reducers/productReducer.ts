@@ -128,6 +128,7 @@ export interface ProductStateType {
     lastVisitPageNumber: 1,
     isLoading: false,
     orders: Order[]
+    transactions: any[]
 }
 
 
@@ -278,7 +279,8 @@ let initialProductState: ProductStateType = {
     totalProducts: 0,
     lastVisitPageNumber: 1,
     isLoading: false,
-    orders: null
+    orders: null,
+    transactions: null
 }
 
 
@@ -369,6 +371,10 @@ const productsReducer = (state = initialProductState, action: any): ProductState
 
         case ActionTypes.FETCH_CARTS:
             updatedState.cartProducts = action.payload
+            return updatedState
+
+        case ActionTypes.FETCH_TRANSACTIONS:
+            updatedState.transactions = action.payload
             return updatedState
 
         case ActionTypes.INCREASE_CART_ITEM:

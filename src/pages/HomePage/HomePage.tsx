@@ -1,35 +1,37 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, {FC, useEffect, useRef} from "react";
 import api from "apis/api";
 import "./homePage.scss";
 import fullLink from "../../utils/fullLink";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/pro-regular-svg-icons";
-import { fetchBrands, setHomePageSectionProducts, toggleHandleCart, toggleHandleWishlist } from "actions/productAction";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowRight} from "@fortawesome/pro-regular-svg-icons";
+import { toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
 
-import { useDispatch, useSelector } from "react-redux";
-import { BrandType, HomePageSectionProductsType, ProductType } from "reducers/productReducer";
-import { toggleSideBar } from "actions/toolsAction";
-import { RootStateType } from "store/index";
+import {useDispatch, useSelector} from "react-redux";
+import {BrandType, HomePageSectionProductsType, ProductType} from "reducers/productReducer";
+import {toggleSideBar} from "actions/toolsAction";
+import {RootStateType} from "store/index";
 import Product from "../../Common/Product/Product";
 import Helmet from "react-helmet";
 import Preload from "UI/Preload/Preload";
 import Carousel from "UI/Carousel/Carousel";
-import { ActionTypes } from "actions/actionTypes";
-import { useNavigate } from "react-router-dom";
+import {ActionTypes} from "actions/actionTypes";
+import {useNavigate} from "react-router-dom";
 import Banner from "pages/HomePage/components/Banner";
 import HomePageSidebar from "pages/HomePage/components/HomePageSidebar";
 import Sidebar from "components/Sidebar/Sidebar";
-import { FaAngleLeft } from "react-icons/all";
+import {FaAngleLeft} from "react-icons/all";
 import ProductSkeleton from "../../Common/Product/Product.Skeleton";
 
-interface HomePageProps {}
+interface HomePageProps {
+
+}
 
 const HomePage: FC<HomePageProps> = (props) => {
     const {
-        productState: { cartProducts, homePageSectionProducts, fetchedHomePageSectionProduct, wishlist, brands },
+        productState: {cartProducts, homePageSectionProducts, fetchedHomePageSectionProduct, wishlist, brands},
         auth,
-        tools: { openSideBar },
+        tools: {isOpenSideBar},
     } = useSelector((state: RootStateType) => state);
 
     const dispatch = useDispatch();
@@ -53,14 +55,14 @@ const HomePage: FC<HomePageProps> = (props) => {
         data.push("topBrands");
         api.post(`/api/homepage-products/v2`, {
             data: data,
-        }).then(({ data, status }) => {
-            if(status === 200) {
+        }).then(({data, status}) => {
+            if (status === 200) {
                 dispatch({
                     type: ActionTypes.FETCH_HOMEPAGE_SECTION_PRODUCTS,
                     payload: data,
                 });
             }
-        }).catch(ex=>{
+        }).catch(ex => {
 
         })
     }, []);
@@ -87,7 +89,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                 <h1 className="text-xl font-normal">{label}</h1>
                 <Preload to={`/products/${slug}`} className="link_btn flex items-center">
                     <span className="text-sm font-normal">{btnName}</span>
-                    <FontAwesomeIcon icon={faArrowRight} className="text-xs ml-2" />
+                    <FontAwesomeIcon icon={faArrowRight} className="text-xs ml-2"/>
                 </Preload>
             </div>
         );
@@ -99,21 +101,11 @@ const HomePage: FC<HomePageProps> = (props) => {
     }
 
     function clickOnOverlay() {
-        dispatch(
-            toggleSideBar({
-                where: "homePage",
-                isOpen: false,
-            })
-        );
+        dispatch(toggleSideBar(false))
     }
 
     function handleCloseSidebar() {
-        dispatch(
-            toggleSideBar({
-                where: "homePage",
-                isOpen: false,
-            })
-        );
+        dispatch(toggleSideBar(false));
     }
 
     function handleClickOnBrand(brand: BrandType) {
@@ -129,28 +121,13 @@ const HomePage: FC<HomePageProps> = (props) => {
     return (
         <div>
             <Helmet>
-                <link rel="canonical" href={`https://phone-mela.vercel.app`} />
+                <link rel="canonical" href={`https://phone-mela.vercel.app`}/>
                 <title>Home Page of phone-mela.vercel.app</title>
             </Helmet>
 
             <div className="container-1400 flex">
                 <Sidebar
-                    isOpenSidebar={openSideBar.isOpen}
-                    header={() => (
-                        <div className="sidebar_nav bg-primary-400 flex items-center px-3">
-                            <div
-                                className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full mr-2"
-                                onClick={clickOnOverlay}
-                            >
-                                <FaAngleLeft className="text-light-500" />
-                            </div>
-                            <Preload to="/" className="flex items-center text-decoration-none text-initial">
-                                <div className="w-36 md:w-40">
-                                    <img className="w-full" src="/Group3.png" alt="" />
-                                </div>
-                            </Preload>
-                        </div>
-                    )}
+                    isOpenSidebar={isOpenSideBar}
                     onClose={handleCloseSidebar}
                 >
                     <HomePageSidebar
@@ -161,26 +138,14 @@ const HomePage: FC<HomePageProps> = (props) => {
                     />
                 </Sidebar>
 
-                <div className="content" ref={contentRef}>
-                    <div
-                        onClick={clickOnOverlay}
-                        className={[
-                            openSideBar.where === "homePage" && openSideBar.isOpen && "open-sidebar"
-                                ? "content-overlay"
-                                : "",
-                        ].join(" ")}
-                    />
+                <div className="content">
+
 
                     <div className="">
-                        <Banner />
+                        <Banner/>
 
                         <div
-                            className={[
-                                "page_wrapper",
-                                openSideBar.where === "homePage" && openSideBar.isOpen
-                                    ? "open-sidebar"
-                                    : "close-sidebar",
-                            ].join(" ")}
+                            className={["page_wrapper", isOpenSideBar ? "open-sidebar" : "close-sidebar"].join(" ")}
                         >
                             <div className="w-full px-3">
                                 {/*<FontAwesomeIcon icon={faBars} />*/}
@@ -214,7 +179,8 @@ const HomePage: FC<HomePageProps> = (props) => {
                                                                                     data-src={fullLink(image.url)}
                                                                                     alt=""
                                                                                 />
-                                                                                <div className="swiper-lazy-preloader swiper-lazy-preloader-white">
+                                                                                <div
+                                                                                    className="swiper-lazy-preloader swiper-lazy-preloader-white">
                                                                                     {image.low && (
                                                                                         <img
                                                                                             className=""
@@ -231,10 +197,11 @@ const HomePage: FC<HomePageProps> = (props) => {
                                                 </div>
                                             </div>
                                             <div className="">
-                                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 md:gap-x-4">
+                                                <div
+                                                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 md:gap-x-4">
                                                     {fetchedHomePageSectionProduct[
                                                         section as keyof HomePageSectionProductsType
-                                                    ] ? (
+                                                        ] ? (
                                                         fetchedHomePageSectionProduct[section].map(
                                                             (prod: ProductType, i: number) => (
                                                                 <div className="home_product_item__wrapper">
@@ -280,7 +247,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                                                     ) : (
                                                         <>
                                                             {new Array(15).fill(1).map((item) => (
-                                                                <ProductSkeleton className="py-4 white-bg" />
+                                                                <ProductSkeleton className="py-4 white-bg"/>
                                                             ))}
                                                         </>
                                                     )}

@@ -41,9 +41,10 @@ export enum ActionTypes {
 // orders
     ADD_ORDER = "ADD_ORDER",
     FETCH_ORDERS = "FETCH_ORDERS",
+    FETCH_TRANSACTIONS = "FETCH_TRANSACTIONS",
 
 
-// action
+    // action
     SET_ACTION = "SET_ACTION",
     TOGGLE_SEARCH_BOX = "TOGGLE_SEARCH_BOX",
     TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR",
@@ -54,7 +55,7 @@ export enum ActionTypes {
     SIGN_UP = "signup",
 
 
-// other products related
+    // other products related
     CHANGE_PAGE = "change_page",
     CHANGE_PER_PAGE = "change_per_page",
     CHANGE_SORT = "change_sort",

@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import {connect, useDispatch} from "react-redux";
 import "./App.scss";
 import { fetchCurrentAuth } from "src/store/actions/authAction";
-import {fetchCart, fetchCarts, fetchWishlist} from "src/store/actions/productAction";
+import { fetchCarts, fetchWishlist} from "src/store/actions/productAction";
 import Navigation from "./Common/Navigation";
 import { togglePopup } from "actions/toolsAction";
 import { ToolsReducerType } from "reducers/toolsReducer";
@@ -73,4 +73,4 @@ function mapStateToDispatch(state: RootStateType) {
     };
 }
 
-export default connect(mapStateToDispatch, { fetchCurrentAuth, fetchWishlist, togglePopup, fetchCart })(App);
+export default connect(mapStateToDispatch, { fetchCurrentAuth, fetchWishlist, togglePopup })(App);

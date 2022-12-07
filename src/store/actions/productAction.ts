@@ -409,18 +409,27 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
 }
 
 
-// fetch all cart products from database
-export function fetchCart(customer_id: string) {
-    return function (dispatch: any) {
-        getApi().post("/api/cart-products", {customer_id: customer_id}).then(res => {
-            if (res.data) {
+
+// fetch all transactions from database
+export const fetchTransactions = (dispatch) => {
+    return new Promise<Cart[]>(async (resolve, reject) => {
+        try {
+            const response = await api.get<any[]>(`/api/orders/transactions`)
+            if (response.status === 200 && response.data) {
+
                 dispatch({
-                    type: ActionTypes.FETCH_CART,
-                    payload: res.data
+                    type: ActionTypes.FETCH_TRANSACTIONS,
+                    payload: response.data
                 })
+                resolve(response.data)
+
+            } else {
+                resolve([])
             }
-        })
-    }
+        } catch (ex) {
+            reject(errorMessage(ex))
+        }
+    })
 }
 
 

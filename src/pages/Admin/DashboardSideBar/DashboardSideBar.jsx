@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 
-import("./DashboardSideBar.scss")
+import "./DashboardSideBar.scss"
 
 
 const DashboardSideBar = (props) => {

@@ -1,33 +1,31 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
 
 import {useDispatch, useSelector} from "react-redux"
-
-import "./Orders.scss"
 
 import {RootStateType} from "store/index";
 import Table from "UI/Table/Table";
 import fullLink from "src/utils/fullLink";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
-import {fetchOrders} from "actions/productAction";
+import {fetchTransactions} from "actions/productAction";
 import useScrollTop from "hooks/useScrollTop";
-import {Link} from "react-router-dom";
 
 
-const Orders = (props) => {
+const Transactions = (props) => {
 
-    const {auth: {auth}, productState: {orders}} = useSelector((state: RootStateType) => state)
+    const {auth: {auth}, productState: {transactions}} = useSelector((state: RootStateType) => state)
 
     const dispatch = useDispatch()
 
     useScrollTop()
 
 
-    useEffect(() => {
+    React.useEffect(() => {
+        fetchTransactions(dispatch).then(r => {
 
-        if(!orders || orders.length === 0) {
-            fetchOrders(dispatch).then(r => {}).catch(ex => {})
-        }
+        }).catch(ex => {
+
+        })
     }, [])
 
 
@@ -44,8 +42,7 @@ const Orders = (props) => {
         {
             title: "Order ID",
             key: "1122",
-            dataIndex: "_id",
-            render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+            dataIndex: "_id"
         },
         {
             title: "Product Name",
@@ -110,16 +107,16 @@ const Orders = (props) => {
         <div className="my-4">
 
             <WithSidebarButton>
-                <h1 className="page-title">My Orders</h1>
+                <h1 className="page-title">My transactions</h1>
             </WithSidebarButton>
 
             <div className="mt-5">
 
-                {orders && orders.length > 0 ? (
+                {transactions && transactions.length > 0 ? (
                     <div className="card overflow-hidden mt-4">
                         <div className="overflow-x-auto">
 
-                            <Table dataSource={orders} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
+                            <Table dataSource={transactions} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
 
                         </div>
                     </div>
@@ -133,4 +130,4 @@ const Orders = (props) => {
     )
 }
 
-export default Orders
+export default Transactions

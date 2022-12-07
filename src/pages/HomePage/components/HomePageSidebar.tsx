@@ -8,7 +8,7 @@ const HomePageSidebar = (props) => {
     const { showBrands, handleClickOnBrand, handleShowAllBrands, fetchedHomePageSectionProduct } = props;
 
     return (
-        <div>
+        <div className="px-4 mt-5">
             <div className="">
                 <h2 className="text-[15px] text-gray-800 font-medium">TOP BRANDS</h2>
 

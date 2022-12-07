@@ -5,10 +5,10 @@ import AccountInfo from "pages/Dashboard/Customer/AccountInfo/AccountInfo";
 import AddressBook from "pages/Dashboard/Customer/AddressBook/AddressBook";
 import Orders from "pages/Dashboard/Customer/Orders/Orders";
 import MyReviews from "pages/Dashboard/Customer/MyReviews/MyReviews";
-import OrderDetails from "pages/Customer/Dashboard/OrderDetails/OrderDetails";
+import OrderDetails from "pages/Dashboard/Customer/OrderDetails/OrderDetails";
 import MyCart from "pages/Dashboard/Customer/MyCart/MyCart";
 import MyWishlist from "pages/Dashboard/Customer/MyWishlist/MyWishlist";
-import DashboardHome from "pages/Customer/Dashboard/dashboardHome/DashboardHome";
+import Transactions from "pages/Dashboard/Shared/Transactions";
 import PrivateRoute from "./middleware/PrivateRoute";
 import Dashboard from "pages/Dashboard/Dashboard";
 
@@ -36,7 +36,7 @@ const SignupPage = ReactLazyPreload(() => import("pages/auth/signupPage/SignupPa
 const CartPage = ReactLazyPreload(() => import("pages/CartPages/CartPage"));
 const Wishlist = ReactLazyPreload(() => import("src/pages/CartPages/wishlist/Wishlist"));
 const CheckoutPage = ReactLazyPreload(() => import("pages/CartPages/checkout/CheckoutPage"));
-const CustomerDashboardHome = ReactLazyPreload(() => import("pages/Customer/Dashboard/DashboardHome"));
+const DashboardHome = ReactLazyPreload(() => import("pages/Dashboard/DashboardHome"));
 
 const AdminDashboard = ReactLazyPreload(() => import("./pages/Admin/AdminDashboard/AdminDashboard"));
 const ProductList = ReactLazyPreload(() => import("pages/Admin/AdminDashboard/productList/ProductList"));
@@ -75,6 +75,7 @@ function MyRoutes(props: any) {
                 {path: "orders", index: true, element: <Orders/>},
                 {path: "orders/:orderId", index: true, element: <OrderDetails/>},
                 {path: "carts", index: true, element: <MyCart/>},
+                {path: "transactions", index: true, element: <Transactions/>},
                 {path: "wishlist", index: true, element: <MyWishlist/>},
                 {path: "reviews", index: true, element: <MyReviews/>},
             ],

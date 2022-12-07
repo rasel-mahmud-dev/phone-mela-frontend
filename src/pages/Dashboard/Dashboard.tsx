@@ -3,7 +3,7 @@ import DashboardSidebar from "pages/Dashboard/DashboardSidebar/DashboardSidebar"
 import {Outlet, Route, Routes} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "store/index";
-import {toggleSideBar} from "actions/toolsAction";
+
 
 
 const Dashboard = () => {
@@ -12,15 +12,15 @@ const Dashboard = () => {
 
     const dispatch = useDispatch()
 
-    const {tools: {openSideBar}} = useSelector((state: RootStateType) => state)
+    const {tools} = useSelector((state: RootStateType) => state)
 
     const [navigationHeight, setNavigationHeight] = React.useState(0)
 
     function clickOnOverlay() {
-        dispatch(toggleSideBar({
-            where: "customer_dashboard",
-            isOpen: false
-        }))
+        // dispatch(toggleSideBar({
+        //     where: "customer_dashboard",
+        //     isOpen: false
+        // }))
     }
 
     function handleResize() {
@@ -42,7 +42,6 @@ const Dashboard = () => {
         <div className="container-1400 flex">
 
             <DashboardSidebar/>
-
 
             <div className="content ml-5">
                 <Outlet/>

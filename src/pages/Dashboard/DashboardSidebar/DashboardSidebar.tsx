@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from "react-router-dom";
 import {RootStateType} from "store/index";
 import "./styles.scss"
@@ -19,6 +19,7 @@ import Preload from "UI/Preload/Preload";
 import {ActionTypes} from "actions/actionTypes";
 import fullLink from "../../../utils/fullLink";
 import Sidebar from "components/Sidebar/Sidebar";
+import Avatar from "components/Avatar/Avatar";
 
 
 const DashboardSidebar = () => {
@@ -105,6 +106,18 @@ const DashboardSidebar = () => {
                     {name: "My Returns"},
                     {name: "My Cancellations"},
                 ]
+            },
+            {
+                name: "My Transactions",
+                iconRender: () => (
+                    <div className="mr-2">
+                        <FontAwesomeIcon icon={faCartPlus}/>
+                    </div>
+                ),
+                onClick: closeSidebar,
+                to: "/dashboard/transactions",
+                id: 34,
+                logo: "fa fa-star"
             },
             {
                 name: "My Reviews",
@@ -300,22 +313,64 @@ const DashboardSidebar = () => {
         <Sidebar isOpenSidebar={isOpenSideBar} onClose={closeSidebar}>
             <div className="">
                 <div className="sidebar-author">
-                    <div className="author_avatar mx-auto">
-                        <img src={fullLink(auth?.avatar)} alt="author-avatar" className="mx-auto"/>
-                    </div>
+                    <Avatar src={fullLink(auth?.avatar)} className="flex justify-center " imgClass="w-14"/>
                     <h4 className="author-name">{auth?.username}</h4>
                     <p className="author-position">Customer</p>
                 </div>
 
+                {Object.keys(sidebarData).map((role: any) => auth.role === role && (
+                    renderSidebarItem(sidebarData[role])
+                ))}
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h1>sdfksdjf sdjfkds j</h1>
+                <h4>Rasel Mahmud Raju</h4>
 
-                <ul className="sidebar-menu">
 
-                    {Object.keys(sidebarData).map((role: any) => auth.role === role && (
-                        renderSidebarItem(sidebarData[role])
-                    ))}
-
-
-                </ul>
             </div>
         </Sidebar>
     )
