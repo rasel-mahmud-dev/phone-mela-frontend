@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from "pages/Customer/Dashboard/SideBar";
+import DashboardSidebar from "pages/Dashboard/DashboardSidebar/DashboardSidebar";
 import {Outlet, Route, Routes} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "store/index";
@@ -40,11 +40,9 @@ const Dashboard = () => {
 
     return (
         <div className="container-1400 flex">
-            <div className="left_sidebar">
-                <div className="left_sidebar_content">
-                    <SideBar/>
-                </div>
-            </div>
+
+            <DashboardSidebar/>
+
 
             <div className="content ml-5">
                 <Outlet/>

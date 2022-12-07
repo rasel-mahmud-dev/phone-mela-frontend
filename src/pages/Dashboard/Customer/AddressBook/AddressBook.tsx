@@ -18,6 +18,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import Modal from "UI/Modal/Modal";
 import Backdrop from "UI/Backdrop/Backdrop";
+import useScrollTop from "hooks/useScrollTop";
 // const {SubMenu} = Menu
 
 
@@ -25,6 +26,9 @@ const AddressBook = (props) => {
     let params = useParams()
     // let history = useHistory()
     const dispatch = useDispatch()
+
+
+    useScrollTop()
 
     const {auth: {auth}} = useSelector((state: RootStateType) => state)
 

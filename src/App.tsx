@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from "react";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import "./App.scss";
 import { fetchCurrentAuth } from "src/store/actions/authAction";
-import { fetchCart, fetchWishlist } from "src/store/actions/productAction";
+import {fetchCart, fetchCarts, fetchWishlist} from "src/store/actions/productAction";
 import Navigation from "./Common/Navigation";
 import { togglePopup } from "actions/toolsAction";
 import { ToolsReducerType } from "reducers/toolsReducer";
@@ -31,6 +31,8 @@ const App: FC<AppProps> = (props) => {
         tools,
     } = props;
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         props.fetchCurrentAuth();
         const loader_backdrop = document.querySelector(".spin_loader_root");
@@ -41,11 +43,11 @@ const App: FC<AppProps> = (props) => {
         // load Cart products when user logged
         if (auth) {
             if (!props.cartProducts || props.cartProducts.length === 0) {
-                props.fetchCart(auth._id);
+                fetchCarts(dispatch)
             }
 
             if (!props.wishlist || props.wishlist.length === 0) {
-                props.fetchWishlist(auth._id);
+                fetchWishlist(dispatch);
             }
         }
     }, [auth]);

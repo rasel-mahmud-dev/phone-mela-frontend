@@ -8,7 +8,6 @@ import {OpenSideBarType} from "reducers/toolsReducer";
 
 
 
-
 export const toggleBackdrop = (state: any)=> {
   return {
     type: ActionTypes.TOGGLE_BACKDROP,
@@ -49,10 +48,10 @@ export type TOGGLE_SIDEBAR_ACTION = {
 }
 
 
-export const toggleSideBar = (payload: OpenSideBarType): TOGGLE_SIDEBAR_ACTION => {
+export const toggleSideBar = (isClose?: boolean) => {
   return {
     type: ActionTypes.TOGGLE_SIDEBAR,
-    payload: payload
+      payload: isClose
   }
 }
 

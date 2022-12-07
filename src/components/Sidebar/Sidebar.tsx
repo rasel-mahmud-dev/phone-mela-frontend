@@ -1,6 +1,8 @@
-import React, { FC, ReactNode } from "react";
+import React, {FC, ReactNode, useEffect} from "react";
 
 import "./sidebar.scss";
+import Backdrop from "UI/Backdrop/Backdrop";
+import useWindowResize from "hooks/useWindowResize";
 
 interface Props {
     children: ReactNode;
@@ -11,11 +13,23 @@ interface Props {
 }
 
 const Sidebar: FC<Props> = (props) => {
-    const { children, isOpenSidebar, onClose, className = "", header } = props;
+    const {children, isOpenSidebar, onClose, className = "", header} = props;
+
+    let windowSize = useWindowResize()
+
+    useEffect(() => {
+
+        if (windowSize > 1025) {
+            onClose && onClose()
+        }
+
+    }, [windowSize])
+
+
     return (
         <>
-            {isOpenSidebar && <div className="sidebar_backdrop" onClick={onClose} />}
-            <div className={`sidebar ${className} ${isOpenSidebar ? "open-sidebar" : "close-sidebar"}`}>
+            <Backdrop isOpenBackdrop={isOpenSidebar} onClose={onClose} className="bg-dark-800/60 z-40 sidebar-backdrop"/>
+            <div className={`sidebar ${className} ${isOpenSidebar ? "sidebar-open" : "sidebar-close"}`}>
                 {header && header()}
 
                 <div className="sidebar_content">{children}</div>

@@ -27,6 +27,7 @@
       "scss/*": ["src/scss/*"],
       "store/*": ["src/store/*"],
       "actions/*": ["src/store/actions/*"],
+      "hooks/*": ["src/hooks/*"],
       "reducers/*": ["src/store/reducers/*"],
       "pages/*": ["src/pages/*"],
       "components/*": ["src/components/*"],

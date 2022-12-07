@@ -15,6 +15,7 @@ export default defineConfig({
       "pages": path.resolve("./src/pages"),
       "store": path.resolve("./src/store"),
       "actions": path.resolve("./src/store/actions"),
+      "hooks": path.resolve("./src/hooks"),
       "components": path.resolve("./src/components"),
       "UI": path.resolve("./src/components/UI"),
       "apis": path.resolve("./src/apis")

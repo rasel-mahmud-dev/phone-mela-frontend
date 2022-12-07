@@ -1,24 +1,24 @@
 import React, {useEffect, useRef} from "react";
-import { connect, useDispatch } from "react-redux";
-import { logout } from "src/store/actions/authAction";
+import {connect, useDispatch} from "react-redux";
+import {logout} from "src/store/actions/authAction";
 
 import "./Navigation.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlagUsa, faSearch, faShoppingBag, faShoppingCart, faUserCircle } from "@fortawesome/pro-regular-svg-icons";
-import { faHeart, faSignOutAlt, faUserAlt } from "@fortawesome/free-solid-svg-icons";
-import { faSignIn } from "@fortawesome/pro-brands-svg-icons";
-import { faTimesCircle } from "@fortawesome/pro-solid-svg-icons";
-import { faAdn, faFacebookF } from "@fortawesome/free-brands-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFlagUsa, faSearch, faShoppingBag, faShoppingCart, faUserCircle} from "@fortawesome/pro-regular-svg-icons";
+import {faHeart, faSignOutAlt, faUserAlt} from "@fortawesome/free-solid-svg-icons";
+import {faSignIn} from "@fortawesome/pro-brands-svg-icons";
+import {faTimesCircle} from "@fortawesome/pro-solid-svg-icons";
+import {faAdn, faFacebookF} from "@fortawesome/free-brands-svg-icons";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Modal from "UI/Modal/Modal";
-import { toggleSearchBar, toggleSideBar } from "actions/toolsAction";
+import {toggleSearchBar, toggleSideBar} from "actions/toolsAction";
 
-import { onFilterSearchChange, onSearchChange } from "actions/productAction";
+import {onFilterSearchChange, onSearchChange} from "actions/productAction";
 import Preload from "UI/Preload/Preload";
-import { faGlobe } from "@fortawesome/pro-light-svg-icons/faGlobe";
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
+import {faGlobe} from "@fortawesome/pro-light-svg-icons/faGlobe";
+import {faGithub} from "@fortawesome/free-brands-svg-icons/faGithub";
 import Avatar from "src/components/Avatar/Avatar";
 import useWindowResize from "src/hooks/useWindowResize";
 import {BiShoppingBag, BiUser} from "react-icons/bi";
@@ -31,14 +31,14 @@ const offerText =
     "আকর্ষণীয় গিফট! Samsung, Xiaomi, Oppo, Nokia এই ঈদে দিচ্ছে বিশাল ডিসকাউন্ট এবং সাথে থাকছে অনেক গিফট | যোগাযোগ ইমেইল rasel.mahmud.dev@gmail.com, ফোন ০১৭৮৫৫১৩৫৩৫";
 
 const Navigation = (props) => {
-    const { auth: { auth }, totalCartProducts, search } = props;
+    const {auth: {auth}, totalCartProducts, search} = props;
     const navigationRef = useRef()
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-	
-	let width = useWindowResize()
-	
+
+    let width = useWindowResize()
+
 
     const [isShow_authMenuPanelId, set_authMenuPanelId] = React.useState(null);
     const [expandDropdown, setExpandDropdown] = React.useState("");
@@ -75,7 +75,7 @@ const Navigation = (props) => {
                             <>
                                 {auth.role === "admin" && (
                                     <li className="auth-menu__item">
-                                        <FontAwesomeIcon icon={faAdn} className="mr-2 text-gray-800" />
+                                        <FontAwesomeIcon icon={faAdn} className="mr-2 text-gray-800"/>
                                         <Preload
                                             onClickCallback={() => setExpandDropdown("_")}
                                             className="font-normal text-gray-800"
@@ -93,7 +93,7 @@ const Navigation = (props) => {
                                         className="text-sm font-normal"
                                         to={`/dashboard`}
                                     >
-                                        <FontAwesomeIcon icon={faUserAlt} className="mr-2 dark_title text-gray-800" />
+                                        <FontAwesomeIcon icon={faUserAlt} className="mr-2 dark_title text-gray-800"/>
                                         Profile
                                     </Preload>
                                 </li>
@@ -123,7 +123,7 @@ const Navigation = (props) => {
                                 </li>
 
                                 <li onClick={handleLogOut} className="auth-menu__item ">
-                                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 dark_title text-gray-800" />
+                                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 dark_title text-gray-800"/>
                                     Logout
                                 </li>
                             </>
@@ -137,7 +137,7 @@ const Navigation = (props) => {
                                     className="block w-full text-gray-800"
                                     to={`/auth/login?callback=${callback}`}
                                 >
-                                    <FontAwesomeIcon className="mr-2 text-gray-800" icon={faSignIn} />
+                                    <FontAwesomeIcon className="mr-2 text-gray-800" icon={faSignIn}/>
                                     Login
                                 </Preload>
                             </li>
@@ -164,7 +164,8 @@ const Navigation = (props) => {
         setExpandDropdown(s);
     }
 
-    function openMenuHandler() {}
+    function openMenuHandler() {
+    }
 
     function calculateSpace() {
         const leftSidebar = document.querySelector(".left_sidebar");
@@ -172,7 +173,7 @@ const Navigation = (props) => {
         const d = document.querySelector(".d");
         const navi = document.querySelector(".navigation");
         const footer = document.querySelector(".footer");
-		
+
         if (d && navi) {
             d.style.height = navi.offsetHeight + "px";
         }
@@ -186,39 +187,26 @@ const Navigation = (props) => {
             }, 10);
         }
 
-		
+
         // if(content && navi && footer){
         //   content.style.height = `calc(100vh - ${navi.offsetHeight + footer.offsetHeight}px)`
         // }
         // console.log(content )
     }
-	
 
-	useEffect(()=>{
-		setShowSearchBar(!!search);
-		calculateSpace();
-		
-		if(navigationRef.current){
-			document.documentElement.style.setProperty(`--header-height`, navigationRef.current.offsetHeight + "px")
-		}
-		
-	}, [width, navigationRef.current])
-	
-    // useEffect(() => {
-    //     setShowSearchBar(!!search);
-    //     calculateSpace();
-    //     window.addEventListener("resize", function () {
-    //         calculateSpace();
-    //     });
-    //     // const leftSidebar= document.querySelector(".left_sidebar")
-    //     // console.log(leftSidebar)
-    // }, []);
-	
-	
-	
 
-	
-	
+    useEffect(() => {
+        setShowSearchBar(!!search);
+        calculateSpace();
+
+        if (navigationRef.current) {
+            document.documentElement.style.setProperty(`--header-height`, navigationRef.current.offsetHeight + "px")
+        }
+
+    }, [width, navigationRef.current])
+
+
+
     let whiteLists = ["/", "/q", "/auth/customer", "/admin/dashboard", "/auth/customer/account-info"];
 
     React.useEffect(() => {
@@ -247,7 +235,7 @@ const Navigation = (props) => {
     function renderSearchBar() {
         return (
             <div className="search_input_wrapper">
-                <input type="text" placeholder="Enter Search Products" />
+                <input type="text" placeholder="Enter Search Products"/>
             </div>
         );
     }
@@ -276,16 +264,6 @@ const Navigation = (props) => {
     }
 
     function handleToggleSideBar() {
-        // let where = "homePage";
-        // if (location.pathname.indexOf("/q") !== -1) {
-        //     where = "filterPage";
-        // } else if (location.pathname === "/auth/customer") {
-        //     where = "admin_dashboard";
-        // } else if (location.pathname.indexOf("/auth/customer") !== -1) {
-        //     where = "admin_dashboard";
-        // } else if (location.pathname === "/admin/dashboard") {
-        //     where = "admin_dashboard";
-        // }
         dispatch(
             toggleSideBar({
                 isOpen: true,
@@ -313,21 +291,21 @@ const Navigation = (props) => {
                                 href="https://www.facebook.com/raselmraju"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faFacebookF} />
+                                <FontAwesomeIcon icon={faFacebookF}/>
                             </a>
                             <a
                                 target={"_blank"}
                                 href="https://rasel-portfolio.vercel.app"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faGlobe} />
+                                <FontAwesomeIcon icon={faGlobe}/>
                             </a>
                             <a
                                 target={"_blank"}
                                 href="https://github.com/rasel-mahmud-dev"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faGithub} />
+                                <FontAwesomeIcon icon={faGithub}/>
                             </a>
                         </div>
                         <div className="flex-1 px-0 sm:px-4">
@@ -337,8 +315,8 @@ const Navigation = (props) => {
                         </div>
                         <div className="hidden sm:flex">
                             <span className="top_navigation_item items-center flex">
-                                <FontAwesomeIcon icon={faFlagUsa} className="text-xs" />
-                                <a className="hover:text-primary-400 cursor-pointer ml-1">EN</a>
+                                <FontAwesomeIcon icon={faFlagUsa} className="text-xs"/>
+                                <a className="hover:text-primary-400 cursor-pointer ml-1 text-sm">EN</a>
                             </span>
                         </div>
                     </div>
@@ -349,7 +327,7 @@ const Navigation = (props) => {
 
                             <Preload to="/" className="flex items-center text-decoration-none text-initial">
                                 <div className="w-36 md:w-40">
-                                    <img className="w-full" src="/Group3.png" alt="" />
+                                    <img className="w-full" src="/Group3.png" alt=""/>
                                 </div>
                             </Preload>
                         </div>
@@ -367,11 +345,11 @@ const Navigation = (props) => {
                                     />
                                     {search && (
                                         <button type="button" className="search_clear_icon mr-3">
-                                            <FontAwesomeIcon icon={faTimesCircle} onClick={handleSearchClear} />
+                                            <FontAwesomeIcon icon={faTimesCircle} onClick={handleSearchClear}/>
                                         </button>
                                     )}
                                     <button type="submit" className="search_icon">
-                                        <FontAwesomeIcon icon={faSearch} onClick={handleSearch} />
+                                        <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
                                     </button>
                                 </div>
                             </form>
@@ -380,7 +358,7 @@ const Navigation = (props) => {
                         <div className="right_nav justify-content-end">
                             {((search && showSearchBar) || showSearchBar) && (
                                 <div className="floating_search_wrapper">
-	                                <div className="w-full floating_search_backdrop" onClick={()=>setShowSearchBar(false)}></div>
+                                    <div className="w-full floating_search_backdrop" onClick={() => setShowSearchBar(false)}></div>
                                     <div className="floating_search">
                                         <div className="input_wrapper">
                                             <form onSubmit={handleSearch} className="w-full">
@@ -392,25 +370,26 @@ const Navigation = (props) => {
                                                     placeholder="Enter Product Name"
                                                 />
                                             </form>
-                                            <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="text-lg" />
+                                            <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="text-lg"/>
                                         </div>
                                     </div>
                                 </div>
                             )}
-	
-	
-	                        <li onClick={handleToggleSideBar} className="nav_item flex md:!hidden w-8 h-8  items-center justify-center bg-white/10 rounded-full">
-                              <FaAngleDown className="text-light-500" />
+
+
+                            <li onClick={handleToggleSideBar}
+                                className="nav_item flex md:!hidden w-8 h-8  items-center justify-center bg-white/10 rounded-full">
+                                <FaAngleDown className="text-light-500"/>
                             </li>
-	                        
-	                        <li onClick={openSearchPanel} className="nav_item block md:!hidden">
-                             <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="w-5 !text-light-500" />
+
+                            <li onClick={openSearchPanel} className="nav_item block md:!hidden">
+                                <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="w-5 !text-light-500"/>
                             </li>
 
                             <li className="nav_item relative ">
                                 <Preload to="/dashboard/carts" className="flex justify-center items-center gap-x-2">
                                     <span className="hidden text-sm font-normal sm:inline-block">My Cart</span>
-	                                <HiOutlineShoppingBag className="!text-light-500 text-2xl"  />
+                                    <HiOutlineShoppingBag className="!text-light-500 text-2xl"/>
                                     {/*<FontAwesomeIcon icon={faShoppingBag} className="!text-light-700 !text-2xl" />*/}
                                     {totalCartProducts !== 0 && <span className="badge">{totalCartProducts}</span>}
                                 </Preload>
@@ -425,9 +404,9 @@ const Navigation = (props) => {
 
                                 <div>
                                     {auth ? (
-                                        <Avatar avatar={auth.avatar} username="Rasel Mahmud" className="ml-2" />
+                                        <Avatar avatar={auth.avatar} username="Rasel Mahmud" className="ml-2"/>
                                     ) : (
-										<BiUser className="text-light-500 text-2xl" />
+                                        <BiUser className="text-light-500 text-2xl"/>
                                         // <FontAwesomeIcon
                                         //     icon={faUserCircle}
                                         //     className="flex  !text-2xl  !text-light-700"
@@ -447,7 +426,7 @@ const Navigation = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="header-height" />
+            <div className="header-height"/>
         </>
     );
 };
@@ -462,4 +441,4 @@ const mapStateToProps = (state) => ({
     search: state.productState.search.value,
 });
 
-export default connect(mapStateToProps, { logout, toggleSearchBar })(Navigation);
+export default connect(mapStateToProps, {logout, toggleSearchBar})(Navigation);

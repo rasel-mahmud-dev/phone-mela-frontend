@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux"
-import {toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
+import {fetchCarts, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
 import {useSelector} from "react-redux"
 
 import fullLink from "src/utils/fullLink";
@@ -16,6 +16,7 @@ import {CartProductType, ProductType} from "reducers/productReducer";
 import Table from "UI/Table/Table";
 import Preload from "UI/Preload/Preload";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
+import useScrollTop from "hooks/useScrollTop";
 
 
 const MyCart = () => {
@@ -23,6 +24,15 @@ const MyCart = () => {
     const dispatch = useDispatch()
 
     const {productState: {cartProducts, wishlist}, auth} = useSelector((state: RootStateType) => state)
+
+    useScrollTop()
+
+    useEffect(()=>{
+        if(!cartProducts || cartProducts.length === 0){
+            fetchCarts(dispatch)
+        }
+    }, [])
+
 
 
     function handlePushBack() {
@@ -100,15 +110,15 @@ const MyCart = () => {
             {
                 title: "Added At",
                 key: "3",
-                dataIndex: "created_at",
+                dataIndex: "createdAt",
                 width: 150,
                 className: "white-space-nowrap",
                 render: (text: string) => new Date(text).toDateString(),
                 sorter: {
                     compare: (a: any, b: any) => {
-                        if (a.created_at > b.created_at) {
+                        if (a.createdAt > b.createdAt) {
                             return 1
-                        } else if (a.created_at < b.created_at) {
+                        } else if (a.createdAt < b.createdAt) {
                             return -1
                         } else {
                             return 0

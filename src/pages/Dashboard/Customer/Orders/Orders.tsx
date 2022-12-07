@@ -1,64 +1,35 @@
-import React from 'react' 
-import { useParams} from "react-router-dom"
+import React from 'react'
 
-import { useDispatch, useSelector} from "react-redux"
 
-import api from "apis/api"
+import {useDispatch, useSelector} from "react-redux"
+
 import "./Orders.scss"
 
 import {RootStateType} from "store/index";
-import Preload from "UI/Preload/Preload";
 import Table from "UI/Table/Table";
-import fullLink from "../../../../utils/fullLink";
+import fullLink from "src/utils/fullLink";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
+import {fetchOrders} from "actions/productAction";
+import useScrollTop from "hooks/useScrollTop";
 
 
-interface OrderType {
-  cover: string
-  created_at: string
-  customer_id: number
-  delivery_date: string
-  description: string
-  order_id: number
-  payment_method: string
-  price: number
-  product_id: number
-  quantity: number
-  shipper_id: number
-  shipping_id: number
-  title: string
-  order_status_type: string
-}
+const Orders = (props) => {
+
+    const {auth: {auth}, productState: {orders}} = useSelector((state: RootStateType) => state)
+
+    const dispatch = useDispatch()
+
+    useScrollTop()
 
 
-const Orders = (props) => { 
-  let params = useParams() 
-  // let history = useHistory()
-  
-  const {auth: {auth}} = useSelector((state: RootStateType)=> state)
-  
-  const dispatch = useDispatch()
+    React.useEffect(() => {
+        fetchOrders(dispatch).then(r => {
 
-  const {loadingStates, cartState, _id} = props
-  const [orders, setOrders] = React.useState<OrderType[]>([])
-  
- 
-  
-  React.useEffect( ()=>{
-    
-    (async function (){
-      
-      if(auth){
-        
-        api.get("/api/orders").then(response=>{
-          if(response.status === 200){
-            setOrders(response.data)
-          }
+        }).catch(ex => {
+
         })
-      }
-    }())
-    
-  }, [])
+    }, [])
+
 
 
     let columns = [
@@ -66,8 +37,9 @@ const Orders = (props) => {
             title: "Image",
             key: "1",
             dataIndex: "product_id",
-            render: (product_id: any) => <div style={{width: "40px"}}><img style={{width: "100%"}}
-                                                                           src={fullLink(product_id.cover)}/></div>
+            render: (product_id: any) => <div style={{width: "40px"}}>
+                <img className="w-full"
+                     src={fullLink(product_id.cover)}/></div>
         },
         {
             title: "Order ID",
@@ -132,35 +104,31 @@ const Orders = (props) => {
         }
     ]
 
-  
 
+    return (
+        <div className="my-4">
 
-  
+            <WithSidebarButton>
+                <h1 className="page-title">My Orders</h1>
+            </WithSidebarButton>
 
-  return (
-      <div className="my-4">
-          
-          <WithSidebarButton>
-              <h1 className="page-title">My Orders</h1>
-          </WithSidebarButton>
+            <div className="mt-5">
 
-          <div className="mt-5">
+                {orders && orders.length > 0 ? (
+                    <div className="card overflow-hidden mt-4">
+                        <div className="overflow-x-auto">
 
-              <div className="card overflow-hidden mt-4">
-                  <div className="overflow-x-auto">
+                            <Table dataSource={orders} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
 
-                      <Table dataSource={orders} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
-
-                  </div>
-              </div>
-          </div>
-
-          <div className="row justify-space-between">
-            {/*<Button onClick={handlePushBack}>Back to Shop</Button>*/}
-          </div>
-        
-          
-      </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div>
+                        <h3>No Order found.</h3>
+                    </div>
+                )}
+            </div>
+        </div>
     )
 }
 

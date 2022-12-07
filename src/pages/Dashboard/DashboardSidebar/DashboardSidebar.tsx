@@ -18,28 +18,23 @@ import {toggleSideBar} from "actions/toolsAction";
 import Preload from "UI/Preload/Preload";
 import {ActionTypes} from "actions/actionTypes";
 import fullLink from "../../../utils/fullLink";
-import Avatar from 'components/Avatar/Avatar';
+import Sidebar from "components/Sidebar/Sidebar";
 
 
-const SideBar = () => {
+const DashboardSidebar = () => {
 
-    const {auth: {auth}} = useSelector((state: RootStateType) => state)
+    const {auth: {auth}, tools: {isOpenSideBar}} = useSelector((state: RootStateType) => state)
 
     const [activeItem, setActiveItem] = useState(0)
-
-
-    // useEffect(() => {
-    //     let linkIndex = sidebarLinks.findIndex(link => location.pathname === link.to)
-    //     if (linkIndex !== -1) {
-    //         setActiveItem(linkIndex)
-    //     }
-    // }, [location.pathname])
 
 
     const navigator = useNavigate()
     const dispatch = useDispatch()
 
     let [collapseIds, setCollapseIds] = React.useState(["123"])
+
+    const [isOpenMobileSidebar, setOpenMobileSidebar] = useState(false)
+
 
     function toggleCollapseSubMenu(id) {
         if (collapseIds.indexOf(id) !== -1) {
@@ -49,19 +44,12 @@ const SideBar = () => {
         }
     }
 
-
-    function collapseSidebar() {
-        dispatch(toggleSideBar({
-            where: "admin_dashboard",
-            isOpen: false
-        }))
-    }
-
     const sidebarData = {
         CUSTOMER: [
             {
                 id: 123,
                 name: "Dashboard",
+                onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
                         <FontAwesomeIcon icon={faHomeAlt}/>
@@ -72,6 +60,7 @@ const SideBar = () => {
             {
                 menu_section_name: "Manage My Account",
                 name: "My Account",
+                onClick: closeSidebar,
                 id: 1,
                 iconRender: () => (
                     <div className="mr-2">
@@ -81,12 +70,12 @@ const SideBar = () => {
                 sub_menu: [
                     {
                         name: "Account Information",
-                        onClick: collapseSidebar,
+                        onClick: closeSidebar,
                         to: "/dashboard/account-info",
                     },
                     {
                         name: "Address Book",
-                        onClick: collapseSidebar,
+                        onClick: closeSidebar,
                         to: "/dashboard/address-book"
                     },
                     // {name: "Payment Option", to: "/dashboard/brands"},
@@ -105,7 +94,7 @@ const SideBar = () => {
                 sub_menu: [
                     {
                         name: "My Orders",
-                        onClick: collapseSidebar,
+                        onClick: closeSidebar,
                         to: "/dashboard/orders",
                         iconRender: () => (
                             <div className="mr-2">
@@ -119,7 +108,7 @@ const SideBar = () => {
             },
             {
                 name: "My Reviews",
-                onClick: collapseSidebar,
+                onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
                         <FontAwesomeIcon icon={faStar}/>
@@ -136,7 +125,7 @@ const SideBar = () => {
                         <FontAwesomeIcon icon={faCartPlus}/>
                     </div>
                 ),
-                onClick: collapseSidebar,
+                onClick: closeSidebar,
                 to: "/dashboard/carts",
                 id: 34,
                 logo: "fa fa-star"
@@ -148,7 +137,7 @@ const SideBar = () => {
                         <FontAwesomeIcon icon={faHeart}/>
                     </div>
                 ),
-                onClick: collapseSidebar,
+                onClick: closeSidebar,
                 to: "/dashboard/wishlist",
                 id: 35,
                 logo: "fa fa-star"
@@ -203,16 +192,6 @@ const SideBar = () => {
                 id: 6,
                 logo: ""
             }
-            // {
-            //   menu_section_name: "My Reviews",
-            //   items: [
-            //     "My Reviews"
-            //   ]
-            // },
-            // {
-            //   menu_section_name: "My Wishlist & Followed Stores",
-            //   items: []
-            // }
         ],
         admin: [
             {
@@ -227,12 +206,12 @@ const SideBar = () => {
                 sub_menu: [
                     {
                         name: "Products",
-                        onClick: collapseSidebar,
+                        onClick: closeSidebar,
                         to: "/auth/customer/account-info",
                     },
                     {
                         name: "Add Products",
-                        onClick: collapseSidebar,
+                        onClick: closeSidebar,
                         to: "/auth/customer/address-book"
                     },
                     // {name: "Payment Option", to: "/dashboard/brands"},
@@ -312,10 +291,14 @@ const SideBar = () => {
             </div>))
     }
 
+    function closeSidebar() {
+        dispatch(toggleSideBar(false))
+    }
+
 
     return (
-        <div className="">
-            <div className="sidebars">
+        <Sidebar isOpenSidebar={isOpenSideBar} onClose={closeSidebar}>
+            <div className="">
                 <div className="sidebar-author">
                     <div className="author_avatar mx-auto">
                         <img src={fullLink(auth?.avatar)} alt="author-avatar" className="mx-auto"/>
@@ -327,17 +310,16 @@ const SideBar = () => {
 
                 <ul className="sidebar-menu">
 
-                    <div className="sidebar">
-                        {Object.keys(sidebarData).map((role: any) => auth.role === role && (
-                            renderSidebarItem(sidebarData[role])
-                        ))}
-                    </div>
+                    {Object.keys(sidebarData).map((role: any) => auth.role === role && (
+                        renderSidebarItem(sidebarData[role])
+                    ))}
+
 
                 </ul>
             </div>
-        </div>
+        </Sidebar>
     )
 }
 
 
-export default SideBar
+export default DashboardSidebar

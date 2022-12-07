@@ -12,12 +12,15 @@ import {WishList} from "reducers/productReducer";
 import {toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
 import Table from "UI/Table/Table";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
+import useScrollTop from "hooks/useScrollTop";
 
 
 const MyWishlist = () => {
 
     let navigate = useNavigate()
     const dispatch = useDispatch()
+
+    useScrollTop()
 
     const {productState, auth} = useSelector((state: RootStateType) => state)
 
