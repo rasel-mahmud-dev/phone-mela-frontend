@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from "react-router-dom";
 import {RootStateType} from "store/index";
 import "./styles.scss"
@@ -206,7 +206,29 @@ const DashboardSidebar = () => {
                 logo: ""
             }
         ],
-        admin: [
+        ADMIN: [
+            {
+                id: 213123,
+                name: "Dashboard",
+                onClick: closeSidebar,
+                iconRender: () => (
+                    <div className="mr-2">
+                        <FontAwesomeIcon icon={faHomeAlt}/>
+                    </div>
+                ),
+                to: `/dashboard`
+            },
+            {
+                id: 213122343,
+                name: "Sales",
+                onClick: closeSidebar,
+                iconRender: () => (
+                    <div className="mr-2">
+                        <FontAwesomeIcon icon={faHomeAlt}/>
+                    </div>
+                ),
+                to: `/dashboard/sales`
+            },
             {
                 menu_section_name: "Products",
                 name: "My Products",
@@ -220,7 +242,7 @@ const DashboardSidebar = () => {
                     {
                         name: "Products",
                         onClick: closeSidebar,
-                        to: "/auth/customer/account-info",
+                        to: "/dashboard/products",
                     },
                     {
                         name: "Add Products",
@@ -230,6 +252,17 @@ const DashboardSidebar = () => {
                     // {name: "Payment Option", to: "/dashboard/brands"},
                     // {name: "Vouchers", to: "/dashboard/brands"},
                 ]
+            },
+            {
+                id: 2131275,
+                name: "Brands",
+                onClick: closeSidebar,
+                iconRender: () => (
+                    <div className="mr-2">
+                        <FontAwesomeIcon icon={faHomeAlt}/>
+                    </div>
+                ),
+                to: `/dashboard/brands`
             },
             {
                 menu_section_name: "Customer",
@@ -315,62 +348,12 @@ const DashboardSidebar = () => {
                 <div className="sidebar-author">
                     <Avatar src={fullLink(auth?.avatar)} className="flex justify-center " imgClass="w-14"/>
                     <h4 className="author-name">{auth?.username}</h4>
-                    <p className="author-position">Customer</p>
+                    <p className="author-position">{auth.role}</p>
                 </div>
 
                 {Object.keys(sidebarData).map((role: any) => auth.role === role && (
                     renderSidebarItem(sidebarData[role])
                 ))}
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h1>sdfksdjf sdjfkds j</h1>
-                <h4>Rasel Mahmud Raju</h4>
-
-
             </div>
         </Sidebar>
     )

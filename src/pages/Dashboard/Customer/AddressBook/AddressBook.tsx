@@ -4,13 +4,10 @@ import {useParams, Link} from "react-router-dom"
 
 import {connect, useDispatch, useSelector} from "react-redux"
 
-
 import "./AddressBook.scss"
 import api, {getApi} from "apis/api";
 import Input from "UI/Form/Input/Input2";
 import Button from 'UI/Button/Button';
-import Divider from "UI/Divider/Divider";
-import Badge from "UI/Badge/Badge";
 import {ShippingAddress} from "reducers/userReducer";
 import {RootStateType} from "store/index";
 import {faPen, faPenAlt, faTrashAlt} from "@fortawesome/pro-regular-svg-icons";

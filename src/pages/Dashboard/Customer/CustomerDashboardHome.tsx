@@ -7,7 +7,7 @@ import Table from "UI/Table/Table";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import Avatar from "../../../components/Avatar/Avatar";
 import fullLink from 'src/utils/fullLink';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const CustomerDashboardHome = (props) => {
 
@@ -39,7 +39,7 @@ const CustomerDashboardHome = (props) => {
             key: "1",
             dataIndex: "product_id",
             render: (product_id: any) => <div style={{width: "40px"}}>
-                <Avatar imgClass="rounded-none" src={fullLink(product_id.cover)}/>
+                <Avatar imgClass="rounded-none" src={fullLink(product_id?.cover)}/>
             </div>
         },
         {
@@ -49,7 +49,7 @@ const CustomerDashboardHome = (props) => {
             sorter: {
                 compare: (a: any, b: any) => a._id > b._id ? 1 : a._id < b._id ? -1 : 0
             },
-            render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+            render: (_id) => <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
         },
         {
             title: "Product Name",
@@ -68,7 +68,7 @@ const CustomerDashboardHome = (props) => {
                 }
             },
             render: (product_id: any) => {
-                return product_id.title
+                return product_id?.title
             }
         },
         {
@@ -132,7 +132,8 @@ const CustomerDashboardHome = (props) => {
             <div className="mt-5">
                 <h2 className="text-xl font-medium mt-5">My Orders</h2>
 
-                <div className="card overflow-hidden mt-4">
+
+                {orders || orders.length > 0 ? <div className="card overflow-hidden mt-4">
                     <div className="overflow-x-auto">
 
 
@@ -140,7 +141,10 @@ const CustomerDashboardHome = (props) => {
 
 
                     </div>
-                </div>
+                </div> : (
+                    <h1>No Order found</h1>
+                )}
+
             </div>
 
 

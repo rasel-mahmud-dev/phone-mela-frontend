@@ -129,6 +129,7 @@ export interface ProductStateType {
     isLoading: false,
     orders: Order[]
     transactions: any[]
+    reviews: any[]
 }
 
 
@@ -280,7 +281,8 @@ let initialProductState: ProductStateType = {
     lastVisitPageNumber: 1,
     isLoading: false,
     orders: null,
-    transactions: null
+    transactions: null,
+    reviews: null
 }
 
 

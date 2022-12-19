@@ -6,7 +6,7 @@ import Input2 from "UI/Form/Input/Input2";
 import Preload from "UI/Preload/Preload";
 import Button from "UI/Button/Button";
 import {useLocation, useNavigate} from "react-router-dom";
-import a from "UI/A/A";
+
 
 interface CustomLocation extends Location{
 	state?: { from?: string }

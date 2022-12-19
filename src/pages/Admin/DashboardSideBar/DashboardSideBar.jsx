@@ -18,7 +18,7 @@ const DashboardSideBar = (props) => {
             title: "Products",
             menu: [
                 {title: "Category", path: "/admin/dashboard/products/category"},
-                {title: "Sub Category", path: "/admin/dashboard/products/sub-category"},
+                {title: "Sub BrandList", path: "/admin/dashboard/products/sub-category"},
                 {title: "Product List", path: "/admin/dashboard/products/product-list"},
                 {title: "Product Detail", path: "/admin/dashboard/products/product-detail"},
                 {title: "Add Product", path: "/admin/dashboard/products/add-product/null"},

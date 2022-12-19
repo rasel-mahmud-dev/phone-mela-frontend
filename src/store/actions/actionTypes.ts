@@ -5,6 +5,7 @@ import {TOGGLE_SIDEBAR_ACTION} from "actions/toolsAction";
 export enum ActionTypes {
     FETCH_USERS = 'fetch_users',
     FETCH_USER = 'fetch_user',
+    UPDATE_CUSTOMER = 'UPDATE_CUSTOMER',
 
 // products
     FETCH_HOMEPAGE_PRODUCTS = 'FETCH_HOMEPAGE_PRODUCTS',
@@ -53,6 +54,7 @@ export enum ActionTypes {
     LOGIN = "login",
     LOGOUT = "logout",
     SIGN_UP = "signup",
+    FETCH_CUSTOMERS = "FETCH_CUSTOMERS",
 
 
     // other products related

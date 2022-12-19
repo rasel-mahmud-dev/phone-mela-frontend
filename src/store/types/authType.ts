@@ -1,11 +1,12 @@
 import {ActionTypes} from "actions/actionTypes";
+import {Roles} from "reducers/authReducer";
 
 
 export type LoginActionPayload = {
   username: string
   firstName?: string
   _id: string
-  role?: "admin" | "customer"
+  role: Roles
   email: string
   avatar?: string
 }

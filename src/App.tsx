@@ -1,16 +1,16 @@
-import React, { FC, useEffect } from "react";
+import React, {FC, useEffect} from "react";
 import {connect, useDispatch} from "react-redux";
 import "./App.scss";
-import { fetchCurrentAuth } from "src/store/actions/authAction";
-import { fetchCarts, fetchWishlist} from "src/store/actions/productAction";
+import {fetchCurrentAuth} from "src/store/actions/authAction";
+import {fetchCarts, fetchWishlist} from "src/store/actions/productAction";
 import Navigation from "./Common/Navigation";
-import { togglePopup } from "actions/toolsAction";
-import { ToolsReducerType } from "reducers/toolsReducer";
-import { RootStateType } from "store/index";
-import { FILTERED_PRODUCTS_TYPE } from "store/types/prouductReduceTypes";
+import {togglePopup} from "actions/toolsAction";
+import {ToolsReducerType} from "reducers/toolsReducer";
+import {RootStateType} from "store/index";
+import {FILTERED_PRODUCTS_TYPE} from "store/types/prouductReduceTypes";
 import Footer from "./Common/Footer/Footer";
 import MyRoutes from "./MyRoutes";
-import { AuthStateType } from "reducers/authReducer";
+import {AuthStateType} from "reducers/authReducer";
 import StripeForm from "pages/CartPages/paymentPage/StripeForm";
 
 type AppProps = {
@@ -27,7 +27,7 @@ type AppProps = {
 
 const App: FC<AppProps> = (props) => {
     const {
-        auth: { auth },
+        auth: {auth},
         tools,
     } = props;
 
@@ -54,11 +54,11 @@ const App: FC<AppProps> = (props) => {
 
     return (
         <div className="App">
-            <Navigation isOpenSearchBar={tools.isOpenSearchBar} />
+            <Navigation isOpenSearchBar={tools.isOpenSearchBar}/>
             <div className="main">
-                <MyRoutes auth={auth} />
+                <MyRoutes auth={auth}/>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };
@@ -73,4 +73,4 @@ function mapStateToDispatch(state: RootStateType) {
     };
 }
 
-export default connect(mapStateToDispatch, { fetchCurrentAuth, fetchWishlist, togglePopup })(App);
+export default connect(mapStateToDispatch, {fetchCurrentAuth, fetchWishlist, togglePopup})(App);

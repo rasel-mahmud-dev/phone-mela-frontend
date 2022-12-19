@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {useParams,  Link, useNavigate} from "react-router-dom"
 import {connect, useDispatch} from "react-redux"
-import {fetchCart, fetchProduct, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
+import {fetchCarts, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
 import {useSelector} from "react-redux"
 
 import "./CartPage.scss"
@@ -30,7 +30,7 @@ const CartPage = () => {
 
     useEffect(()=>{
         if(!cartProducts || cartProducts.length === 0) {
-            dispatch(fetchCart(auth._id))
+            fetchCarts(dispatch)
         }
       
     }, [])

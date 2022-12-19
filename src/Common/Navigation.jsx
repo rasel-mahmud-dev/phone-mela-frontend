@@ -148,17 +148,6 @@ const Navigation = (props) => {
         );
     }
 
-    function loadErrorAvatar(e) {
-        const div = document.createElement("h1");
-        div.classList.add("!m-0");
-        div.innerHTML = `
-       <div class="w-[21px] h-[21px] rounded-full bg-gray-300 dark:bg-primary shadow-md flex justify-center items-center">
-        <span class="text-sm font-medium">${auth.username[0].toUpperCase()}</span>
-      </div>
-    `;
-        e.target.parentNode.appendChild(div);
-        e.target.remove();
-    }
 
     function handleSetExpandDropdown(s) {
         setExpandDropdown(s);
@@ -404,7 +393,7 @@ const Navigation = (props) => {
 
                                 <div>
                                     {auth ? (
-                                        <Avatar avatar={auth.avatar} username="Rasel Mahmud" className="ml-2"/>
+                                        <Avatar src={auth.avatar} username="Rasel Mahmud" i imgClass="w-6" className="ml-2"/>
                                     ) : (
                                         <BiUser className="text-light-500 text-2xl"/>
                                         // <FontAwesomeIcon

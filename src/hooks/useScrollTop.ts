@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-function useScrollTop(top?: number = 0){
+function useScrollTop(top?: number){
 
     useEffect(()=>{
 

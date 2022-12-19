@@ -122,7 +122,7 @@ const Transactions = (props) => {
                     </div>
                 ) : (
                     <div>
-                        <h3>No Order found.</h3>
+                        <h3>No Transaction found.</h3>
                     </div>
                 )}
             </div>

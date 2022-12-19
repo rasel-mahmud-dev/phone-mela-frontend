@@ -1,11 +1,22 @@
 import React from 'react';
 import CustomerDashboardHome from "pages/Dashboard/Customer/CustomerDashboardHome";
+import {useSelector} from "react-redux";
+import {RootStateType} from "store/index";
+import AdminDashboard from "pages/Dashboard/Admin/AdminDashboardHome";
 
 const DashboardHome = () => {
-    return (
+    const {auth} = useSelector((state: RootStateType) => state.auth)
+
+    return auth && (
         <div>
 
-            <CustomerDashboardHome />
+            {auth.role === "ADMIN" ? (
+                <AdminDashboard/>
+            ) : (
+                <CustomerDashboardHome/>
+
+            )}
+
         </div>
     );
 };

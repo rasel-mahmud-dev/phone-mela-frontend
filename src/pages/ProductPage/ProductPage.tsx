@@ -319,7 +319,7 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
             currentPage
         } = this.props.productState
 
-        const {openSideBar} = this.props.tools
+        const {isOpenSideBar} = this.props.tools
 
 
         const sortOptions = [
@@ -341,25 +341,13 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
         return (
             <div className="container-1400 flex">
 
-                <Sidebar isOpenSidebar={openSideBar.isOpen} header={() => (
-                    <div className="sidebar_nav bg-primary-400 flex items-center px-3">
-                        <div className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full mr-2"
-                             onClick={this.handleCloseSidebar}>
-                            <FaAngleLeft className="text-light-500"/>
-                        </div>
-                        <Preload to="/" className="flex items-center text-decoration-none text-initial">
-                            <div className="w-36 md:w-40">
-                                <img className="w-full" src="/Group3.png" alt=""/>
-                            </div>
-                        </Preload>
-                    </div>
-                )} onClose={this.handleCloseSidebar}>
-
+                <Sidebar isOpenSidebar={isOpenSideBar} onClose={this.handleCloseSidebar}>
                     <h2 className="font-medium text-md m-2 ">Filter</h2>
-                    <FilterSidebar returnFilterResultItems={this.returnFilterResultItems}
-                                   brands={this.props.productState.brands}/>
+                    <FilterSidebar
+                        returnFilterResultItems={this.returnFilterResultItems}
+                        brands={this.props.productState.brands}
+                    />
                 </Sidebar>
-
 
                 <div className="content pl-4 w-full px-2 mt-2 " id="content">
 

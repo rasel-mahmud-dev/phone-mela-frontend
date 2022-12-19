@@ -1,20 +1,13 @@
 import React from 'react'
 import {useParams, Link} from "react-router-dom"
-// import qs from "src/utills/qs"
-
-// import {Button, Menu, Divider} from "UI"
 import {useDispatch} from "react-redux"
-
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
 import "./OrderDetails.scss"
 import Preload from "UI/Preload/Preload";
 import api from "apis/api";
-import fullLink from "../../../../utils/fullLink";
+import fullLink from "src/utils/fullLink";
 import {faAngleLeft} from "@fortawesome/pro-regular-svg-icons";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
-
-// const {SubMenu} = Menu
 
 
 interface OrderDetail {
@@ -80,60 +73,6 @@ const OrderDetails = (props) => {
         }())
     }, [params])
 
-
-    function handleChange(e) {
-        //  setPaymentMethod(e.target.value)
-    }
-
-
-    function handlePushBack() {
-        // history.back()
-        // history.goBack()
-    }
-
-    function handleProductAction(type, prod) {
-
-    }
-
-
-    // function renderLoader(where){
-    //   let loadingState = loadingStates.find(ls=>ls.where === where)
-    //   return (
-    //     <div style={{textAlign: "center"}}>
-    //       { loadingState && loadingState.isLoading
-    //         && <Spin size={50} />
-    //       }
-    //     </div>
-    //   )
-    // }
-
-    // function renderOrderDetails(){
-    //   return (
-    //       <div>
-
-    //           <div>
-    //             <h3>Order <Link to="/">#{order.order_id}</Link></h3>
-    //             <h4>Place on {new Date().toDateString()}</h4>
-    //             <div className="order-item d-flex">
-    //               <Image size={100} />
-    //               <div style={{
-    //                   marginLeft: "30px", width: "100%",
-    //                   marginTop: "10px"
-    //               }}>
-    //                 <h3>{order.product.title}</h3>
-    //                 <h5>tk {order.total_price}</h5>
-    //                 <h5>x {order.quantity}</h5>
-    //                 <h4 style={{marginRight: "10px"}} className="t-end">{order.status}</h4>
-    //                 <h4 style={{marginRight: "10px"}} className="t-end">
-    //                   {order.quantity} item, total: <span>{order.total_price} tk</span>
-    //                 </h4>
-    //               </div>
-    //             </div>
-    //           </div>
-
-    //       </div>
-    //     )
-    // }
 
     function renderAddress(recentShipAddr) {
         return <h4 className="mb-0 text-sm">Address:

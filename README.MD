@@ -1,7 +1,34 @@
-## Phone Mela fullstack ecommerce website, build with Nodejs, React js and Mongodb
+## Phone Mela (Frontend)
+
+Phone Mela is Online buying best smartphone. In this website customer can find smartphone, search mobile phone using title,
+filter with varies attributes.
+Customer can added mobile wishlist, cart, also they can buy with credit card and cash on delivery build with Nodejs, React js and Mongodb
 
 
-### Nodejs + Mongodb API Endpoint Example
+
+## Application Features
+- Search mobile phone using title, filter with varies attributes.
+- It has multiple role customer and admin, customer can buy products. Also has customer and admin dashboard.
+- Admin user can add product, update, delete. Block customer.
+- Customer can add mobile in wish list, cart, also they can buy with credit card.
+
+
+# This Application under development
+
+Live Link https://phone-mela.vercel.app
+
+
+## Technology used.
+- react
+- redux
+- react-router-dom (Route base code spliting)
+- Tailwindcss
+- stripe-payments
+- expressjs
+- mongoose
+- formidable
+- jsonwebtoken etc....
+
 
 ```js
 
@@ -23,7 +50,7 @@ const orderRoutes = (app: Application)=> {
 }
 const wishlistRoutes = (app: Application)=> {
 	app.post("/api/wishlist-products", auth, controllers.wishlistController.fetchWishlistProducts)
-	app.post("/api/add-wishlist", auth, controllers.wishlistController.addToWishlist)	  
+	app.post("/api/add-wishlist", auth, controllers.wishlistController.addToWishlist)	
 	app.post("/api/remove-wishlist", auth, controllers.wishlistController.removeToWishlist)
 }
 const shippingAddressRoutes = (app: Application)=> {
@@ -39,9 +66,7 @@ const cartRoutes = (app: Application)=> {
 ```
 
 
-# This Application under development
 
-Live Link https://phone-mela.vercel.app/
 
 ### Preview screenshot
 
