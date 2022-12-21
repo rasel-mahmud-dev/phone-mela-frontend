@@ -10,7 +10,7 @@ import OrderSummary from "pages/CartPages/orderSummary/OrderSummary";
 
 import "./styles.scss";
 import { CartProductType } from "reducers/productReducer";
-import StripeForm from "pages/CartPages/paymentPage/StripeForm";
+import StripeForm from "pages/CartPages/CreditCardPayment/CreditCardPayment";
 import Button from "UI/Button/Button";
 
 const PaymentPage = (props: any) => {
@@ -122,17 +122,7 @@ const PaymentPage = (props: any) => {
 
         return (
             <div>
-                {/*<StripeForm></StripeForm>*/}
-                {/*<div>*/}
-                {/*  <h1>Card Information</h1>*/}
-                {/*  <Input2 label="Enter Card Number" onChange={handleChangePaymentInformation} value={paymentInformation.card_number} name="card_number" />*/}
-                {/*  <div className="flex">*/}
-                {/*    <Input2 onChange={handleChangePaymentInformation} value={paymentInformation.card_cvc}  type="number" label="Enter CVC" name="card_cvc" />*/}
-                {/*    <Input2 onChange={handleChangePaymentInformation} value={paymentInformation.card_dd} type="number" label="DD" name="card_dd" />*/}
-                {/*    <Input2 onChange={handleChangePaymentInformation} value={paymentInformation.card_mm}  type="number" label="MM" name="card_mm" />*/}
-                {/*  </div>*/}
-                {/*  /!*<button className="bg-primary-400 px-4 text-white" onClick={handlePay}>Pay</button>*!/*/}
-                {/*</div>*/}
+               <StripeForm />
             </div>
         );
     }
