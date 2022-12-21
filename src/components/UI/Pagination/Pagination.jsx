@@ -1,17 +1,18 @@
-import React, {memo} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 import "./Pagination.scss"
 
 const Pagination = (props) => {
-    const {totalProducts, perPageShow, currentPage, onPageChange} = props
+    const {totalItems, perPageShow, currentPage, onPageChange} = props
 
     const [pageNumber, setPage] = React.useState(1)
     let [cPage, setCPage] = React.useState()
 
-    React.useEffect(() => {
+
+    useEffect(() => {
         setCPage(currentPage)
     }, [pageNumber, currentPage])
 
-    let pagesNum = Math.ceil(totalProducts / perPageShow)
+    let pagesNum = Math.ceil(totalItems / perPageShow)
 
     function handlePageChange(page) {
         if (page === "prev") {

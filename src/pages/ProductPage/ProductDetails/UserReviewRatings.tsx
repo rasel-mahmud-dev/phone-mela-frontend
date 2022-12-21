@@ -10,8 +10,9 @@ import Input from "UI/Form/Input/Input";
 import Button from "UI/Button/Button";
 import productDetails from "pages/ProductPage/ProductDetails/ProductDetails";
 import {toast} from "react-toastify";
-import {stat} from "fs";
+
 import errorMessage from "../../../response/errorResponse";
+import Avatar from "components/Avatar/Avatar";
 
 const UserReviewRatings = (props) => {
 
@@ -22,20 +23,27 @@ const UserReviewRatings = (props) => {
     const [state, setState] = useState({
         amountOfRate: 0,
         allStar: [],
+        totalReviews: 0,
         // totalAverageRate: Number((allStar / totalRate).toFixed(1)),
         reviews: []
     })
 
+    const [paginate, setPaginate] = useState({
+        pageNumber: 1,
+        perPage: 5
+    })
+
+
     useEffect(() => {
         fetchProductReviews()
-    }, [])
+    }, [paginate.pageNumber])
 
 
-    const fetchProductReviews = async (productId: string | number) => {
+    const fetchProductReviews = async () => {
         // fetch product Questions and Answers
 
         //!Note i use reviews for all from product review for product id 1
-        const response: any = await api.get(`/api/reviews/${_id}`)
+        const response: any = await api.get(`/api/reviews/${_id}?pageNumber=${paginate.pageNumber}`)
         if (response.status === 200) {
             setState((prevState) => {
 
@@ -48,7 +56,9 @@ const UserReviewRatings = (props) => {
                     5: 0
                 }
 
-                response.data && response.data.map(review => {
+                const {count, reviews} = response.data
+
+                reviews?.map(review => {
                     switch (true) {
                         case review.one_star !== 0:
                             stars["1"] += 1
@@ -75,7 +85,6 @@ const UserReviewRatings = (props) => {
                     }
                     // subTotalRate += (rate.rating * rate.amount)
                     // totalAmount += rate.amount
-
                 })
 
                 let allStar = 0
@@ -91,10 +100,8 @@ const UserReviewRatings = (props) => {
                     ...prevState,
                     amountOfRate: stars,
                     allStar: allStar,
-                    // totalAverageRate: Number((allStar / totalRate).toFixed(1)),
-
-                    reviews: response.data
-
+                    totalReviews: paginate.pageNumber == 1 ? count : prevState.totalReviews,
+                    reviews: reviews
                 }
             })
 
@@ -163,7 +170,6 @@ const UserReviewRatings = (props) => {
 
     function renderRatings() {
 
-
         return (
             <div className="rating_ flex-1 flex justify-between items-center">
                 <div className="rating_left flex-1">
@@ -176,7 +182,7 @@ const UserReviewRatings = (props) => {
                     <div className="total_rating_count">
                         <h2>{state.reviews?.length} ratings</h2>
                         <h2>&</h2>
-                        <h2>reviews</h2>
+                        <h2>{state.totalReviews} reviews</h2>
                     </div>
                 </div>
                 <div className="rating_right flex-1">
@@ -214,14 +220,6 @@ const UserReviewRatings = (props) => {
         )
     }
 
-    function fetchMoreReview(pageNumber: number) {
-        // this.setState(prevState => {
-        //     return {
-        //         ...prevState,
-        //         currentPageForReview: pageNumber
-        //     }
-        // })
-    }
 
     let pageNumber = 1
     let currentPageForReview = 1
@@ -240,7 +238,7 @@ const UserReviewRatings = (props) => {
         }))
     }
 
-    function handleAddReview(e: SyntheticEvent<HTMLFormElement>){
+    function handleAddReview(e: SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
 
 
@@ -249,7 +247,7 @@ const UserReviewRatings = (props) => {
         let title = (a.title as HTMLInputElement).value
         let summary = (a.summary as HTMLInputElement).value
 
-        if(!(title && summary && ratingState.rate)){
+        if (!(title && summary && ratingState.rate)) {
             return toast.info("Please provide al fields")
         }
 
@@ -259,10 +257,10 @@ const UserReviewRatings = (props) => {
             rate: ratingState.rate,
             summary
         }).then(({status, data}) => {
-            if(status === 201){
+            if (status === 201) {
                 toast.success("Review Added successfully")
-               setOpenAddRatingModal(false)
-                setState((prevState=>({
+                setOpenAddRatingModal(false)
+                setState((prevState => ({
                     ...prevState,
                     reviews: [
                         data,
@@ -270,7 +268,7 @@ const UserReviewRatings = (props) => {
                     ]
                 })))
             }
-        }).catch(ex=>{
+        }).catch(ex => {
             return toast.error(errorMessage(ex))
         })
 
@@ -281,8 +279,8 @@ const UserReviewRatings = (props) => {
         return (
             <form onSubmit={handleAddReview}>
                 <RatingChooser onChange={handleChange} name="rate" label="Rate" defaultValue={ratingState.rate} total={5}/>
-                <Input name="title" label="Title" />
-                <Input name="summary" type="textarea" label="Summary" />
+                <Input name="title" label="Title"/>
+                <Input name="summary" type="textarea" label="Summary"/>
 
                 <Button type="submit" className="btn-primary">Submit</Button>
 
@@ -290,21 +288,22 @@ const UserReviewRatings = (props) => {
         )
     }
 
-    const [isOpenAddRatingModal, setOpenAddRatingModal] = useState(true)
+    const [isOpenAddRatingModal, setOpenAddRatingModal] = useState(false)
 
 
     return (
         <div>
             <div className="">
 
-                <Modal isOpen={isOpenAddRatingModal} className="max-w-lg" backdropClass="bg-dark-900/80" onClose={()=>setOpenAddRatingModal(false)}>
+                <Modal isOpen={isOpenAddRatingModal} className="max-w-lg" backdropClass="bg-dark-900/80"
+                       onClose={() => setOpenAddRatingModal(false)}>
                     {addRatingModal()}
                 </Modal>
 
 
                 <div className="flex justify-between items-center">
                     <h1 className="sec_label font-normal text-base min-w-[150px]">All User Opinions and Reviews</h1>
-                    <button className="btn bg-primary-400 text-white" onClick={()=>setOpenAddRatingModal(true)}>Rate This</button>
+                    <button className="btn bg-primary-400 text-white" onClick={() => setOpenAddRatingModal(true)}>Rate This</button>
                 </div>
                 <h2 className="mt-5 font-normal text-[14px]">{title} - USER OPINIONS AND REVIEWS AND
                     RATINGS</h2>
@@ -316,58 +315,54 @@ const UserReviewRatings = (props) => {
 
             <div className="mt-8">
 
-                {state.reviews &&
-                    state.reviews.slice(
-                        (currentPageForReview === 1 ? 0 : (currentPageForReview - 1) * 5),
-                        (currentPageForReview * 5)
-                    ).map(review => (
-                        <div className="border-b border-gray-200 py-4">
+                {state.reviews.map(review => (
+                    <div className="border-b border-gray-200 py-4">
 
-                            <h1 className="font-normal flex items-center gap-x-1">
+                        <h1 className="font-normal flex items-center gap-x-1">
                                 <span className="flex items-center gap-x-1 bg-primary-400 text-white px-2.5 py-1 rounded text-sm">
                                     <span>{review.rate}</span>
                                     <TbStar className="text-sm"/>
                                 </span>
-                                {review.title}</h1>
-                            <p className="text-sm text-gray-700 mt-2 whitespace-pre-line">{review.summary}</p>
+                            {review.title}</h1>
+                        <p className="text-sm text-gray-700 mt-2 whitespace-pre-line">{review.summary}</p>
 
 
-                            <div className="flex mt-4 relative">
-                                <div className="flex">
-                                    {new Array(review.rate).fill(1).map(s => (
-                                        <div className="mr-1">
-                                            {/*<FontAwesomeIcon className="text-xs text-dark-100" icon={faStar} />*/}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="flex absolute left-0">
-                                    {new Array(3).fill(1).map(s => (
-                                        <div className="mr-1">
-                                            {/*<FontAwesomeIcon className="text-xs text-orange" icon={faStar} />*/}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
+                        <div className="flex mt-4 relative">
                             <div className="flex">
-                                <img className="w-4 mr-1 rounded-full"
-                                     src={fullLink(review?.customer?.avatar)} alt=""/>
-                                <h4 className="text-[13px]">
-                                    <span className="font-normal">{review?.customer?.first_name}</span>
-                                    <span className="ml-8">{new Date(review.created_at).toDateString()}</span>
-                                </h4>
+                                {new Array(review.rate).fill(1).map(s => (
+                                    <div className="mr-1">
+                                        {/*<FontAwesomeIcon className="text-xs text-dark-100" icon={faStar} />*/}
+                                    </div>
+                                ))}
                             </div>
-
+                            <div className="flex absolute left-0">
+                                {new Array(3).fill(1).map(s => (
+                                    <div className="mr-1">
+                                        {/*<FontAwesomeIcon className="text-xs text-orange" icon={faStar} />*/}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    ))}
+
+                        <div className="flex">
+                            <Avatar src={fullLink(review?.customer?.avatar)} imgClass="!text-xs" className=" w-4 mr-1"
+                                    username={review?.customer?.first_name}/>
+                            <h4 className="text-[13px]">
+                                <span className="font-normal">{review?.customer?.first_name}</span>
+                                <span className="ml-8">{new Date(review.createdAt).toDateString()}</span>
+                            </h4>
+                        </div>
+
+                    </div>
+                ))}
 
                 {/* Review pagination  */}
                 <div className="flex justify-center">
                     <Pagination
-                        totalProducts={state.reviews ? state.reviews.length : 0}
-                        perPageShow={5}
-                        currentPage={currentPageForReview}
-                        onPageChange={(pageNumber) => fetchMoreReview(pageNumber)}
+                        totalItems={state.totalReviews}
+                        perPageShow={paginate.perPage}
+                        currentPage={paginate.pageNumber}
+                        onPageChange={(pageNumber) => setPaginate(p=>({...p, pageNumber}))}
                     />
                 </div>
             </div>
