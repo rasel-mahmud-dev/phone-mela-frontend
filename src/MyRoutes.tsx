@@ -22,7 +22,7 @@ const Orders = ReactLazyPreload(()=>import("pages/Dashboard/Customer/Orders/Orde
 const MyReviews = ReactLazyPreload(()=>import("pages/Dashboard/Customer/MyReviews/MyReviews")) ;
 const OrderDetails = ReactLazyPreload(()=>import("pages/Dashboard/Customer/OrderDetails/OrderDetails")) ;
 const MyCart = ReactLazyPreload(()=>import("pages/Dashboard/Customer/MyCart/MyCart")) ;
-const MyWishlist = ReactLazyPreload(()=>import("pages/Dashboard/Customer/MyWishlist/MyWishlist")) ;
+const MyWishlist = ReactLazyPreload(()=>import("pages/Dashboard/Shared/MyWishlist")) ;
 const Transactions = ReactLazyPreload(()=>import("pages/Dashboard/Shared/Transactions")) ;
 
 const Sales = ReactLazyPreload(()=>import("pages/Dashboard/Admin/Sales/Sales")) ;

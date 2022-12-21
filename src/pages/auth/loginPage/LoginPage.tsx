@@ -37,13 +37,13 @@ const LoginPage = (props) => {
     const [fetchLoading, setFetchLoading] = React.useState(false);
 
 
-    useEffect(()=>{
-        if(location.state?.message){
+    useEffect(() => {
+        if (location.state?.message) {
             setLoadingState({message: location.state.message, loading: false, isSuccess: true})
             history.replaceState("", "")
         }
 
-        return ()=> {
+        return () => {
             history.replaceState("", "")
         }
 
@@ -63,33 +63,43 @@ const LoginPage = (props) => {
         e.preventDefault();
 
         setLoadingState({message: "", loading: false, isSuccess: true})
-
+        let updateState = {...state}
         let isComplete = true;
         let body = {};
-        for (let key in state) {
-            isComplete =
-                isComplete &&
-                !!state[key].value &&
-                // && state[key].touched
-                !state[key].errorMessage;
-            body[key] = state[key].value;
-        }
-        if (isComplete) {
-            setLoadingState(p=>({...p, loading: true}))
-            props.login(body, (err, result) => {
-                if (!err) {
-                    setFetchLoading(false);
-                    let redirectPath = location?.state?.from || "/"
-                    navigate(redirectPath, {replace: true});
-                } else {
-                    setMessage(err);
+        for (let key in updateState) {
+            if (!updateState[key].value) {
+                updateState[key] = {
+                    ...updateState[key],
+                    errorMessage: "required"
                 }
-            });
+                isComplete = false
+            } else {
+                body[key] = updateState[key].value
+            }
         }
+
+        if (!isComplete) {
+            return setState(updateState)
+        }
+
+        setLoadingState(p => ({...p, loading: true,message: ""}))
+        props.login(body, (err, result) => {
+            if (!err) {
+                setLoadingState(p => ({...p, loading: false, message: ""}))
+                let redirectPath = location?.state?.from || "/"
+                navigate(redirectPath, {replace: true});
+            } else {
+                setLoadingState(p => ({...p, loading: false, message: ""}))
+               setTimeout(()=>{
+                   setLoadingState(p => ({...p, loading: false, message: err}))
+               }, 300)
+            }
+        });
+
     }
 
 
-    function clearOldToken(){
+    function clearOldToken() {
         window.localStorage.removeItem("token")
     }
 
@@ -105,7 +115,10 @@ const LoginPage = (props) => {
                 <div className="max-w-md mx-auto px-4  bg-light-900 py-10 my-10 rounded-lg shadow-1">
                     <h1 className="text-center text-3xl font-semibold">Login Form</h1>
 
-                    <HttpResponse {...loadingState} loadingTitle="Please wait you are logged..." />
+                    <HttpResponse
+
+                        onClose={()=>loadingState.message && setLoadingState(prevState => ({...prevState, message: ""}))}
+                        {...loadingState} loadingTitle="Please wait you are logged..."/>
 
 
                     <form onSubmit={handleLogin} className="mt-10">

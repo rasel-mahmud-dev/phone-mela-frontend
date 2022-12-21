@@ -1,18 +1,18 @@
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "store/index";
 import fullLink from "src/utils/fullLink";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link} from "react-router-dom";
-import {faHeart} from "@fortawesome/free-solid-svg-icons";
 
-import {WishList} from "reducers/productReducer";
+import {ProductType, WishList} from "reducers/productReducer";
 import {toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
 import Table from "UI/Table/Table";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import useScrollTop from "hooks/useScrollTop";
+import {BsCartPlusFill, BsFillCartDashFill, BsFillTrash2Fill, BsTrash} from "react-icons/all";
+import Preload from "UI/Preload/Preload";
+import slugify from "../../../utils/slugify";
 
 
 const MyWishlist = () => {
@@ -58,6 +58,9 @@ const MyWishlist = () => {
             title: "Name",
             key: "1",
             dataIndex: "title",
+            render: (text: string, prod: WishList) => {
+                return <Preload to={`/product/${slugify(prod.title)}/${prod.product_id}`}>{text}</Preload>
+            },
             sorter: {
                 compare: (a: any, b: any) => {
                     if (a.title.toLowerCase() > b.title.toLowerCase()) {
@@ -69,9 +72,7 @@ const MyWishlist = () => {
                     }
                 }
             },
-            render: (text: string) => {
-                return text
-            }
+
             // <Tooltip theme="simple-white" tooltip={text}><a>{text.slice(0, 20)}{.length > 21 && "..."}</a></Tooltip>
 
         },
@@ -118,16 +119,22 @@ const MyWishlist = () => {
             className: "text-center",
             render: (wish: WishList) => {
                 return (
-                    <div className='flex  items-center justify-center'>
+                    <div className='flex items-center justify-center '>
 
                         {isInCart(wish.product_id) ? (
                             <button
-                                className="flex-nowrap white-space-nowrap flex-nowrap text-white text-[13px] font-normal bg-primary-400 px-2 py-1 flex items-center ml-2">
-                                In Cart
+                                onClick={() => dispatch(toggleHandleCart({
+                                    title: wish.title,
+                                    price: wish.price,
+                                    cover: wish.cover ? wish.cover : "",
+                                    product_id: wish.product_id
+                                }, false))}
+                                className="flex-nowrap white-space-nowrap flex-nowrap  text-[13px] font-normal  px-2 py-1 flex items-center ml-2">
+                                <BsFillCartDashFill className="text-lg"/>
                             </button>
                         ) : (
                             <button
-                                className="flex-nowrap white-space-nowrap text-white text-[13px] font-normal bg-primary-400 px-2 py-1 flex items-center ml-2"
+                                className="flex-nowrap white-space-nowrap  px-2 py-1 flex items-center ml-2"
                                 onClick={() => dispatch(toggleHandleCart({
                                     title: wish.title,
                                     price: wish.price,
@@ -135,10 +142,12 @@ const MyWishlist = () => {
                                     product_id: wish.product_id
                                 }, false))}
 
-                            >Add To Cart</button>
+                            >
+                                <BsCartPlusFill className="text-lg"/>
+                            </button>
                         )}
 
-                        <button className="flex-nowrap text-[13px] bg-primary-400 px-2 py-1 flex items-center ml-2"
+                        <button className="flex-nowrap text-[13px]  px-2 py-1 flex items-center ml-2"
                                 onClick={() => dispatch(toggleHandleWishlist({
                                     title: wish.title,
                                     price: wish.price,
@@ -146,7 +155,9 @@ const MyWishlist = () => {
                                     product_id: wish.product_id
                                 }, false))}
                         >
-                            <span className="text-white whitespace-nowrap font-normal ml-1">Remove</span>
+
+                            <BsFillTrash2Fill className="text-red-100 text-lg"/>
+
                         </button>
 
                     </div>
@@ -174,12 +185,14 @@ const MyWishlist = () => {
 
 
             <div className="card overflow-hidden">
-                {wishlist && wishlist.length > 0 ? renderCartItems() : (
-                    <div className="text-md font-medium text-center">
-                        <h1>Your Cart is Empty</h1>
-                    </div>
-                )}
+                {wishlist && wishlist.length > 0 && renderCartItems()}
             </div>
+
+            {wishlist && wishlist.length === 0 && (
+                <div className="text-md font-medium text-center">
+                    <h1>Your Wishlist is Empty</h1>
+                </div>
+            )}
 
 
         </div>

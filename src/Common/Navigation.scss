@@ -346,8 +346,7 @@
 
 
 .auth-menu__item{
-
-  @apply flex flex-1 items-center hover:bg-primary-400 hover:bg-opacity-40 text-gray-800 hover:text-white cursor-pointer  px-1 py-1;
+  @apply flex flex-1 items-center hover:bg-primary-400 hover:bg-opacity-40 text-gray-800 hover:text-white cursor-pointer  px-3 py-3;
   &:hover{
     a {
       color: #ffffff;

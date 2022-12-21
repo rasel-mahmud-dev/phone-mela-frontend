@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useParams, Link} from "react-router-dom"
 
 import {connect, useDispatch, useSelector} from "react-redux"
@@ -11,6 +11,8 @@ import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import useScrollTop from "hooks/useScrollTop";
 import AddShippingAddress from "pages/Dashboard/Customer/AddressBook/AddShippingAddress";
 import {BiTrash} from "react-icons/all";
+import ActionModal from "components/ActionModal/ActionModal";
+import Input2 from "UI/Form/Input/Input2";
 // const {SubMenu} = Menu
 
 
@@ -24,6 +26,14 @@ const AddressBook = (props) => {
     const {auth: {auth}} = useSelector((state: RootStateType) => state)
 
     const [isShowAddShippingForm, setShowAddShippingForm] = React.useState(false)
+    const deleteId = React.useRef<string>()
+
+    const inputRef = React.useRef<HTMLInputElement>()
+
+
+    const [isDeleteSurePopupOpen, setIsDeleteSurePopupOpen] = React.useState("")
+    const [text, setText] = React.useState("")
+
 
     const [recentShippingAddress, setRecentShippingAddress] = React.useState<ShippingAddress[]>()
 
@@ -36,16 +46,39 @@ const AddressBook = (props) => {
         }())
     }, [auth._id])
 
-
     function handleDeleteAddress(id: string){
-        getApi().delete("/api/shipping-address/"+id).then(({data, status})=>{
-            if(status === 201){
-                setRecentShippingAddress(recentShippingAddress.filter(sp=>sp._id !== id))
-            }
-        }).catch(ex=>{
-
-        })
+        setIsDeleteSurePopupOpen("I want to delete this anyway")
+        deleteId.current = id
     }
+
+    useEffect(()=>{
+
+        if( inputRef.current) {
+            inputRef.current?.focus()
+        }
+    }, [inputRef.current, isDeleteSurePopupOpen])
+
+
+    function handleCancelDelete(){
+        deleteId.current = ""
+        setIsDeleteSurePopupOpen("")
+        setText("")
+    }
+
+    function handleDelete() {
+        handleCancelDelete();
+        if(deleteId.current) {
+            getApi().delete("/api/shipping-address/" + deleteId.current).then(({data, status}) => {
+                if (status === 201) {
+                    setRecentShippingAddress(recentShippingAddress.filter(sp => sp._id !== deleteId.current))
+                    handleCancelDelete()
+                }
+            }).catch(ex => {
+
+            })
+        }
+    }
+
 
 
     return (
@@ -53,6 +86,21 @@ const AddressBook = (props) => {
             <WithSidebarButton>
                 <h1 className="sm:text-2xl text-xl text-center font-medium pt-4">Your Shipping Addresses</h1>
             </WithSidebarButton>
+
+
+            <ActionModal onClose={handleCancelDelete} isOpen={!!isDeleteSurePopupOpen}>
+                <div>
+                    <h4>Write this text to delete shipping address</h4>
+
+                    <p className="text-dark-400">{isDeleteSurePopupOpen}</p>
+
+                    <Input2 onChange={(e: any)=>setText(e.target.value)} value={text} ref={inputRef} />
+                    <Button className={`btn-primary mt-4 ${text !== isDeleteSurePopupOpen && "btn-disable"}` } onClick={handleDelete}>
+                    Delete
+                    </Button>
+                </div>
+            </ActionModal>
+
 
             <Button onClick={() => setShowAddShippingForm(!isShowAddShippingForm)} className="btn-primary">Add a new
                 shipping address</Button>
@@ -90,7 +138,7 @@ const AddressBook = (props) => {
                         </div>
 
                         <div>
-                            <BiTrash onClick={()=>handleDeleteAddress(sp._id)} />
+                            <BiTrash className="text-lg cursor-pointer" onClick={()=>handleDeleteAddress(sp._id)} />
 
                         </div>
 

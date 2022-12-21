@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 
 import "./Input2.scss"
 
-const Input2 = (props) => {
+const Input2 = forwardRef((props, ref)=>{
 
     const {
         label,
@@ -89,8 +89,9 @@ const Input2 = (props) => {
                 <div className="input">
                     {type === "textarea" ? (
                         <textarea
-                            id={name}
                             {...attributes}
+                            id={name}
+                            ref={ref}
                             name={name}
                             value={value}
                             onFocus={handleFocus}
@@ -99,6 +100,7 @@ const Input2 = (props) => {
                     ) : (
                         <input
                             {...attributes}
+                            ref={ref}
                             type={type}
                             id={name}
                             name={name}
@@ -123,6 +125,6 @@ const Input2 = (props) => {
             </div>
         </div>
     )
-}
+})
 
 export default Input2

@@ -6,11 +6,6 @@ import {useSelector} from "react-redux"
 
 import fullLink from "src/utils/fullLink";
 import {RootStateType} from "store/index";
-// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-// import {faMinus, faPlus, faTrash} from "@fortawesome/pro-regular-svg-icons";
-
-// import {faChevronLeft} from "@fortawesome/pro-regular-svg-icons";
-// import {faHeart} from "@fortawesome/pro-solid-svg-icons";
 import {ActionTypes} from "actions/actionTypes";
 import {CartProductType, ProductType} from "reducers/productReducer";
 import Table from "UI/Table/Table";
@@ -18,7 +13,9 @@ import Preload from "UI/Preload/Preload";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import useScrollTop from "hooks/useScrollTop";
 import {BiHeart, BsFillTrash2Fill, FaHeart, FaMinus, FaPlug, FaPlus} from "react-icons/all";
-import item from "UI/Menu/Item";
+import Button from "UI/Button/Button";
+import slugify from "../../../../utils/slugify";
+
 
 
 const MyCart = () => {
@@ -126,8 +123,8 @@ const MyCart = () => {
                         }
                     }
                 },
-                render: (text: string) => {
-                    return text
+                render: (text: string, prod: CartProductType) => {
+                    return <Preload to={`/product/${slugify(prod.title)}/${prod.product_id}`}>{text}</Preload>
                 }
                 // <Tooltip theme="simple-white" tooltip={text}><a>{text.slice(0, 20)}{.length > 21 && "..."}</a></Tooltip>
 
@@ -281,7 +278,7 @@ const MyCart = () => {
 
 
                         {cartProducts && cartProducts.length === 0 && (
-                            <div className="mt-8 text-center text-sm font-normal">
+                            <div className="text-md font-medium text-center">
                                 <h1>Your Cart is Empty</h1>
                             </div>
                         )}
@@ -297,8 +294,10 @@ const MyCart = () => {
                             {/*<Link to="/shopping/cart/checkout">*/}
 
                             <Preload to="/order/checkout"
-                                     className={["flex-nowrap btn btn-primary px-4 flex items-center  py-1", selectCartItems.items && selectCartItems.items.length === 0 ? "bg-dark-200 pointer-events-none" : ""].join(" ")}>
-                                PROCEED TO CHECKOUT
+                                     className={["flex-nowrap px-4 flex items-center  py-1", selectCartItems.items && selectCartItems.items.length === 0 ? " pointer-events-none" : ""].join(" ")}>
+                                <Button className={`btn-primary ${selectCartItems.items && selectCartItems.items.length === 0 ? "btn-disable" : ""}`}>
+                                    Proceed to checkout
+                                </Button>
                             </Preload>
 
                         </div>

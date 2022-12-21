@@ -15,6 +15,7 @@ import useWindowResize from "src/hooks/useWindowResize";
 import {BiShoppingBag, BiUser} from "react-icons/bi";
 import {HiOutlineShoppingBag} from "react-icons/hi";
 import {FaAngleDown, FaHeart, FaSearch, FaSignInAlt, FaSignOutAlt, FaTimes, FaUserAlt} from "react-icons/all";
+import Dropdown from "UI/Dropdown/Dropdown";
 
 const offerText =
     "ফোন মেলা এর যেকোনো আউটলেট অথবা অনলাইন শপ\n" +
@@ -57,9 +58,9 @@ const Navigation = (props) => {
         let callback = location.pathname + location.search;
 
         return (
-            isShow && (
-                <div className="dropdown_nav rounded-md py-4">
-                    <ul className="min-w-[200px] bg-white text-sm font-normal">
+            <Dropdown inProp={isShow} className="w-52 left-0 bg-white  overflow-hidden">
+                <div className="">
+                    <ul className="bg-white text-sm font-normal">
                         {auth ? (
                             <>
                                 {auth.role === "admin" && (
@@ -79,29 +80,29 @@ const Navigation = (props) => {
                                 <li className="auth-menu__item">
                                     <Preload
                                         onClickCallback={() => setExpandDropdown("_")}
-                                        className="text-sm font-normal"
+                                        className="text-sm font-normal flex items-center"
                                         to={`/dashboard`}
                                     >
                                         <FaUserAlt  className="mr-2 dark_title text-gray-800"/>
-                                        Profile
+                                        Dashboard
                                     </Preload>
                                 </li>
 
                                 <li className="auth-menu__item">
                                     <Preload
                                         onClickCallback={() => setExpandDropdown("_")}
-                                        className=""
+                                        className="text-sm font-normal flex items-center"
                                         to={`/dashboard/wishlist`}
                                     >
                                         <FaHeart
-                                            className="mr-2 dark_title text-gray-800 block w-10"
+                                            className="mr-2 dark_title text-gray-800 block "
                                         />
                                         My Wishlist
                                     </Preload>
                                 </li>
 
                                 <li className="auth-menu__item">
-                                    <Preload onClickCallback={() => setExpandDropdown("_")} className="" to={`/dashboard/carts`}>
+                                    <Preload onClickCallback={() => setExpandDropdown("_")}         className="text-sm font-normal flex items-center" to={`/dashboard/carts`}>
                                         <BiShoppingBag
 
                                             className="mr-2 w-4 dark_title text-gray-800"
@@ -111,7 +112,7 @@ const Navigation = (props) => {
                                 </li>
 
                                 <li onClick={handleLogOut} className="auth-menu__item ">
-                                    <FaSignOutAlt  className="mr-2 dark_title text-gray-800"/>
+                                    <FaSignOutAlt  className="mr-2 text-sm font-normal "/>
                                     Logout
                                 </li>
                             </>
@@ -122,7 +123,7 @@ const Navigation = (props) => {
                             >
                                 <Preload
                                     onClickCallback={() => setExpandDropdown("_")}
-                                    className="block w-full text-gray-800"
+                                    className="text-sm font-normal flex items-center"
                                     to={`/auth/login?callback=${callback}`}
                                 >
                                     <FaSignInAlt className="mr-2 text-gray-800" />
@@ -132,7 +133,7 @@ const Navigation = (props) => {
                         )}
                     </ul>
                 </div>
-            )
+            </Dropdown>
         );
     }
 

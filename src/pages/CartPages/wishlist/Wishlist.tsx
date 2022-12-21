@@ -116,24 +116,6 @@ const Wishlist = () => {
                 return (
                     <div className='flex  items-center justify-center'>
 
-                        {isInCart(wish.product_id) ? (
-                            <button
-                                className="flex-nowrap white-space-nowrap flex-nowrap text-white text-[13px] font-normal bg-primary-400 px-2 py-1 flex items-center ml-2">
-                                In Cart
-                            </button>
-                        ) : (
-                            <button
-                                className="flex-nowrap white-space-nowrap text-white text-[13px] font-normal bg-primary-400 px-2 py-1 flex items-center ml-2"
-                                onClick={() => dispatch(toggleHandleCart({
-                                    title: wish.title,
-                                    price: wish.price,
-                                    cover: wish.cover ? wish.cover : "",
-                                    product_id: wish.product_id
-                                }, false))}
-
-                            >Add To Cart</button>
-                        )}
-
                         <button className="flex-nowrap text-[13px] bg-primary-400 px-2 py-1 flex items-center ml-2"
                                 onClick={() => dispatch(toggleHandleWishlist({
                                     title: wish.title,

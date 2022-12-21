@@ -12,6 +12,7 @@ import {ActionTypes} from "actions/actionTypes";
 import fullLink from "../../../utils/fullLink";
 import Sidebar from "components/Sidebar/Sidebar";
 import Avatar from "components/Avatar/Avatar";
+import {logoutAction} from "actions/authAction";
 
 
 const DashboardSidebar = () => {
@@ -21,7 +22,7 @@ const DashboardSidebar = () => {
     const [activeItem, setActiveItem] = useState(0)
 
 
-    const navigator = useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     let [collapseIds, setCollapseIds] = React.useState(["123"])
@@ -36,7 +37,11 @@ const DashboardSidebar = () => {
             setCollapseIds([id])
         }
     }
-
+    function handleLogOut() {
+        logoutAction(dispatch, () => {
+            navigate("/");
+        });
+    }
     const sidebarData = {
         CUSTOMER: [
             {
@@ -190,10 +195,7 @@ const DashboardSidebar = () => {
                         {/*<FontAwesomeIcon icon={faSignOutAlt}/>*/}
                     </div>
                 ),
-                onClick: () => {
-                    dispatch({type: ActionTypes.LOGOUT})
-                    navigator("/")
-                },
+                onClick: handleLogOut,
                 id: 6,
                 logo: ""
             }

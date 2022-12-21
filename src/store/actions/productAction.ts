@@ -58,7 +58,7 @@ export const fetchProduct = (id: number) => async (dispatch: (args: { type: Acti
 
 export const deleteProduct = (id: number) => async (dispatch: any) => {
     try {
-        const product = await api.post(`/api/delete-product/${id}`)
+        const product = await getApi().post(`/api/delete-product/${id}`)
         if (product.data._id) {
             dispatch({
                 type: DELETE_PRODUCT,
@@ -75,7 +75,7 @@ export const fetchBrands = (cb: (data: BrandType[]) => void) => async (dispatch:
     try {
         let {productState} = getState()
         if (productState.brands.length === 0) {
-            const response = await api.get(`/api/brands`)
+            const response = await getApi().get(`/api/brands`)
             if (response.status === 200) {
                 if (response.data) {
                     cb(response.data)
@@ -148,7 +148,7 @@ export const setFilteredProducts = (payload: FILTERED_PRODUCTS_TYPE): FILTERED_P
 
 export const addNewBrand = (brandName: string) => async (dispatch: any, getState: any, api: AxiosInstance) => {
     try {
-        const brandId = await api.post(`/api/add-brand`, JSON.stringify({name: brandName}))
+        const brandId = await getApi().post(`/api/add-brand`, JSON.stringify({name: brandName}))
 
         if (brandId) {
             dispatch({
@@ -251,7 +251,8 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
             }
 
         } else {
-            toast.error("Please login")
+
+            toast.error("Please login to add cart")
         }
     }
 }
@@ -298,7 +299,7 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
                     createdAt: new Date()
                 }
 
-                const r = await api.post("api/add-wishlist", newWishlist)
+                const r = await getApi().post("api/add-wishlist", newWishlist)
                 if (r.status === 201) {
                     newWishlist._id = r.data._id
                     updatedWishlist.push(newWishlist)
@@ -306,19 +307,9 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
                         type: ActionTypes.ADD_TO_WISHLIST,
                         payload: updatedWishlist
                     })
-                    isShowPopup && dispatch({
-                        type: SET_ACTION,
-                        payload: {
-                            isOpen: true,
-                            message: "Added in wishlist successfully",
-                            isSucceed: true
-                        }
-                    })
-                    if (popupTimeout && popupTimeout > 0) {
-                        id = setTimeout(() => {
-                            dispatch(togglePopup({message: "", isOpen: false, isSucceed: false}))
-                        }, popupTimeout)
-                    }
+
+                    toast("Product successfully add on wishlist")
+
                     if (cb) {
                         cb(undefined, "Add wishlist successfully")
                     }
@@ -336,19 +327,7 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
                         type: ActionTypes.REMOVE_FROM_WISHLIST,
                         payload: updatedWishlist
                     })
-                    isShowPopup && dispatch({
-                        type: SET_ACTION,
-                        payload: {
-                            isOpen: true,
-                            message: "Remove wishlist successfully",
-                            isSucceed: true
-                        }
-                    })
-                    if (popupTimeout && popupTimeout > 0) {
-                        id = setTimeout(() => {
-                            dispatch(togglePopup({message: "", isOpen: false, isSucceed: false}))
-                        }, popupTimeout)
-                    }
+                    toast("Product successfully remove from wishlist")
                     cb && cb("", "Remove wishlist successfully")
                 }
 
@@ -356,22 +335,7 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
 
         } else {
 
-            isShowPopup && dispatch(togglePopup({
-                message: "Please Login To add wishlist in Products",
-                isOpen: true,
-                isSucceed: false
-            }))
-            if (popupTimeout && popupTimeout > 0) {
-                id = setTimeout(() => {
-                    dispatch(togglePopup({message: "false", isOpen: false, isSucceed: false}))
-                }, popupTimeout)
-            }
-
-            // localStorage.setItem("cart_products", JSON.stringify(updatedCartProducts))
-            // dispatch({
-            //   type: ADD_TO_CART,
-            //   payload: updatedCartProducts
-            // })
+            toast.error("Please login to add wishlist")
         }
     }
 }
@@ -382,7 +346,7 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
 export const fetchTransactions = (dispatch) => {
     return new Promise<Cart[]>(async (resolve, reject) => {
         try {
-            const response = await api.get<any[]>(`/api/orders/transactions`)
+            const response = await getApi.get<any[]>(`/api/orders/transactions`)
             if (response.status === 200 && response.data) {
 
                 dispatch({

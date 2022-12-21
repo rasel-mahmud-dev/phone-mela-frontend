@@ -57,7 +57,7 @@ function CheckoutForm() {
 
         getApi()
             .post("/api/create-payment-intent", {
-                price: checkout.products.reduce((acc, curr)=>acc + curr.price, 0)
+                price: Math.round(checkout.products.reduce((acc, curr)=>acc + curr.price, 0))
             })
             .then(({ data }) => setClientSecret(data.clientSecret));
     }, [checkout?.products, checkout.shippingAddress]);
@@ -95,7 +95,7 @@ function CheckoutForm() {
 
         const result = await stripe.createPaymentMethod({
             type: "card",
-            card: cardElement,
+            card: cardElement
         });
 
         if (result.error) {
@@ -113,10 +113,10 @@ function CheckoutForm() {
                 billing_details: {
                     email: auth.email,
                     address: {
-                        city: "SAD",
-                        country: "ASD",
-                        postal_code: "string",
-                        state: 'string',
+                        city: checkout.shippingAddress.city,
+                        country: "BD",
+                        postal_code: checkout.shippingAddress.post_code,
+                        state: checkout.shippingAddress.state,
                     },
                     name: checkout.shippingAddress.firstName + " " + checkout.shippingAddress.lastName
                 },
@@ -129,8 +129,7 @@ function CheckoutForm() {
 
         if (paymentIntent.status === "succeeded") {
             // store payment info in the database
-            const payment = {
-                product_id: "",
+            const payment: any = {
                 totalPrice: checkout.products.reduce((acc, curr)=>acc + curr.price, 0),
                 transactionId: paymentIntent.id,
                 email: auth.email,
@@ -173,6 +172,8 @@ function CheckoutForm() {
         }
     };
 
+    console.log(clientSecret, stripe, elements)
+
     return (
         <div>
         <form onSubmit={handleSubmit} className=" w-full mx-auto rounded-lg bg-primary-50/10 px-4 py-5">
@@ -201,7 +202,9 @@ function CheckoutForm() {
             </Button>
         </form>
 
-            <HttpResponse onClose={()=> httpResponse.message && setHttpResponse(p=>({...p, message: "", loading: false})) } {...httpResponse} loadingTitle={"Payment Processing"} />
+            <HttpResponse
+                onClose={()=> httpResponse.message && setHttpResponse(p=>({...p, message: "", loading: false})) }
+                {...httpResponse} loadingTitle={"Payment is Processing"} />
 
         </div>
     );
