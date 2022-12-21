@@ -12,10 +12,10 @@ import api, {getApi} from "src/apis/api";
 import OrderContext, {OrderContextType} from "pages/CartPages/orderContext";
 import Button from "UI/Button/Button";
 import {ActionTypes} from "actions/actionTypes";
-import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
-import Modal from "UI/Modal/Modal";
 import AddShippingAddress from "pages/Dashboard/Customer/AddressBook/AddShippingAddress";
 import Preload from "UI/Preload/Preload";
+import shippingCheckout from "pages/CartPages/shippingCheckout/ShippingCheckout";
+import useRestoreCheckoutData from "hooks/useRestoreCheckoutData";
 
 
 type CheckoutPageProps = {}
@@ -41,7 +41,7 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
 
 
 
-    const [selectShippingAddress, setSelectShippingAddress] = React.useState(0)
+    const [selectShippingAddress, setSelectShippingAddress] = React.useState("")
 
 
     /**
@@ -64,25 +64,36 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
 
 
     useEffect(()=>{
-        if(productState.checkout?.products.length){
-            // set checkout product in localstorage, so that it is not lost after reload page.
-            localStorage.setItem("checkout", JSON.stringify(productState.checkout))
-        } else {
-            // take checkout product from localstorage
-            dispatch({
-                type: ActionTypes.SET_CHECKOUT_PRODUCTS,
-                payload: JSON.parse( localStorage.getItem("checkout"))
-            })
+        if(selectShippingAddress !== ""){
+            let shippingAddress =  recentShippingAddress.find(item=>item._id === selectShippingAddress)
+            if(shippingAddress) {
+                let item  = localStorage.getItem("checkout");
+                let checkoutData = {}
+                if(item){
+                    checkoutData = JSON.parse(item);
+                    checkoutData["shippingAddress"] = shippingAddress
+                    localStorage.setItem("checkout", JSON.stringify(checkoutData))
+                    dispatch({
+                        type: ActionTypes.SET_CHECKOUT_PRODUCTS,
+                        payload: {
+                            shippingAddress: shippingAddress
+                        }
+                    })
+                }
+            }
         }
-    }, [productState.checkout.products])
+    }, [selectShippingAddress])
 
 
 
+    // this hook restore checkout data if page reloaded
+    useRestoreCheckoutData()
 
-    function handleChangeShippingAddress(id: number) {
+
+
+    function handleChangeShippingAddress(id: string) {
         setSelectShippingAddress(id)
     }
-
 
 
 
@@ -124,14 +135,14 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
     function handleToggleAddShippingAddressForm() {
         if(recentShippingAddress?.length === 0){
             setShowAddShippingForm(!isShowAddShippingForm)
-            setSelectShippingAddress(0)
+            setSelectShippingAddress("")
         }
     }
 
 
 
     function handleToPay() {
-        if (selectShippingAddress !== 0) {
+        if (selectShippingAddress !== "") {
             if (recentShippingAddress) {
                 let s = recentShippingAddress.find(r => r._id === selectShippingAddress)
                 orderState.actions.save({

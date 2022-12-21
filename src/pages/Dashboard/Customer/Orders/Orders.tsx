@@ -48,8 +48,7 @@ const Orders = (props) => {
         {
             title: "Transaction ID",
             key: "112234232",
-            dataIndex: "transactionId",
-            render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+            dataIndex: "transactionId"
         },
         {
             title: "Product Name",

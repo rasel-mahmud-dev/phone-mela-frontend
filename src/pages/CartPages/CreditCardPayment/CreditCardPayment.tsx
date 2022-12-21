@@ -45,20 +45,22 @@ function CheckoutForm() {
     })
 
 
-    const {
-        state: { cartProducts, shippingAddress },
-    } = useContext(OrderContext);
 
-    const { auth } = useSelector((state: RootStateType) => state.auth);
+    const { auth: { auth }, productState: { checkout } } = useSelector((state: RootStateType) => state);
 
 
     useEffect(() => {
+
+        if(!checkout.shippingAddress || checkout.products.length === 0){
+            return navigate("/order/checkout")
+        }
+
         getApi()
-            .post("/api/auth/create-payment-intent", {
-                price: cartProducts.reduce((acc, curr)=>acc + curr.price, 0)
+            .post("/api/create-payment-intent", {
+                price: checkout.products.reduce((acc, curr)=>acc + curr.price, 0)
             })
             .then(({ data }) => setClientSecret(data.clientSecret));
-    }, []);
+    }, [checkout?.products, checkout.shippingAddress]);
 
     const handleSubmit = async (event) => {
 
@@ -110,8 +112,13 @@ function CheckoutForm() {
                 card: cardElement,
                 billing_details: {
                     email: auth.email,
-                    address: shippingAddress.address,
-                    name: shippingAddress.firstName + " " + shippingAddress.lastName
+                    address: {
+                        city: "SAD",
+                        country: "ASD",
+                        postal_code: "string",
+                        state: 'string',
+                    },
+                    name: checkout.shippingAddress.firstName + " " + checkout.shippingAddress.lastName
                 },
             },
         });
@@ -123,24 +130,35 @@ function CheckoutForm() {
         if (paymentIntent.status === "succeeded") {
             // store payment info in the database
             const payment = {
-                totalPrice: cartProducts.reduce((acc, curr)=>acc + curr.price, 0),
+                product_id: "",
+                totalPrice: checkout.products.reduce((acc, curr)=>acc + curr.price, 0),
                 transactionId: paymentIntent.id,
                 email: auth.email,
-                name: shippingAddress.firstName + " " + shippingAddress.lastName,
+                name: checkout.shippingAddress.firstName + " " + checkout.shippingAddress.lastName,
                 customer_id: auth._id,
             };
+
+            let day = 20;
+
+            if(checkout?.products.length === 1) {
+                payment.product_id = checkout?.products[0]._id
+            }
 
             // send request for creating order and transaction record
             getApi().post("/api/order", {
                 ...payment,
-                quantity: cartProducts.length,
-                products: cartProducts
+                quantity: checkout.products.length,
+                products: checkout.products,
+                payment_method: "card",
+                shipping_id: checkout.shippingAddress._id,
+                shipper_id: "62a6f01b44242ee481ada7df",
+                delivery_date: new Date(Date.now() + day * 10).toString()
 
             }).then((res) => {
                 if (res.status === 201) {
                     setTimeout(()=>{
-                        setHttpResponse({message: "Your payment Payment has been created", loading: false, isSuccess: true})
-                        navigate("/order/completed", {state: { orderId: res.data._id }})
+                        setHttpResponse({message: "Your payment has been success", loading: false, isSuccess: true})
+                        navigate("/order/completed", {state: { orderId: res.data.orderId }})
                     }, 300)
                 }
             }).catch(ex=>{

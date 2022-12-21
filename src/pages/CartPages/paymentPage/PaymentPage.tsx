@@ -1,23 +1,24 @@
-import React, {ChangeEvent, useEffect} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input2 from "UI/Form/Input/Input2";
 import { RootStateType } from "store/index";
 import { useNavigate } from "react-router-dom";
 import api from "apis/api";
-import OrderContext from "pages/CartPages/orderContext";
+
 import OrderSummary from "pages/CartPages/orderSummary/OrderSummary";
 
-
 import "./styles.scss";
-import { CartProductType } from "reducers/productReducer";
+
 import StripeForm from "pages/CartPages/CreditCardPayment/CreditCardPayment";
 import Button from "UI/Button/Button";
+import useRestoreCheckoutData from "hooks/useRestoreCheckoutData";
+import HttpResponse from "components/HttpResponse/HttpResponse";
 
 const PaymentPage = (props: any) => {
-    const orderContext = React.useContext(OrderContext);
+
 
     const navigator = useNavigate();
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         auth: { auth },
@@ -25,9 +26,19 @@ const PaymentPage = (props: any) => {
         tools,
     } = useSelector((state: RootStateType) => state);
 
-    const [paymentMethod, setPaymentMethod] = React.useState("");
+
+    // this hook restore checkout data if page reloaded
+    useRestoreCheckoutData()
+
+
+    const [paymentMethod, setPaymentMethod] = React.useState("cash-on-delivery");
     const [paymentInfoOk, setPaymentInfoOk] = React.useState(false);
-    const orderState = React.useContext(OrderContext);
+    const [httpResponse, setHttpResponse] = useState({
+        loading: false,
+        message: "",
+        isSuccess: true
+    })
+
 
     const [paymentInformation, setPaymentInformation] = React.useState({
         bkash_number: "",
@@ -81,7 +92,12 @@ const PaymentPage = (props: any) => {
         return (
             <div>
                 <h1>Cash on Delivery</h1>
-                <p>Prepare Money, when shipper reach your home </p>
+                <p>
+
+                    Cash on delivery (COD) is a type of transaction where the recipient pays for a good at the time of delivery rather than using credit. The terms and accepted forms of payment vary according to the payment provisions of the purchase agreement.
+                    Cash on delivery is also referred to as collect on delivery since delivery may allow for cash,
+                    check, or electronic payment.
+                </p>
             </div>
         );
     }
@@ -136,91 +152,92 @@ const PaymentPage = (props: any) => {
         setPaymentMethod(e.target.value);
     }
 
-    useEffect(() => {
-        if (!orderState.state) {
-            navigator("/order/checkout");
-        }
-    }, [orderState.state]);
+
 
     function handlePushBack() {
         // history.back()
         navigator(-1);
     }
 
-    function handleProductAction() {}
 
-    function handlePay() {
-        api.post("/api/pay", { total: 300 })
-            .then((doc) => {
-                console.log(doc);
-            })
-            .catch((ex) => {
-                console.log(ex);
-            });
-    }
 
     function handleCreateOrder(data: any) {
-        const { product_id, customer_id, shipper_id, price, quantity, delivery_date } = data;
 
-        const { shippingAddress, cartProducts } = orderContext.state;
+        setHttpResponse({message: "", loading: true, isSuccess: true})
+
+        if(!productState.checkout.shippingAddress || !productState.checkout.shippingAddress._id){
+            return setHttpResponse({message: "Please Select a shipping address", loading: false, isSuccess: false})
+        }
+
+
+        const { shippingAddress, products } = productState.checkout;
 
         let day = 1000 * 60 * 60 * 24;
 
         let payload = {
-            product_id: 0,
-            price: 0,
-            quantity: 0,
-            customer_id: auth._id,
             shipping_id: shippingAddress._id,
             shipper_id: "62a6f01b44242ee481ada7df",
             delivery_date: new Date(Date.now() + day * 10).toString(),
             payment_method: paymentMethod,
             bkash_number: "",
-            nagod_number: "",
-            card_number: "",
-            card_cvc: "",
-            card_dd: "",
-            card_mm: "",
+            nagod_number: ""
         };
 
         if (paymentMethod === "cash-on-delivery") {
-            delete payload.card_number;
-            delete payload.card_cvc;
-            delete payload.card_dd;
-            delete payload.card_mm;
             delete payload.bkash_number;
             delete payload.nagod_number;
         }
 
-        cartProducts.forEach((cart: CartProductType) => {
-            api.post("/api/order", {
-                ...payload,
-                price: cart.quantity * cart.price,
-                quantity: cart.quantity,
-                product_id: cart.product_id,
-            }).then((res) => {
-                if (res.status === 201) {
-                    alert("Order Created");
-                    navigator("/");
-                }
-            });
-        });
+        let orderPayload: any = {
+            ...payload,
+            quantity: productState.checkout?.products.length,
+            totalPrice: productState.checkout?.products.reduce((acc, curr)=>acc + curr.price, 0),
+            transactionId: "",
+            payment_method: "cash-on-delivery",
+            products: productState.checkout.products,
+            name: productState.checkout.shippingAddress.firstName + " " + productState.checkout.shippingAddress.lastName,
+        }
+        if(productState.checkout?.products.length === 1) {
+            orderPayload.product_id = productState.checkout?.products[0]._id
+        }
+
+        api.post("/api/order", {
+            ...orderPayload,
+        }).then((res) => {
+        if (res.status === 201) {
+            setTimeout(()=>{
+                setHttpResponse({message: "Your Order successfully placed.", loading: false, isSuccess: true})
+                navigate("/order/completed", {state: { orderId: res.data.orderId }})
+            }, 300)
+        }
+    }).catch(ex=>{
+
+        setTimeout(()=>{
+            setHttpResponse({message: ex.message, loading: false, isSuccess: false})
+        }, 200)
+
+    }).finally(()=>{
+        setHttpResponse({message: "", loading: false, isSuccess: true})
+    })
+
     }
 
     function renderPaymentMedium() {
         let pay = null;
         if (paymentMethod !== "") {
+
         }
         pay = allPay.find((p: any) => p.value === paymentMethod);
 
-        return pay ? pay.render() : "";
+        return pay && pay.render()
     }
 
     return (
         <div className="relative">
-            {/*<Backdrop bg="#2020208f" onCloseBackdrop={()=>dispatch({type: ActionTypes.TOGGLE_BACKDROP})} as={"contentMask"} isOpenBackdrop={tools.isShowBackdrop}/>*/}
 
-            {/*<div className="content-mask"></div>*/}
+            <HttpResponse onClose={()=> httpResponse.message && setHttpResponse(p=>({...p, message: "", loading: false})) }
+                          {...httpResponse} loadingTitle={"Order Processing"} />
+
 
             <h1 className="page-title">Payment</h1>
 

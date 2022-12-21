@@ -32,37 +32,14 @@ const Transactions = (props) => {
 
     let columns = [
         {
-            title: "Image",
-            key: "1",
-            dataIndex: "product_id",
-            render: (product_id: any) => <div style={{width: "40px"}}>
-                <img className="w-full"
-                     src={fullLink(product_id.cover)}/></div>
+            title: "Transaction ID",
+            key: "1122",
+            dataIndex: "transactionId"
         },
         {
             title: "Order ID",
             key: "1122",
             dataIndex: "_id"
-        },
-        {
-            title: "Product Name",
-            key: "1",
-            dataIndex: "product_id",
-            width: 200,
-            sorter: {
-                compare: (a: any, b: any) => {
-                    if (a.product_id.title.toLowerCase() > b.product_id.title.toLowerCase()) {
-                        return 1
-                    } else if (a.product_id.title.toLowerCase() < b.product_id.title.toLowerCase()) {
-                        return -1
-                    } else {
-                        return 0
-                    }
-                }
-            },
-            render: (product_id: any) => {
-                return product_id.title
-            }
         },
         {
             title: "Created At",

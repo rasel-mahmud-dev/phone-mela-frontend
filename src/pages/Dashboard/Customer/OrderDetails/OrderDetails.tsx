@@ -11,6 +11,7 @@ import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 
 
 interface OrderDetail {
+    transactionId?: string
     phone: any;
     cover: string
     createdAt: string
@@ -20,6 +21,7 @@ interface OrderDetail {
     _id: string
     payment_method: string
     price: number
+    orderId: number
     product_id: any
     quantity: number
     shipper_id: number
@@ -45,6 +47,7 @@ const OrderDetails = (props) => {
         createdAt: null,
         customer_id: "",
         delivery_date: "",
+        orderId: 0,
         description: "",
         payment_method: "",
         product_id: 0,
@@ -101,7 +104,7 @@ const OrderDetails = (props) => {
                 <div className="order relative  px-3 py-4">
 
                     <div className="flex justify-between sm:flex-row flex-col">
-                        <h2 className="text-xl font-medium">Order ID #{order._id}24323432 </h2>
+                        <h2 className="text-xl font-medium">Order ID #{order.orderId} </h2>
 
                         <div className="flex py-2 mb-4 sm:py-0 sm:mb-0">
                             <button
@@ -127,7 +130,7 @@ const OrderDetails = (props) => {
 
                     <h4 className="text-[14px] font-normal text-dark-300 mt-1">Order date {new Date(order.createdAt).toDateString()}</h4>
 
-                    <h4 className="text-[15px] text-dark-300 mt-1">{order.title}</h4>
+                    <h4 className="text-[15px] text-dark-300 mt-1">{order?.title}</h4>
 
                     <span className="flex items-center mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15.19" height="16.2" viewBox="0 0 19.19 20.2">
@@ -135,7 +138,7 @@ const OrderDetails = (props) => {
                     d="M22.19,17.14V15.12l-8.08-5.05V4.515a1.515,1.515,0,1,0-3.03,0V10.07L3,15.12v2.02l8.08-2.525V20.17L9.06,21.685V23.2l3.535-1.01L16.13,23.2V21.685L14.11,20.17V14.615l2.678.837Z"
                     transform="translate(-3 -3)" fill="#00be5f"/>
             </svg>
-              <h3 className="ml-1 text-[14px] font-normal text-primary-400">Estimated delivery {new Date(order.delivery_date).toDateString()} </h3>
+              <h3 className="ml-1 text-[14px] font-normal text-primary-400">Estimated delivery {new Date(order?.delivery_date).toDateString()} </h3>
             </span>
                     <div
                         className="bg-secondary-400 text-[14px] font-normal text-gray-50 rounded mt-1 w-max px-2">{order.order_status_type}</div>
@@ -148,17 +151,17 @@ const OrderDetails = (props) => {
 
                             <div className="flex items-start">
                                 <div className="w-[50px]">
-                                    <Preload to={`/product/${order.product_id.title}/${order.product_id._id}}`}><img
-                                        src={fullLink(order.product_id.cover)} alt=""/></Preload>
+                                    <Preload to={`/product/${order?.product_id?.title}/${order?.product_id?._id}}`}><img
+                                        src={fullLink(order?.product_id?.cover)} alt=""/></Preload>
                                 </div>
-                                <Preload to={`/product/${order.product_id.title}/${order.product_id._id}`}><h2
+                                <Preload to={`/product/${order?.product_id?.title}/${order?.product_id?._id}`}><h2
                                     className="hover:text-primary-400 font-normal text-sm ml-1">NOKIA 4.5 3/64GB</h2></Preload>
                             </div>
 
                             <div className="flex items-start">
                                 <div>
-                                    <h2 className="font-normal text-sm ml-1">TK {order.price}</h2>
-                                    <h2 className="font-normal text-dark-300 text-sm ml-1">Quantity: {order.quantity}</h2>
+                                    <h2 className="font-normal text-sm ml-1">TK {order?.price}</h2>
+                                    <h2 className="font-normal text-dark-300 text-sm ml-1">Quantity: {order?.quantity}</h2>
                                 </div>
                             </div>
 
@@ -174,7 +177,10 @@ const OrderDetails = (props) => {
                         <div className="min-w-[150px]">
                             <h1 className="text-xl font-medium mt-4">Payment</h1>
                             <div className="mt-2">
-                                <h2 className="font-normal text-dark-300 text-sm">{order.payment_method}</h2>
+                                <h2 className="font-normal text-dark-300 text-sm">Payment Method: {order.payment_method}</h2>
+                            </div>
+                            <div className="mt-2">
+                                <h2 className="font-normal text-dark-300 text-sm">Transaction No: {order?.transactionId}</h2>
                             </div>
                         </div>
 
@@ -184,8 +190,9 @@ const OrderDetails = (props) => {
                             <div className="mt-2">
                                 <h2 className="font-normal text-dark-600 text-[15px]"></h2>
                                 <div className="font-normal text-dark-300 text-sm mt-2">
-                                    <p>{order.shipping_id && renderAddress(order.shipping_id)}</p>
-                                    <h4 className="mt-1">Phone: {order.shipping_id.phone}</h4>
+                                    <p>{order?.shipping_id && renderAddress(order.shipping_id)}</p>
+                                    <h4 className="mt-1">Email: {order?.shipping_id?.email}</h4>
+                                    <h4 className="mt-1">Phone: {order?.shipping_id?.phone}</h4>
                                 </div>
                             </div>
 
