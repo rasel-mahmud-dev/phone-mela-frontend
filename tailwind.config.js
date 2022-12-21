@@ -8,7 +8,13 @@ module.exports = {
     
     colors: {
       white: "#fff",
-      orange: "#ffa83d",
+      orange: {
+          100: "#ffa83d",
+          200: "#ffa83d",
+          300: "#ffa83d",
+          400: "#ffa83d",
+          500: "#ffa83d",
+      },
       primary: {
         10: "#f0fdf4",
         20: "#dcfce7",

@@ -1,12 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import fullLink from "../../../utils/fullLink";
 import Pagination from "UI/Pagination/Pagination";
-import api from "apis/api";
+import api, {getApi} from "apis/api";
 import {TbStar} from "react-icons/all";
+import AccountInfo from "pages/Dashboard/Customer/AccountInfo/AccountInfo";
+import RatingChooser from "components/RatingChooser/RatingChooser";
+import Modal from "UI/Modal/Modal";
+import Input from "UI/Form/Input/Input";
+import Button from "UI/Button/Button";
+import productDetails from "pages/ProductPage/ProductDetails/ProductDetails";
+import {toast} from "react-toastify";
+import {stat} from "fs";
+import errorMessage from "../../../response/errorResponse";
 
 const UserReviewRatings = (props) => {
 
-    const { _id, title, } = props.productDetail
+    const {_id, title,} = props.productDetail
 
     const rating = []
 
@@ -17,7 +26,7 @@ const UserReviewRatings = (props) => {
         reviews: []
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchProductReviews()
     }, [])
 
@@ -84,7 +93,7 @@ const UserReviewRatings = (props) => {
                     allStar: allStar,
                     // totalAverageRate: Number((allStar / totalRate).toFixed(1)),
 
-                        reviews: response.data
+                    reviews: response.data
 
                 }
             })
@@ -152,7 +161,6 @@ const UserReviewRatings = (props) => {
     }
 
 
-
     function renderRatings() {
 
 
@@ -218,12 +226,85 @@ const UserReviewRatings = (props) => {
     let pageNumber = 1
     let currentPageForReview = 1
 
+
+    const [ratingState, setRatingState] = useState({
+        rate: 0,
+        title: "",
+        summary: ""
+    })
+
+    function handleChange(e) {
+        setRatingState(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    function handleAddReview(e: SyntheticEvent<HTMLFormElement>){
+        e.preventDefault();
+
+
+        let a = e.target as any;
+
+        let title = (a.title as HTMLInputElement).value
+        let summary = (a.summary as HTMLInputElement).value
+
+        if(!(title && summary && ratingState.rate)){
+            return toast.info("Please provide al fields")
+        }
+
+        getApi().post("/api/review", {
+            product_id: _id,
+            title,
+            rate: ratingState.rate,
+            summary
+        }).then(({status, data}) => {
+            if(status === 201){
+                toast.success("Review Added successfully")
+               setOpenAddRatingModal(false)
+                setState((prevState=>({
+                    ...prevState,
+                    reviews: [
+                        data,
+                        ...state.reviews,
+                    ]
+                })))
+            }
+        }).catch(ex=>{
+            return toast.error(errorMessage(ex))
+        })
+
+    }
+
+
+    function addRatingModal() {
+        return (
+            <form onSubmit={handleAddReview}>
+                <RatingChooser onChange={handleChange} name="rate" label="Rate" defaultValue={ratingState.rate} total={5}/>
+                <Input name="title" label="Title" />
+                <Input name="summary" type="textarea" label="Summary" />
+
+                <Button type="submit" className="btn-primary">Submit</Button>
+
+            </form>
+        )
+    }
+
+    const [isOpenAddRatingModal, setOpenAddRatingModal] = useState(true)
+
+
     return (
         <div>
             <div className="">
+
+                <Modal isOpen={isOpenAddRatingModal} className="max-w-lg" backdropClass="bg-dark-900/80" onClose={()=>setOpenAddRatingModal(false)}>
+                    {addRatingModal()}
+                </Modal>
+
+
                 <div className="flex justify-between items-center">
                     <h1 className="sec_label font-normal text-base min-w-[150px]">All User Opinions and Reviews</h1>
-                    <button className="btn bg-primary-400 text-white">Rate This</button>
+                    <button className="btn bg-primary-400 text-white" onClick={()=>setOpenAddRatingModal(true)}>Rate This</button>
                 </div>
                 <h2 className="mt-5 font-normal text-[14px]">{title} - USER OPINIONS AND REVIEWS AND
                     RATINGS</h2>
@@ -245,7 +326,7 @@ const UserReviewRatings = (props) => {
                             <h1 className="font-normal flex items-center gap-x-1">
                                 <span className="flex items-center gap-x-1 bg-primary-400 text-white px-2.5 py-1 rounded text-sm">
                                     <span>{review.rate}</span>
-                                    <TbStar className="text-sm" />
+                                    <TbStar className="text-sm"/>
                                 </span>
                                 {review.title}</h1>
                             <p className="text-sm text-gray-700 mt-2 whitespace-pre-line">{review.summary}</p>
@@ -270,7 +351,7 @@ const UserReviewRatings = (props) => {
 
                             <div className="flex">
                                 <img className="w-4 mr-1 rounded-full"
-                                    src={fullLink(review?.customer?.avatar)} alt=""/>
+                                     src={fullLink(review?.customer?.avatar)} alt=""/>
                                 <h4 className="text-[13px]">
                                     <span className="font-normal">{review?.customer?.first_name}</span>
                                     <span className="ml-8">{new Date(review.created_at).toDateString()}</span>
