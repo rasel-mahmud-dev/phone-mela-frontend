@@ -2,6 +2,7 @@ import {lazy, Suspense} from "react";
 import {useRoutes} from "react-router-dom";
 import ProgressBar from "UI/ProgressBar/ProgressBar";
 import Dashboard from "pages/Dashboard/Dashboard";
+import PrivateRoute from "./middleware/PrivateRoute";
 
 
 
@@ -23,7 +24,7 @@ const OrderDetails = ReactLazyPreload(()=>import("pages/Dashboard/Customer/Order
 const MyCart = ReactLazyPreload(()=>import("pages/Dashboard/Customer/MyCart/MyCart")) ;
 const MyWishlist = ReactLazyPreload(()=>import("pages/Dashboard/Customer/MyWishlist/MyWishlist")) ;
 const Transactions = ReactLazyPreload(()=>import("pages/Dashboard/Shared/Transactions")) ;
-const PrivateRoute = ReactLazyPreload(()=>import("./middleware/PrivateRoute")) ;
+
 const Sales = ReactLazyPreload(()=>import("pages/Dashboard/Admin/Sales/Sales")) ;
 const Customers = ReactLazyPreload(()=>import("pages/Dashboard/Admin/Customers/Customers")) ;
 const BrandList = ReactLazyPreload(()=>import("pages/Dashboard/Admin/BrandList/BrandList")) ;

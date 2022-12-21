@@ -2,14 +2,14 @@ import {ActionTypes} from "src/store/actions/actionTypes";
 
 
 export interface ShippingAddress {
-    _id?: number,
+    _id?: string,
     customer_id?: number,
     firstName?: string,
     lastName: string,
-    phone: number,
+    phone?: string,
     email?: string,
     idDefault: boolean
-    post_code: number,
+    post_code?: string,
     state: string,
     city: string,
     address: string,

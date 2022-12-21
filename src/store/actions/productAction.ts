@@ -12,10 +12,13 @@ import {
     FILTERED_PRODUCTS_TYPE,
     SELECTED_ATTRIBUTE_FILTER_Action_Type
 } from "store/types/prouductReduceTypes";
+
 import {AxiosInstance} from "axios";
 import errorMessage from "../../response/errorResponse";
 import {Order} from "store/types/Order";
 import {Cart} from "store/types/Cart";
+import {toast} from "react-toastify";
+// import {toast} from "react-toastify";
 
 
 const {
@@ -91,7 +94,7 @@ export const fetchBrands = (cb: (data: BrandType[]) => void) => async (dispatch:
 export const fetchOrders = (dispatch) => {
     return new Promise<Order[]>(async (resolve, reject) => {
         try {
-            const response = await api.get<Order[]>(`/api/orders`)
+            const response = await getApi().get<Order[]>(`/api/orders`)
             if (response.status === 200 && response.data) {
 
                 dispatch({
@@ -111,7 +114,7 @@ export const fetchOrders = (dispatch) => {
 export const fetchCarts = (dispatch) => {
     return new Promise<Cart[]>(async (resolve, reject) => {
         try {
-            const response = await api.get<Cart[]>(`/api/carts`)
+            const response = await getApi().get<Cart[]>(`/api/carts`)
             if (response.status === 200 && response.data) {
 
                 dispatch({
@@ -179,12 +182,13 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
         const {productState, auth: {auth}}: RootStateType = getState()
         let updatedCartProducts = [...productState.cartProducts]
 
+        // toast("----------------------------------")
+
         if (auth) {
             let newCart: CartProductType;
             let index = updatedCartProducts.findIndex(cp => cp.product_id === product.product_id)
             if (index === -1) {
                 // add product into cart
-                console.log(product)
                 if (product) {
                     newCart = {
                         _id: "",
@@ -209,19 +213,7 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
                                 type: ActionTypes.ADD_CART_ITEM,
                                 payload: updatedCartProducts
                             })
-
-                            isShowPopup && dispatch(togglePopup({
-                                message: "Product Added in Cart",
-                                isOpen: true,
-                                isSucceed: true
-                            }))
-                            if (popupTimeout && popupTimeout > 0) {
-                                id = setTimeout(() => {
-                                    dispatch(togglePopup({message: "false", isOpen: false, isSucceed: false}))
-                                }, popupTimeout)
-                            }
-
-
+                            toast("Product added to cart")
                         }
                     } catch (ex) {
                         dispatch({
@@ -246,16 +238,7 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
                                 type: ActionTypes.REMOVE_CART_ITEM,
                                 payload: updatedCartProducts
                             })
-                            isShowPopup && dispatch(togglePopup({
-                                message: "Product Remove from Cart",
-                                isOpen: true,
-                                isSucceed: true
-                            }))
-                            if (popupTimeout && popupTimeout > 0) {
-                                id = setTimeout(() => {
-                                    dispatch(togglePopup({message: "false", isOpen: false, isSucceed: false}))
-                                }, popupTimeout)
-                            }
+                            toast("Product Remove from cart")
                         }
                     } catch (ex) {
                         dispatch({
@@ -268,22 +251,7 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
             }
 
         } else {
-
-            isShowPopup && dispatch(togglePopup({
-                message: "Please Login To add Cart in Products",
-                isOpen: true,
-                isSucceed: false
-            }))
-            if (popupTimeout && popupTimeout > 0) {
-                id = setTimeout(() => {
-                    dispatch(togglePopup({message: "false", isOpen: false, isSucceed: false}))
-                }, popupTimeout)
-            }
-            // localStorage.setItem("cart_products", JSON.stringify(updatedCartProducts))
-            // dispatch({
-            //   type: ADD_TO_CART,
-            //   payload: updatedCartProducts
-            // })
+            toast.error("Please login")
         }
     }
 }

@@ -8,6 +8,7 @@ interface BaseButtonProps extends HTMLAttributes<HTMLButtonElement> {
     ghost?: boolean;
     danger?: boolean;
     block?: boolean;
+    type?: "button" | "submit"
     disabled?: boolean
     children?: React.ReactNode;
 }
@@ -15,12 +16,13 @@ interface BaseButtonProps extends HTMLAttributes<HTMLButtonElement> {
 
 const Button: FC<BaseButtonProps> = (props) => {
     const {
-        loading, className, disabled,
+        loading, type, className, disabled,
         ...attributes
     } = props
 
     return (
         <button
+            type={type}
             className={`px-4 py-2 font-semibold rounded-md ${disabled ? "btn-disable" : ""} ${className}`}
             {...attributes}>
             {loading && <LoadingIcon/>}

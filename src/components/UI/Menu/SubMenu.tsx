@@ -2,18 +2,8 @@ import React, {CSSProperties, FC} from "react";
 import Item from "./Item"
 
 import Animation from "UI/Animation/Animation";
+import {FaAngleDown, FaAngleUp} from "react-icons/all";
 
-import {
-  faAngleDown,
-  faAngleUp,
-  faCartPlus,
-  faCog, faHandsHelping,
-  faHeart,
-  faShoppingBag,
-  faSignOutAlt,
-  faStar
-} from "@fortawesome/pro-regular-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 interface SubMenuProps {
   selectedKeys?: string[]
@@ -62,7 +52,7 @@ const SubMenu: FC<SubMenuProps> = (props)=>{
         {/*: "fd"}*/}
         </div>
         <div className="menu_item--right">
-          <FontAwesomeIcon icon={isExpandSubMenu() ? faAngleUp : faAngleDown} />
+          {isExpandSubMenu() ? <FaAngleUp/> : <FaAngleDown />}
           
           {/*<i className={[*/}
           {/*  "icon-right fa menu_item_icon",*/}

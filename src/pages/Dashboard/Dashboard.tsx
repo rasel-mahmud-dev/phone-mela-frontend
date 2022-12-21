@@ -24,12 +24,6 @@ const Dashboard = () => {
     }
 
     function handleResize() {
-        // let navigation = document.querySelector(".navigation") as HTMLDivElement
-        // let footer = document.querySelector(".footer") as HTMLDivElement
-        // setNavigationHeight(navigation.clientHeight + footer.clientHeight)
-        // let s = (footer ? footer.offsetHeight : 0) + (navigation ? navigation.offsetHeight: 0 )
-        // console.log(s)
-        // contentRef.current.style.minHeight = `calc(100vh - ${s}px)`
     }
 
     React.useEffect(() => {
@@ -43,7 +37,7 @@ const Dashboard = () => {
 
             <DashboardSidebar/>
 
-            <div className="content ml-5">
+            <div className="content pr-4 lg:pr-auto pl-4">
                 <Outlet/>
             </div>
         </div>

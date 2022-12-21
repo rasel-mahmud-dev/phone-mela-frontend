@@ -17,6 +17,7 @@ export enum ActionTypes {
     ADD_PRODUCT = 'add_product',
     UPDATE_PRODUCT = 'update_product',
     DELETE_PRODUCT = 'delete_product',
+    SET_CHECKOUT_PRODUCTS = 'SET_CHECKOUT_PRODUCTS',
 
 // Brands
     FETCH_BRANDS = 'FETCH_BRANDS',
@@ -53,6 +54,7 @@ export enum ActionTypes {
 
     LOGIN = "login",
     LOGOUT = "logout",
+    CLEAR_AUTH_USER_DATA = "CLEAR_AUTH_USER_DATA",
     SIGN_UP = "signup",
     FETCH_CUSTOMERS = "FETCH_CUSTOMERS",
 

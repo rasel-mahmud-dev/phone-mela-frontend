@@ -4,11 +4,9 @@ import Input2 from "UI/Form/Input/Input2";
 import { RootStateType } from "store/index";
 import { useNavigate } from "react-router-dom";
 import api from "apis/api";
-import { Helmet } from "react-helmet";
 import OrderContext from "pages/CartPages/orderContext";
 import OrderSummary from "pages/CartPages/orderSummary/OrderSummary";
-import { ActionTypes } from "actions/actionTypes";
-import Backdrop from "UI/Backdrop/Backdrop";
+
 
 import "./styles.scss";
 import { CartProductType } from "reducers/productReducer";
@@ -23,6 +21,7 @@ const PaymentPage = (props: any) => {
 
     const {
         auth: { auth },
+        productState,
         tools,
     } = useSelector((state: RootStateType) => state);
 
@@ -75,7 +74,7 @@ const PaymentPage = (props: any) => {
         { name: "Cash on Delivery", value: "cash-on-delivery", render: () => renderCashOnDeliveryMedium() },
         { name: "Nagod", value: "nagod", render: () => renderPayMedium() },
         { name: "bkash", value: "bkash", render: () => renderPayMedium() },
-        { name: "Credit Card", value: "card", render: () => renderPayCardMedium() },
+        { name: "Credit Card", value: "credit-card", render: () => renderPayCardMedium() },
     ];
 
     function renderCashOnDeliveryMedium() {
@@ -123,7 +122,7 @@ const PaymentPage = (props: any) => {
 
         return (
             <div>
-                <StripeForm></StripeForm>
+                {/*<StripeForm></StripeForm>*/}
                 {/*<div>*/}
                 {/*  <h1>Card Information</h1>*/}
                 {/*  <Input2 label="Enter Card Number" onChange={handleChangePaymentInformation} value={paymentInformation.card_number} name="card_number" />*/}
@@ -181,7 +180,6 @@ const PaymentPage = (props: any) => {
             product_id: 0,
             price: 0,
             quantity: 0,
-
             customer_id: auth._id,
             shipping_id: shippingAddress._id,
             shipper_id: "62a6f01b44242ee481ada7df",
@@ -242,7 +240,7 @@ const PaymentPage = (props: any) => {
                         <h4 className="mb-2">Choose Payment Method</h4>
 
                         {allPay.map((pay) => (
-                            <div className={"pay " + pay.value}>
+                            <div className={`pay ${pay.value}`}>
                                 <input
                                     onChange={handleChange}
                                     type="radio"
@@ -260,10 +258,10 @@ const PaymentPage = (props: any) => {
                 </div>
 
                 <div className="flex-4 ml-4">
-                    {orderState.state && (
+
                         <OrderSummary
-                            cartProducts={orderState.state.cartProducts}
-                            shippingAddress={orderState.state.shippingAddress}
+                            checkout={productState.checkout}
+                            shippingAddress={productState.checkout.shippingAddress}
                             nextLevel={
                                 <div className="mt-5">
                                     <Button
@@ -276,7 +274,7 @@ const PaymentPage = (props: any) => {
                                 </div>
                             }
                         />
-                    )}
+
                 </div>
             </div>
         </div>

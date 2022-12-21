@@ -3,9 +3,8 @@ import api from "apis/api";
 import "./homePage.scss";
 import fullLink from "../../utils/fullLink";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight} from "@fortawesome/pro-regular-svg-icons";
-import { toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
+
+import {toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
 
 import {useDispatch, useSelector} from "react-redux";
 import {BrandType, HomePageSectionProductsType, ProductType} from "reducers/productReducer";
@@ -20,8 +19,8 @@ import {useNavigate} from "react-router-dom";
 import Banner from "pages/HomePage/components/Banner";
 import HomePageSidebar from "pages/HomePage/components/HomePageSidebar";
 import Sidebar from "components/Sidebar/Sidebar";
-import {FaAngleLeft} from "react-icons/all";
 import ProductSkeleton from "../../Common/Product/Product.Skeleton";
+import {FaAngleDown, FaAngleRight} from "react-icons/all";
 
 interface HomePageProps {
 
@@ -89,7 +88,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                 <h1 className="text-xl font-normal">{label}</h1>
                 <Preload to={`/products/${slug}`} className="link_btn flex items-center">
                     <span className="text-sm font-normal">{btnName}</span>
-                    <FontAwesomeIcon icon={faArrowRight} className="text-xs ml-2"/>
+                    <FaAngleRight className="text-xs ml-2"/>
                 </Preload>
             </div>
         );
@@ -148,9 +147,6 @@ const HomePage: FC<HomePageProps> = (props) => {
                             className={["page_wrapper", isOpenSideBar ? "open-sidebar" : "close-sidebar"].join(" ")}
                         >
                             <div className="w-full px-3">
-                                {/*<FontAwesomeIcon icon={faBars} />*/}
-
-                                {/*<button>Show</button>*/}
                                 {homePageSectionProducts &&
                                     Object.keys(homePageSectionProducts).map((section: string, i: number) => (
                                         <div key={i}>
@@ -199,9 +195,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                                             <div className="">
                                                 <div
                                                     className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2 md:gap-x-4">
-                                                    {fetchedHomePageSectionProduct[
-                                                        section as keyof HomePageSectionProductsType
-                                                        ] ? (
+                                                    {fetchedHomePageSectionProduct[section as keyof HomePageSectionProductsType] ? (
                                                         fetchedHomePageSectionProduct[section].map(
                                                             (prod: ProductType, i: number) => (
                                                                 <div className="home_product_item__wrapper">

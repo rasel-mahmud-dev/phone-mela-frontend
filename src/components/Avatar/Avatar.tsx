@@ -24,10 +24,9 @@ const Avatar: FC<Props> = ({className = "", imgClass = "", username, src, ...att
     let letter = chooseFirstLetter(username)
 
     function handleErrorImage(e: React.SyntheticEvent<HTMLImageElement, Event>) {
-        // @ts-ignore
         let avatarRoot = (e.target?.parentNode )as HTMLElement
         avatarRoot.innerHTML = `
-			<span class="rounded-full bg-dark-5/50 w-9 h-9 flex items-center text-sm font-medium justify-center uppercase">${chooseFirstLetter(username)}</span>
+			<span class="rounded-full bg-dark-5/50 w-9 h-9 flex items-center text-sm font-medium justify-center uppercase ${imgClass}>${chooseFirstLetter(username)}</span>
 		`
     }
 

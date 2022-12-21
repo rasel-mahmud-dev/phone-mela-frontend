@@ -4,9 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "src/store";
 import fullLink from "src/utils/fullLink";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
-import {faHeart} from "@fortawesome/free-solid-svg-icons";
+// import {faHeart} from "@fortawesome/free-solid-svg-icons";
 
 import { WishList} from "reducers/productReducer";
 import {toggleHandleCart, toggleHandleWishlist} from "actions/productAction";
@@ -168,7 +168,7 @@ const Wishlist = () => {
       <div className="">
           <div className="cart_items">
             <h1 className="page-title">My Wishlist</h1>
-            <FontAwesomeIcon icon={faHeart} className="text-4xl text-center block mx-auto" />
+            {/*<FontAwesomeIcon icon={faHeart} className="text-4xl text-center block mx-auto" />*/}
             
             <br />
             

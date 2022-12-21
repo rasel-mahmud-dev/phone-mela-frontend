@@ -124,28 +124,6 @@ $color: rgb(247, 56, 18);
   //background: white;
 }
 
-.link_btn{
-  font-weight: 300;
-  @apply text-dark-900;
-
-  &:hover{
-    @apply text-primary-400
-  }
-}
-.btn{
-  padding: 4px 6px;
-  border-radius: 4px;
-  font-size: 14px!important;
-  font-weight: 400!important;
-}
-.btn-danger{
-  @apply bg-secondary-400;
-  color: white;
-}
-.btn-primary{
-  @apply bg-primary-400;
-  color: white;
-}
 
 .single_products_list {
   margin-top: 10px;

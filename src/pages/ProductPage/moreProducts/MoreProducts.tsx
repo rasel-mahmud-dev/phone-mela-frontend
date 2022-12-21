@@ -8,10 +8,10 @@ import fetchHomePageSectionProducts from "../../../Common/funtions";
 import api from "apis/api";
 import {HomePageSectionProductsType, ProductType} from "reducers/productReducer";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import Helmet from "react-helmet"
-import {faHome} from "@fortawesome/pro-regular-svg-icons";
+// import {faHome} from "@fortawesome/pro-regular-svg-icons";
 import fullLink from "../../../utils/fullLink";
 import Carousel from "UI/Carousel/Carousel";
 import Preload from "UI/Preload/Preload";
@@ -90,7 +90,7 @@ const MoreProducts: FC<MoreProductsProps> = (props) => {
         <div className="relative px-3 mb-6 mt-8">
          <Preload to="/">
            <button className="btn text-white bg-primary-400 absolute">
-             <span className="mr-1"><FontAwesomeIcon icon={faHome}/></span>
+             {/*<span className="mr-1"><FontAwesomeIcon icon={faHome}/></span>*/}
              <span className="hidden md:inline-block">Back to Homepage</span>
            </button>
          </Preload>

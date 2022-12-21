@@ -10,6 +10,15 @@
 }
 
 .pay {
+    padding: 5px 5px;
+    border-radius: 6px;
+    transition: background-color .2s ease-in;
+    &:hover{
+        background-color: white;
+    }
+    label {
+        font-weight: 600 !important;
+    }
     &:nth-child(2) {
         color: #252525;
         cursor: pointer !important;
@@ -21,7 +30,7 @@
     pointer-events: none;
     font-size: 14px;
 
-    &.card {
+    &.credit-card {
         color: #252525;
         font-weight: 500 !important;
         pointer-events: auto;

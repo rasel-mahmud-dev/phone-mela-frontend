@@ -1,17 +1,17 @@
 import React from 'react';
 import {CartProductType} from "reducers/productReducer";
 
-const OrderSummary = ({cartProducts, shippingAddress, nextLevel}) => {
+const OrderSummary = ({checkout, shippingAddress, nextLevel}) => {
   
-  function calculateTotalPrice(items){
-    let totalPrice = 0;
-    let totalItems = 0
-    for(let i=0; i<items.length; i++){
-      totalPrice += (items[i].price * items[i].quantity)
-      totalItems += items[i].quantity
-    }
-    return {totalPrice: totalPrice.toFixed(2) || 0.00, totalItems}
-  }
+  // function calculateTotalPrice(items){
+  //   let totalPrice = 0;
+  //   let totalItems = 0
+  //   for(let i=0; i<items.length; i++){
+  //     totalPrice += (items[i].price * items[i].quantity)
+  //     totalItems += items[i].quantity
+  //   }
+  //   return {totalPrice: totalPrice.toFixed(2) || 0.00, totalItems}
+  // }
   
   return (
     <div>
@@ -19,7 +19,7 @@ const OrderSummary = ({cartProducts, shippingAddress, nextLevel}) => {
         <h4 className="font-medium text-lg">Order Summary</h4>
         <div className="mt-4">
           <ul>
-            { cartProducts.map((cp: CartProductType, i: number)=>(
+            { checkout?.products?.map((cp: CartProductType, i: number)=>(
               <div className="flex my-3 justify-between" key={i}>
                 <div className="flex">
                   <div>
@@ -42,7 +42,7 @@ const OrderSummary = ({cartProducts, shippingAddress, nextLevel}) => {
         <div className="mt-4">
           <div className="font-normal text-sm flex justify-between">
             <span className="font-medium">Total Items:</span>
-            <span className="text-primary-400 ml-2 font-medium text-right  ">{calculateTotalPrice(cartProducts).totalItems}</span>
+            <span className="text-primary-400 ml-2 font-medium text-right  ">{checkout?.totalPrice}</span>
           </div>
         </div>
         { shippingAddress && (
@@ -67,7 +67,7 @@ const OrderSummary = ({cartProducts, shippingAddress, nextLevel}) => {
   
         <div className="font-normal text-sm flex justify-between mt-1">
           <span className="font-medium">Sub Total:</span>
-          <span className="text-primary-400 ml-2 font-medium">{calculateTotalPrice(cartProducts).totalPrice} TK</span>
+          <span className="text-primary-400 ml-2 font-medium">{checkout.totalPrice} TK</span>
         </div>
   
         { nextLevel && nextLevel       }

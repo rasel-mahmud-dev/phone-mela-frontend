@@ -15,8 +15,8 @@ import Loader from "UI/Loader/Loader";
 
 import "./product_details.scss"
 import fullLink from "src/utils/fullLink";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faHeart, faStar} from "@fortawesome/pro-solid-svg-icons";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+// import {faHeart, faStar} from "@fortawesome/pro-solid-svg-icons";
 import {RootStateType} from "store/index";
 import { ProductDetailType} from "store/types/prouductReduceTypes";
 import api from "apis/api";
@@ -396,7 +396,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>>{
             <h1 className="big_rating_num ">
               {this.state.productDetail.averageRate}
             </h1>
-            <FontAwesomeIcon icon={faStar} className="text-4xl text-dark-800"/>
+            {/*<FontAwesomeIcon icon={faStar} className="text-4xl text-dark-800"/>*/}
           </div>
           <div className="total_rating_count">
             <h2>{this.state.productDetail.reviews?.length} ratings</h2>
@@ -409,7 +409,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>>{
             <div className="flex items-center">
                 <span className="flex items-center">
                   <span className="text-dark-800 text-[13px] font-normal" style={{width: "10px"}}>{rate} </span>
-                  <FontAwesomeIcon className="text-dark-800 text-[13px] font-normal" icon={faStar}/>
+                  {/*<FontAwesomeIcon className="text-dark-800 text-[13px] font-normal" icon={faStar}/>*/}
                 </span>
               <div className="rating_bar ml-2">
                 <span style={{width: ((this.state.amountOfRate[rate] * 100) / (productDetail.reviews ? productDetail.reviews.length : 0) ) + "%"}} className="color_bar"/>
@@ -572,14 +572,14 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>>{
                     </div>
     
                     <div className={["heart_btn", this.isInWished(productDetail._id) ? "active": ""].join(" ")}>
-                      <FontAwesomeIcon
-                        onClick={()=>this.props.toggleHandleWishlist({
-                          title: productDetail.title,
-                          price: productDetail.price,
-                          cover: productDetail.cover,
-                          product_id: productDetail._id
-                        }, true, 1000)}
-                        icon={faHeart}/>
+                      {/*<FontAwesomeIcon*/}
+                      {/*  onClick={()=>this.props.toggleHandleWishlist({*/}
+                      {/*    title: productDetail.title,*/}
+                      {/*    price: productDetail.price,*/}
+                      {/*    cover: productDetail.cover,*/}
+                      {/*    product_id: productDetail._id*/}
+                      {/*  }, true, 1000)}*/}
+                      {/*  icon={faHeart}/>*/}
                     </div>
   
                   </div>
@@ -591,7 +591,9 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>>{
                   <div className="flex items-center">
                     <span className="bg-primary-400 px-1.5 py-0.5 text-sm relative text-white rounded-[3px] mr-1.5">
                       <span>{this.state.productDetail.averageRate}</span>
-                      <span className="relative -top-[1px] ml-1"><FontAwesomeIcon className="text-xs text-secondary-400" icon={faStar} /></span>
+                      <span className="relative -top-[1px] ml-1">
+                          {/*<FontAwesomeIcon className="text-xs text-secondary-400" icon={faStar} />*/}
+                      </span>
                     </span>
                     <h4>{productDetail.reviews?.length} Ratings & Reviews</h4>
                   </div>
@@ -745,14 +747,14 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>>{
                           <div className="flex">
                             {new Array(review.rate).fill(1).map(s=>(
                               <div className="mr-1">
-                                <FontAwesomeIcon className="text-xs text-dark-100" icon={faStar} />
+                                {/*<FontAwesomeIcon className="text-xs text-dark-100" icon={faStar} />*/}
                               </div>
                             ))}
                           </div>
                           <div className="flex absolute left-0">
                             {new Array(3).fill(1).map(s=>(
                               <div className="mr-1">
-                                <FontAwesomeIcon className="text-xs text-orange" icon={faStar} />
+                                {/*<FontAwesomeIcon className="text-xs text-orange" icon={faStar} />*/}
                               </div>
                             ))}
                           </div>

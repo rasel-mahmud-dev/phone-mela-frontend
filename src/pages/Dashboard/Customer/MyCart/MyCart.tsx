@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import {fetchCarts, toggleHandleCart, toggleHandleWishlist} from "actions/productAction"
@@ -6,17 +6,19 @@ import {useSelector} from "react-redux"
 
 import fullLink from "src/utils/fullLink";
 import {RootStateType} from "store/index";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMinus, faPlus, faTrash} from "@fortawesome/pro-regular-svg-icons";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// import {faMinus, faPlus, faTrash} from "@fortawesome/pro-regular-svg-icons";
 
-import {faChevronLeft} from "@fortawesome/pro-regular-svg-icons";
-import {faHeart} from "@fortawesome/pro-solid-svg-icons";
+// import {faChevronLeft} from "@fortawesome/pro-regular-svg-icons";
+// import {faHeart} from "@fortawesome/pro-solid-svg-icons";
 import {ActionTypes} from "actions/actionTypes";
 import {CartProductType, ProductType} from "reducers/productReducer";
 import Table from "UI/Table/Table";
 import Preload from "UI/Preload/Preload";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import useScrollTop from "hooks/useScrollTop";
+import {BiHeart, BsFillTrash2Fill, FaHeart, FaMinus, FaPlug, FaPlus} from "react-icons/all";
+import item from "UI/Menu/Item";
 
 
 const MyCart = () => {
@@ -27,12 +29,16 @@ const MyCart = () => {
 
     useScrollTop()
 
-    useEffect(()=>{
-        if(!cartProducts || cartProducts.length === 0){
+    useEffect(() => {
+        if (!cartProducts || cartProducts.length === 0) {
             fetchCarts(dispatch)
         }
     }, [])
 
+    const [selectCartItems, setSelectCartItems] = useState({
+        items: [],
+        totalPrice: 0
+    })
 
 
     function handlePushBack() {
@@ -49,6 +55,35 @@ const MyCart = () => {
         return totalPrice.toFixed(2) || 0.00
     }
 
+    function handleSelectCartItem(cart) {
+        let updateItems = [...selectCartItems.items] || []
+        let updateTotalPrice = selectCartItems.totalPrice
+
+
+        let index = updateItems?.findIndex(item => item._id === cart._id)
+
+        if (index === -1) {
+            updateItems = [...updateItems, cart]
+            updateTotalPrice += cart.price
+        } else {
+            updateTotalPrice -= cart.price
+            updateItems.splice(index, 1)
+        }
+
+        setSelectCartItems({
+            ...selectCartItems,
+            items: updateItems,
+            totalPrice: updateTotalPrice
+        })
+
+        dispatch({
+            type: ActionTypes.SET_CHECKOUT_PRODUCTS,
+            payload: {products: updateItems, totalPrice: updateTotalPrice}
+        })
+
+
+    }
+
 
     function renderCartItems() {
         const isInWished = (id: string) => {
@@ -59,11 +94,21 @@ const MyCart = () => {
 
         let columns = [
             {
+                title: "",
+                key: "",
+                dataIndex: "",
+                render: (item: any) => <div style={{width: ""}}>
+                    <input type="checkbox" onChange={() => handleSelectCartItem(item)}/>
+                </div>
+            },
+            {
                 title: "Image",
                 key: "1",
                 dataIndex: "cover",
-                render: (text: string) => <div style={{width: "40px"}}><img style={{width: "100%"}}
-                                                                            src={fullLink(text)}/></div>
+                render: (text: string) => <div style={{width: "40px"}}>
+                    <img style={{width: "100%"}}
+                         src={fullLink(text)}/>
+                </div>
             },
             {
                 title: "Name",
@@ -135,28 +180,19 @@ const MyCart = () => {
                     return (
                         <div>
                             <div className="flex items-center justify-center select-none min-w-[150px]">
-                                <button
-                                    onClick={() => dispatch({
-                                        type: ActionTypes.DECREASE_CART_ITEM,
+                                <button>
+                                    <FaPlus onClick={() => dispatch({
+                                        type: ActionTypes.INCREASE_CART_ITEM,
                                         payload: product._id
-                                    })}
-                                >
-                                    <FontAwesomeIcon onClick={() => dispatch({
-                                        type: ActionTypes.REMOVE_CART_ITEM,
-                                        payload: product._id
-                                    })} icon={faMinus}/>
+                                    })}/>
                                 </button>
                                 <span
                                     className="bg-primary-400 rounded-full text-sm leading-[25px]  font-normal h-6 w-10 text-white mx-4  px-4">{product.quantity}</span>
-                                <button
-                                    onClick={() => dispatch({
-                                        type: ActionTypes.INCREASE_CART_ITEM,
+                                <button>
+                                    <FaMinus onClick={() => dispatch({
+                                        type: ActionTypes.DECREASE_CART_ITEM,
                                         payload: product._id
-                                    })}>
-                                    <FontAwesomeIcon onClick={() => dispatch({
-                                        type: ActionTypes.REMOVE_CART_ITEM,
-                                        payload: product._id
-                                    })} icon={faPlus}/>
+                                    })}/>
                                 </button>
                             </div>
                         </div>
@@ -174,41 +210,35 @@ const MyCart = () => {
                             <div className="flex justify-content-end  ">
 
                                 {isInWished(product.product_id) ? (
-                                    <button className="flex-nowrap btn btn-primary flex products-center  py-1"
-                                            onClick={() => dispatch(toggleHandleWishlist({
-                                                title: product.title,
-                                                price: product.price,
-                                                cover: product.cover ? product.cover : "",
-                                                product_id: product.product_id
-                                            }, false))}
-                                    >
-                                        <FontAwesomeIcon icon={faHeart}/>
-                                        <span className="whitespace-nowrap font-normal ml-1">Remove WISHLIST</span>
-                                    </button>
+                                    <FaHeart title="Remove from Wishlist"
+                                             className="flex-nowrap flex text-2xl py-1 text-red-200 cursor-pointer"
+                                             onClick={() => dispatch(toggleHandleWishlist({
+                                                 title: product.title,
+                                                 price: product.price,
+                                                 cover: product.cover ? product.cover : "",
+                                                 product_id: product.product_id
+                                             }, false))}
+                                    />
+
+
                                 ) : (
-                                    <button className="flex-nowrap btn btn-primary flex products-center  py-1"
-                                            onClick={() => dispatch(toggleHandleWishlist({
-                                                title: product.title,
-                                                price: product.price,
-                                                cover: product.cover ? product.cover : "",
-                                                product_id: product.product_id
-                                            }, false))}
-                                    >
-                                        <FontAwesomeIcon icon={faHeart}/>
-                                        <span className="whitespace-nowrap font-normal ml-1">ADD WISHLIST</span>
-                                    </button>
+                                    <BiHeart className="flex-nowrap flex text-2xl py-1 cursor-pointer" title="Add to Wishlist"
+                                             onClick={() => dispatch(toggleHandleWishlist({
+                                                 title: product.title,
+                                                 price: product.price,
+                                                 cover: product.cover ? product.cover : "",
+                                                 product_id: product.product_id
+                                             }, false))}
+                                    />
                                 )}
-                                <button className="btn btn-danger flex products-center py-1 ml-2"
-                                        onClick={() => dispatch(toggleHandleCart({
-                                            title: product.title,
-                                            price: product.price,
-                                            cover: product.cover ? product.cover : "",
-                                            product_id: product.product_id
-                                        }, false))}
-                                >
-                                    <FontAwesomeIcon icon={faTrash}/>
-                                    <span className="font-normal ml-1 whitespace-nowrap">DELETE</span>
-                                </button>
+                                <BsFillTrash2Fill className=" py-1 ml-2 text-2xl cursor-pointer" title="Delete from cart"
+                                                  onClick={() => dispatch(toggleHandleCart({
+                                                      title: product.title,
+                                                      price: product.price,
+                                                      cover: product.cover ? product.cover : "",
+                                                      product_id: product.product_id
+                                                  }, false))}
+                                />
 
                             </div>
 
@@ -229,8 +259,8 @@ const MyCart = () => {
                     <Table dataSource={cartProducts} checkBox={false} columns={columns} fixedHeader={true}/>
 
                 </div>
-                <h4 className="text-right font-normal text-sm mt-4">SUBTOTAL:
-                    <span className="text-primary-400 ml-2 font-medium">{calculateTotalPrice(cartProducts)} TK</span>
+                <h4 className="text-right font-normal text-sm mt-4 px-4 pb-3">SUBTOTAL:
+                    <span className="text-primary-400 ml-2 font-medium">{selectCartItems.totalPrice} TK</span>
                 </h4>
             </div>
         )
@@ -240,13 +270,13 @@ const MyCart = () => {
     return (
         <div className="my-4">
 
-            <WithSidebarButton className="my-4">
-                <h1 className="page-title">YOUR SHOPPING CART</h1>
+            <WithSidebarButton>
+                <h1 className="page-title mb-0">YOUR SHOPPING CART</h1>
             </WithSidebarButton>
 
             <div className="w-full">
 
-                <div className="px-4">
+                <div className="">
                     <div className="cart_items">
 
 
@@ -261,13 +291,13 @@ const MyCart = () => {
 
                         <div className="flex justify-between mt-4">
                             <button onClick={handlePushBack} className="link_btn text-sm font-normal flex items-center">
-                                <FontAwesomeIcon icon={faChevronLeft} className="mr-1 text-xs"/>
+                                {/*<FontAwesomeIcon icon={faChevronLeft} className="mr-1 text-xs"/>*/}
                                 <span className="text-sm font-normal">Back to Shop</span>
                             </button>
                             {/*<Link to="/shopping/cart/checkout">*/}
 
                             <Preload to="/order/checkout"
-                                     className={["flex-nowrap btn btn-primary flex items-center  py-1", cartProducts && cartProducts.length === 0 ? "bg-primary-950 pointer-events-none" : ""].join(" ")}>
+                                     className={["flex-nowrap btn btn-primary px-4 flex items-center  py-1", selectCartItems.items && selectCartItems.items.length === 0 ? "bg-dark-200 pointer-events-none" : ""].join(" ")}>
                                 PROCEED TO CHECKOUT
                             </Preload>
 

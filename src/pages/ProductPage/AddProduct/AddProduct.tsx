@@ -1,6 +1,6 @@
 import React, {FormEvent} from 'react'
 import {connect} from 'react-redux'
-import queryString from 'query-string';
+// import queryString from 'query-string';
 
 import {addNewBrand,  fetchProduct, loading} from 'src/store/actions/productAction'
 
@@ -489,8 +489,8 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         // update a existing  product
         api.put(`/api/products/update/${updatedProductId}`, reqPayload).then(response=>{
           if(response.status === 201){
-            let q: any = queryString.parse(this.props.location.search)
-            this.props.navigate(q.callback)
+            // let q: any = queryString.parse(this.props.location.search)
+            // this.props.navigate(q.callback)
           }
           
         }).catch(ex=>{

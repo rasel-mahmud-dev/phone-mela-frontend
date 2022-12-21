@@ -24,7 +24,7 @@ const LoginPage = (props) => {
     const [loadingState, setLoadingState] = useState({
         loading: false,
         message: "",
-        isSuccess: false
+        isSuccess: true
     })
 
 
@@ -39,7 +39,7 @@ const LoginPage = (props) => {
 
     useEffect(()=>{
         if(location.state?.message){
-            setLoadingState({message: location.state.message, loading: false, isSuccess: false})
+            setLoadingState({message: location.state.message, loading: false, isSuccess: true})
             history.replaceState("", "")
         }
 
@@ -62,7 +62,7 @@ const LoginPage = (props) => {
     function handleLogin(e) {
         e.preventDefault();
 
-        setLoadingState({message: "", loading: false, isSuccess: false})
+        setLoadingState({message: "", loading: false, isSuccess: true})
 
         let isComplete = true;
         let body = {};
@@ -88,6 +88,12 @@ const LoginPage = (props) => {
         }
     }
 
+
+    function clearOldToken(){
+        window.localStorage.removeItem("token")
+    }
+
+
     return (
         <div className="">
             <div className="px-4">
@@ -104,7 +110,7 @@ const LoginPage = (props) => {
 
                     <form onSubmit={handleLogin} className="mt-10">
                         <Input2
-                            className="mb-14"
+                            className="mb-10"
                             name="email"
                             label="Enter Email"
                             value={state.email.value}
@@ -133,7 +139,7 @@ const LoginPage = (props) => {
                         </Preload>
                     </p>
 
-                    <a href={`${baseUri}/api/auth/google`}>
+                    <a onClick={clearOldToken} href={`${baseUri}/api/auth/google`}>
 
                         <Button className="bg-red-200 text-white w-full mt-4">
                             Login with Google

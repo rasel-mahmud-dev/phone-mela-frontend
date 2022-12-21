@@ -1,12 +1,12 @@
 import React from 'react'
 import {useParams, Link} from "react-router-dom"
 import {useDispatch} from "react-redux"
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "./OrderDetails.scss"
 import Preload from "UI/Preload/Preload";
 import api from "apis/api";
 import fullLink from "src/utils/fullLink";
-import {faAngleLeft} from "@fortawesome/pro-regular-svg-icons";
+// import {faAngleLeft} from "@fortawesome/pro-regular-svg-icons";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 
 
@@ -93,7 +93,7 @@ const OrderDetails = (props) => {
 
 
                 <Preload to="/dashboard/orders" className="flex items-center px-2 py-0.5 text-dark-800 rounded">
-                    <FontAwesomeIcon className="hover:text-primary-400 " icon={faAngleLeft}/>
+                    {/*<FontAwesomeIcon className="hover:text-primary-400 " icon={faAngleLeft}/>*/}
                     <span className="hover:text-primary-400 ml-1 text-[14px] font-normal text-gray-800">Back to All Orders</span>
                 </Preload>
 

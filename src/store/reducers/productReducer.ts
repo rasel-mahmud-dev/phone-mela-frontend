@@ -1,6 +1,8 @@
 import {ActionTypes} from "src/store/actions/actionTypes";
 import {FilterAttributesType, FILTERED_PRODUCTS_TYPE, ProductReducerActionType} from "store/types/prouductReduceTypes";
 import {Order} from "store/types/Order";
+import avatar from "components/Avatar/Avatar";
+import {ShippingAddress} from "reducers/userReducer";
 
 export interface WishList {
     _id: string
@@ -93,6 +95,11 @@ export interface ProductStateType {
     ],
     homePageSectionProducts: HomePageSectionProductsType,
     fetchedHomePageSectionProduct: {},
+    checkout: {
+        totalPrice: number,
+        products: ProductType[]
+        shippingAddress: ShippingAddress
+    },
     cartProducts: CartProductType[
         // {id: 0, product_id: 0, customer_id: 0,  title: "", price: 0, quantity: 10}
         ],
@@ -234,6 +241,11 @@ let initialProductState: ProductStateType = {
             ]
         }
     },
+    checkout: {
+        totalPrice: 0,
+        products: [],
+        shippingAddress: null
+    },
     cartProducts: [
         // {_id: 0, product_id: 0, customer_id: 0,  title: "", price: 0, quantity: 10}
     ],
@@ -286,22 +298,6 @@ let initialProductState: ProductStateType = {
 }
 
 
-// function setProductsCache(perPageShow, currentPage, newProducts, cacheProducts){
-//   let updateCacheProducts = [...cacheProducts]
-//   let existPage = updateCacheProducts.findIndex(item=>item.pageNo === currentPage )
-//   if(existPage === -1){
-//     updateCacheProducts.push({
-//       pageNo: currentPage,
-//       perPage: perPageShow,
-//       products: newProducts
-//     })
-//   }
-//   // o.forEach(item=>{
-//   //   console.log(item.perPage === other.perPage);
-//   // })
-//   //
-//   return updateCacheProducts
-// }
 
 const productsReducer = (state = initialProductState, action: any): ProductStateType => {
     let updatedState = {...state}
@@ -375,12 +371,37 @@ const productsReducer = (state = initialProductState, action: any): ProductState
             updatedState.cartProducts = action.payload
             return updatedState
 
+
+
+        case ActionTypes.SET_CHECKOUT_PRODUCTS:
+            let updateCheckout = {
+                ...updatedState.checkout,
+            }
+
+            if(action.payload.products !== undefined){
+                updateCheckout.products =  action.payload.products
+            }
+
+            if(action.payload.totalPrice !== undefined){
+                updateCheckout.totalPrice =  action.payload.totalPrice
+            }
+
+            if(action.payload.shippingAddress !== undefined){
+                updateCheckout.shippingAddress =  action.payload.shippingAddress
+            }
+
+            return {
+                ...updatedState,
+                checkout: updateCheckout
+            }
+
         case ActionTypes.FETCH_TRANSACTIONS:
             updatedState.transactions = action.payload
             return updatedState
 
         case ActionTypes.INCREASE_CART_ITEM:
             index = updatedState.cartProducts.findIndex(cp => cp._id === action.payload)
+            console.log(index)
             updatedState.cartProducts[index].quantity++
             return updatedState
 
@@ -388,6 +409,8 @@ const productsReducer = (state = initialProductState, action: any): ProductState
             index = updatedState.cartProducts.findIndex(cp => cp._id === action.payload)
             if (updatedState.cartProducts[index].quantity > 1) {
                 updatedState.cartProducts[index].quantity--
+            } else {
+                updatedState.cartProducts[index].quantity = 1
             }
             return updatedState
 
@@ -400,6 +423,11 @@ const productsReducer = (state = initialProductState, action: any): ProductState
                 ...updatedState.filteredProducts,
                 search: action.payload
             }
+            return updatedState
+
+        case ActionTypes.CLEAR_AUTH_USER_DATA:
+            updatedState.cartProducts = null
+            updatedState.wishlist = null
             return updatedState
 
         default:

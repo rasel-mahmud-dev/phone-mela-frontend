@@ -9,11 +9,10 @@ import {
     onSearchChange, AddCartPayload, AddWishlistPayload,
 } from "src/store/actions/productAction"
 import "./ProductPage.scss"
-import queryString from 'query-string';
+
 import {toggleBackdrop, toggleSideBar} from "src/store/actions/toolsAction";
 import Loader from "src/components/UI/Loader/Loader";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faFilter, faSortAmountDown, faSortAmountUp, faTable} from "@fortawesome/pro-regular-svg-icons";
+
 
 import api from "src/apis/api";
 import {RootStateType} from "store/index";
@@ -30,7 +29,7 @@ import Layout from "../../Common/Layout/Layout";
 import fullLink from "src/utils/fullLink";
 import Sidebar from "components/Sidebar/Sidebar";
 import HomePageSidebar from "pages/HomePage/components/HomePageSidebar";
-import {FaAngleLeft} from "react-icons/all";
+import {FaAngleLeft, FaFilter} from "react-icons/all";
 import Preload from "UI/Preload/Preload";
 
 
@@ -72,21 +71,21 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
     }
 
     componentDidMount() {
-        let q = queryString.parse(this.props.location.search)
-        if (q.search) {
-            this.props.onSearchChange(q.search as string)
-        }
-
-        this.props.fetchBrands((brands) => {
-        })
-        const {
-            selectedAttributeFilter,
-            currentPage,
-            perPageShow,
-            sortValue: {field, order},
-            filterGroup
-        } = this.props.productState
-        this.handleFetchProduct(selectedAttributeFilter)
+        // let q = queryString.parse(this.props.location.search)
+        // if (q.search) {
+        //     this.props.onSearchChange(q.search as string)
+        // }
+        //
+        // this.props.fetchBrands((brands) => {
+        // })
+        // const {
+        //     selectedAttributeFilter,
+        //     currentPage,
+        //     perPageShow,
+        //     sortValue: {field, order},
+        //     filterGroup
+        // } = this.props.productState
+        // this.handleFetchProduct(selectedAttributeFilter)
     }
 
     handleFetchProduct(selectedAttributeFilter: FilterAttributesType) {
@@ -376,19 +375,21 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                                 <button className="text-sm bg-primary-400 rounded px-4 py-1 text-white"
                                         onClick={this.handleToggleSideBar}>
                                     <span className="font-normal text-sm mr-2">Filter</span>
-                                    <FontAwesomeIcon icon={faFilter}/>
+                                    <FaFilter />
                                 </button>
 
 
                                 <div className="flex">
-                                    <li className="list-none"><FontAwesomeIcon icon={faTable}/></li>
+                                    <li className="list-none">
+                                        {/*<FontAwesomeIcon icon={faTable}/>*/}
+                                    </li>
                                     <li className="list-none ml-4">
                                         <div className="flex items-center">
-                                            <FontAwesomeIcon
-                                                onClick={this.changeSortDirectionHandler}
-                                                icon={filteredProducts.orderDirection === "asc" ? faSortAmountUp : faSortAmountDown}
-                                                className="text-primary-400 link mr-2"
-                                            />
+                                            {/*<FontAwesomeIcon*/}
+                                            {/*    onClick={this.changeSortDirectionHandler}*/}
+                                            {/*    icon={filteredProducts.orderDirection === "asc" ? faSortAmountUp : faSortAmountDown}*/}
+                                            {/*    className="text-primary-400 link mr-2"*/}
+                                            {/*/>*/}
                                             {/*<span className="text-primary-500 text-sm font-medium ml-1">Most Popular</span>*/}
                                             <select value={filteredProducts.orderBy} onChange={this.changeSortHandler}
                                                     className="link border-none bg-transparent text-sm font-normal outline-none"
@@ -457,7 +458,7 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                 <div className="container-1600">
 
                     {filteredProducts.isLoading &&
-                        <Modal className="top-[20vh]" inProp={filteredProducts.isLoading}>
+                        <Modal className="top-[20vh]" isOpen={filteredProducts.isLoading}>
                             <Loader className="big_loader"/>
                         </Modal>}
                 </div>

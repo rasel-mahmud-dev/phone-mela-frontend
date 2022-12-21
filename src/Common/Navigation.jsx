@@ -1,15 +1,8 @@
 import React, {useEffect, useRef} from "react";
 import {connect, useDispatch} from "react-redux";
-import {logout} from "src/store/actions/authAction";
+import { logoutAction} from "src/store/actions/authAction";
 
 import "./Navigation.scss";
-
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFlagUsa, faSearch, faShoppingBag, faShoppingCart, faUserCircle} from "@fortawesome/pro-regular-svg-icons";
-import {faHeart, faSignOutAlt, faUserAlt} from "@fortawesome/free-solid-svg-icons";
-import {faSignIn} from "@fortawesome/pro-brands-svg-icons";
-import {faTimesCircle} from "@fortawesome/pro-solid-svg-icons";
-import {faAdn, faFacebookF} from "@fortawesome/free-brands-svg-icons";
 
 import {useLocation, useNavigate} from "react-router-dom";
 import Modal from "UI/Modal/Modal";
@@ -17,13 +10,11 @@ import {toggleSearchBar, toggleSideBar} from "actions/toolsAction";
 
 import {onFilterSearchChange, onSearchChange} from "actions/productAction";
 import Preload from "UI/Preload/Preload";
-import {faGlobe} from "@fortawesome/pro-light-svg-icons/faGlobe";
-import {faGithub} from "@fortawesome/free-brands-svg-icons/faGithub";
 import Avatar from "src/components/Avatar/Avatar";
 import useWindowResize from "src/hooks/useWindowResize";
 import {BiShoppingBag, BiUser} from "react-icons/bi";
 import {HiOutlineShoppingBag} from "react-icons/hi";
-import {FaAngleDown} from "react-icons/all";
+import {FaAngleDown, FaHeart, FaSearch, FaSignInAlt, FaSignOutAlt, FaTimes, FaUserAlt} from "react-icons/all";
 
 const offerText =
     "ফোন মেলা এর যেকোনো আউটলেট অথবা অনলাইন শপ\n" +
@@ -56,11 +47,9 @@ const Navigation = (props) => {
     }
 
     function handleLogOut() {
-        props.logout((err) => {
+        logoutAction(dispatch, () => {
             setExpandDropdown("_");
-            if (!err) {
-                navigate("/");
-            }
+            navigate("/");
         });
     }
 
@@ -75,7 +64,7 @@ const Navigation = (props) => {
                             <>
                                 {auth.role === "admin" && (
                                     <li className="auth-menu__item">
-                                        <FontAwesomeIcon icon={faAdn} className="mr-2 text-gray-800"/>
+                                        <FaUserAlt className="mr-2 text-gray-800"/>
                                         <Preload
                                             onClickCallback={() => setExpandDropdown("_")}
                                             className="font-normal text-gray-800"
@@ -93,7 +82,7 @@ const Navigation = (props) => {
                                         className="text-sm font-normal"
                                         to={`/dashboard`}
                                     >
-                                        <FontAwesomeIcon icon={faUserAlt} className="mr-2 dark_title text-gray-800"/>
+                                        <FaUserAlt  className="mr-2 dark_title text-gray-800"/>
                                         Profile
                                     </Preload>
                                 </li>
@@ -104,8 +93,7 @@ const Navigation = (props) => {
                                         className=""
                                         to={`/dashboard/wishlist`}
                                     >
-                                        <FontAwesomeIcon
-                                            icon={faHeart}
+                                        <FaHeart
                                             className="mr-2 dark_title text-gray-800 block w-10"
                                         />
                                         My Wishlist
@@ -114,8 +102,8 @@ const Navigation = (props) => {
 
                                 <li className="auth-menu__item">
                                     <Preload onClickCallback={() => setExpandDropdown("_")} className="" to={`/dashboard/carts`}>
-                                        <FontAwesomeIcon
-                                            icon={faShoppingCart}
+                                        <BiShoppingBag
+
                                             className="mr-2 w-4 dark_title text-gray-800"
                                         />
                                         My Cart
@@ -123,7 +111,7 @@ const Navigation = (props) => {
                                 </li>
 
                                 <li onClick={handleLogOut} className="auth-menu__item ">
-                                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 dark_title text-gray-800"/>
+                                    <FaSignOutAlt  className="mr-2 dark_title text-gray-800"/>
                                     Logout
                                 </li>
                             </>
@@ -137,7 +125,7 @@ const Navigation = (props) => {
                                     className="block w-full text-gray-800"
                                     to={`/auth/login?callback=${callback}`}
                                 >
-                                    <FontAwesomeIcon className="mr-2 text-gray-800" icon={faSignIn}/>
+                                    <FaSignInAlt className="mr-2 text-gray-800" />
                                     Login
                                 </Preload>
                             </li>
@@ -193,7 +181,6 @@ const Navigation = (props) => {
         }
 
     }, [width, navigationRef.current])
-
 
 
     let whiteLists = ["/", "/q", "/auth/customer", "/admin/dashboard", "/auth/customer/account-info"];
@@ -268,6 +255,7 @@ const Navigation = (props) => {
         });
     }
 
+
     return (
         <>
             <div ref={navigationRef} className="navigation select-none bg-primary-400 text-light-600" id="navigation">
@@ -280,21 +268,21 @@ const Navigation = (props) => {
                                 href="https://www.facebook.com/raselmraju"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faFacebookF}/>
+                                {/*<FontAwesomeIcon icon={faFacebookF}/>*/}
                             </a>
                             <a
                                 target={"_blank"}
                                 href="https://rasel-portfolio.vercel.app"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faGlobe}/>
+                                {/*<FontAwesomeIcon icon={faGlobe}/>*/}
                             </a>
                             <a
                                 target={"_blank"}
                                 href="https://github.com/rasel-mahmud-dev"
                                 className="top_navigation__icon_item"
                             >
-                                <FontAwesomeIcon icon={faGithub}/>
+                                {/*<FontAwesomeIcon icon={faGithub}/>*/}
                             </a>
                         </div>
                         <div className="flex-1 px-0 sm:px-4">
@@ -304,7 +292,7 @@ const Navigation = (props) => {
                         </div>
                         <div className="hidden sm:flex">
                             <span className="top_navigation_item items-center flex">
-                                <FontAwesomeIcon icon={faFlagUsa} className="text-xs"/>
+                                {/*<FontAwesomeIcon icon={faFlagUsa} className="text-xs"/>*/}
                                 <a className="hover:text-primary-400 cursor-pointer ml-1 text-sm">EN</a>
                             </span>
                         </div>
@@ -334,11 +322,11 @@ const Navigation = (props) => {
                                     />
                                     {search && (
                                         <button type="button" className="search_clear_icon mr-3">
-                                            <FontAwesomeIcon icon={faTimesCircle} onClick={handleSearchClear}/>
+                                            <FaTimes  onClick={handleSearchClear}/>
                                         </button>
                                     )}
                                     <button type="submit" className="search_icon">
-                                        <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
+                                        <FaSearch onClick={handleSearch}/>
                                     </button>
                                 </div>
                             </form>
@@ -359,7 +347,7 @@ const Navigation = (props) => {
                                                     placeholder="Enter Product Name"
                                                 />
                                             </form>
-                                            <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="text-lg"/>
+                                            <FaSearch onClick={handleSearch}  className="text-lg"/>
                                         </div>
                                     </div>
                                 </div>
@@ -372,7 +360,7 @@ const Navigation = (props) => {
                             </li>
 
                             <li onClick={openSearchPanel} className="nav_item block md:!hidden">
-                                <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className="w-5 !text-light-500"/>
+                                <FaSearch onClick={handleSearch} className="w-5 !text-light-500"/>
                             </li>
 
                             <li className="nav_item relative ">
@@ -393,20 +381,20 @@ const Navigation = (props) => {
 
                                 <div>
                                     {auth ? (
-                                        <Avatar src={auth.avatar} username="Rasel Mahmud" i imgClass="w-6" className="ml-2"/>
+                                        <div className="flex items-center gap-x-1">
+                                            <Avatar src={auth.avatar} username={auth.username} imgClass="w-8 h-8 !text-xs !bg-dark-900/30"
+                                                    className="ml-2"/>
+                                            <span>{auth.username}</span>
+                                        </div>
                                     ) : (
                                         <BiUser className="text-light-500 text-2xl"/>
-                                        // <FontAwesomeIcon
-                                        //     icon={faUserCircle}
-                                        //     className="flex  !text-2xl  !text-light-700"
-                                        // />
                                     )}
                                     {authDropdown(expandDropdown === "user_menu")}
                                 </div>
                             </li>
                         </div>
 
-                        <Modal isOpenModal={showSearchBar} title="Search Products">
+                        <Modal isOpen={showSearchBar} title="Search Products">
                             <div>
                                 {renderSearchBar()}
                                 <button className="search_btn">Search</button>
@@ -430,4 +418,4 @@ const mapStateToProps = (state) => ({
     search: state.productState.search.value,
 });
 
-export default connect(mapStateToProps, {logout, toggleSearchBar})(Navigation);
+export default connect(mapStateToProps, {toggleSearchBar})(Navigation);

@@ -3,8 +3,8 @@ import api from 'apis/api';
 
 import Table from "UI/Table/Table";
 import fullLink from 'src/utils/fullLink';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import {faPen, faTrash, faTrashAlt} from "@fortawesome/pro-regular-svg-icons";
+// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+// import {faPen, faTrash, faTrashAlt} from "@fortawesome/pro-regular-svg-icons";
 import {ProductType} from "reducers/productReducer";
 import {Outlet, useNavigate} from "react-router-dom";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
@@ -157,11 +157,11 @@ const ProductList = () => {
                 return (
                     <span className="d-flex">
             <button onClick={() => updateHandler(product)} className="btn">
-                   <FontAwesomeIcon className="text-sm mr-1" icon={faPen}/>
+                   {/*<FontAwesomeIcon className="text-sm mr-1" icon={faPen}/>*/}
               <span>Edit</span>
             </button>
              <button onClick={() => handleDelete(product._id)} className="btn">
-               <FontAwesomeIcon className="text-sm mr-1" icon={faTrash}/>
+               {/*<FontAwesomeIcon className="text-sm mr-1" icon={faTrash}/>*/}
                <span>Delete</span>
              </button>
           </span>

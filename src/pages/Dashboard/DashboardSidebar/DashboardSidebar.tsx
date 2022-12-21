@@ -3,16 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from "react-router-dom";
 import {RootStateType} from "store/index";
 import "./styles.scss"
-import {
-    faCartPlus,
-    faCog, faHandsHelping,
-    faHeart, faHomeAlt,
-    faShoppingBag,
-    faSignOutAlt,
-    faStar, faUser
-} from "@fortawesome/pro-regular-svg-icons";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+
 import Menu from "UI/Menu/Menu";
 import {toggleSideBar} from "actions/toolsAction";
 import Preload from "UI/Preload/Preload";
@@ -53,7 +45,7 @@ const DashboardSidebar = () => {
                 onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHomeAlt}/>
+                        {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
                 to: `/dashboard`
@@ -65,7 +57,7 @@ const DashboardSidebar = () => {
                 id: 1,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faUser}/>
+                        {/*<FontAwesomeIcon icon={faUser}/>*/}
                     </div>
                 ),
                 sub_menu: [
@@ -89,7 +81,7 @@ const DashboardSidebar = () => {
                 id: 2,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faUser}/>
+                        {/*<FontAwesomeIcon icon={faUser}/>*/}
                     </div>
                 ),
                 sub_menu: [
@@ -99,7 +91,7 @@ const DashboardSidebar = () => {
                         to: "/dashboard/orders",
                         iconRender: () => (
                             <div className="mr-2">
-                                <FontAwesomeIcon icon={faShoppingBag}/>
+                                {/*<FontAwesomeIcon icon={faShoppingBag}/>*/}
                             </div>
                         ),
                     },
@@ -111,7 +103,7 @@ const DashboardSidebar = () => {
                 name: "My Transactions",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faCartPlus}/>
+                        {/*<FontAwesomeIcon icon={faCartPlus}/>*/}
                     </div>
                 ),
                 onClick: closeSidebar,
@@ -124,7 +116,7 @@ const DashboardSidebar = () => {
                 onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faStar}/>
+                        {/*<FontAwesomeIcon icon={faStar}/>*/}
                     </div>
                 ),
                 to: "/dashboard/reviews",
@@ -135,7 +127,7 @@ const DashboardSidebar = () => {
                 name: "My Cart",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faCartPlus}/>
+                        {/*<FontAwesomeIcon icon={faCartPlus}/>*/}
                     </div>
                 ),
                 onClick: closeSidebar,
@@ -147,7 +139,7 @@ const DashboardSidebar = () => {
                 name: "My Wishlist & Followed Stores",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHeart}/>
+                        {/*<FontAwesomeIcon icon={faHeart}/>*/}
                     </div>
                 ),
                 onClick: closeSidebar,
@@ -159,7 +151,7 @@ const DashboardSidebar = () => {
                 name: "Setting",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faCog}/>
+                        {/*<FontAwesomeIcon icon={faCog}/>*/}
                     </div>
                 ),
                 onClick: () => {
@@ -171,7 +163,7 @@ const DashboardSidebar = () => {
                 name: "Policies",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faCog}/>
+                        {/*<FontAwesomeIcon icon={faCog}/>*/}
                     </div>
                 ),
                 onClick: () => {
@@ -183,7 +175,7 @@ const DashboardSidebar = () => {
                 name: "Help",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHandsHelping}/>
+                        {/*<FontAwesomeIcon icon={faHandsHelping}/>*/}
                     </div>
                 ),
                 onClick: () => {
@@ -195,7 +187,7 @@ const DashboardSidebar = () => {
                 name: "Sign Out",
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faSignOutAlt}/>
+                        {/*<FontAwesomeIcon icon={faSignOutAlt}/>*/}
                     </div>
                 ),
                 onClick: () => {
@@ -213,7 +205,7 @@ const DashboardSidebar = () => {
                 onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHomeAlt}/>
+                        {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
                 to: `/dashboard`
@@ -224,7 +216,7 @@ const DashboardSidebar = () => {
                 onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHomeAlt}/>
+                        {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
                 to: `/dashboard/sales`
@@ -235,7 +227,7 @@ const DashboardSidebar = () => {
                 id: 1,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faUser}/>
+                        {/*<FontAwesomeIcon icon={faUser}/>*/}
                     </div>
                 ),
                 sub_menu: [
@@ -259,7 +251,7 @@ const DashboardSidebar = () => {
                 onClick: closeSidebar,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faHomeAlt}/>
+                        {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
                 to: `/dashboard/brands`
@@ -270,7 +262,7 @@ const DashboardSidebar = () => {
                 id: 1,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faUser}/>
+                        {/*<FontAwesomeIcon icon={faUser}/>*/}
                     </div>
                 )
             },
@@ -280,7 +272,7 @@ const DashboardSidebar = () => {
                 id: 1,
                 iconRender: () => (
                     <div className="mr-2">
-                        <FontAwesomeIcon icon={faUser}/>
+                        {/*<FontAwesomeIcon icon={faUser}/>*/}
                     </div>
                 )
             },
