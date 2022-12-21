@@ -17,10 +17,10 @@ import "./styles.scss"
 
 import {filterAbleList} from "src/Common/FilterSidebar/FilterSidebar"
 import {RootStateType} from "store/index";
-import withParams from "../../../utils/withParams";
+import withParams from "../../../Hoc/WithParams";
 import MultiInput from "UI/Form/multiInput/MultiInput";
-import withLocation from "../../../utils/withLocation";
-import withNavigate from "../../../utils/withNavigate";
+import withLocation from "../../../Hoc/WithLocation";
+import withNavigate from "../../../Hoc/WithNavigate";
 
 type UpdateProductType = {
   id: number

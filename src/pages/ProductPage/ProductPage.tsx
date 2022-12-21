@@ -23,7 +23,7 @@ import {FilterAttributesType, FILTERED_PRODUCTS_TYPE, ProductAttributesName} fro
 import Modal from "UI/Modal/Modal";
 import FilterSidebar from "src/Common/FilterSidebar/FilterSidebar";
 
-import withLocation from "../../utils/withLocation";
+import withLocation from "../../Hoc/WithLocation";
 import {OpenSideBarType, ToolsReducerType} from "reducers/toolsReducer";
 import Layout from "../../Common/Layout/Layout";
 import fullLink from "src/utils/fullLink";

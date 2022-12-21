@@ -206,11 +206,11 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
                                 <div className="sm:flex-5 lg:flex-2">
                                     <OrderSummary
                                         checkout={productState.checkout}
-                                        shippingAddress={selectShippingAddress !== 0 ? recentShippingAddress ? recentShippingAddress.find(r => r._id === selectShippingAddress) : false : false}
+                                        shippingAddress={selectShippingAddress !== "" ? recentShippingAddress ? recentShippingAddress.find(r => r._id === selectShippingAddress) : false : false}
                                         nextLevel={
                                             <div className="mt-5">
                                                 <Button
-                                                    disabled={selectShippingAddress === 0}
+                                                    disabled={selectShippingAddress === ""}
                                                     className={["w-full justify-center flex-nowrap text-white flex items-center px-4 py-1 bg-primary-400",
                                                     ].join(" ")}>
                                                     <button onClick={handleToPay}>Continue To Payment</button>

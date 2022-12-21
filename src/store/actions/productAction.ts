@@ -176,13 +176,21 @@ export interface TOGGLE_CART_ACTION {
 
 let id: NodeJS.Timeout;
 
-export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean = false, popupTimeout?: number) {
+export function toggleHandleCart(product: AddCartPayload) {
+
+
+
     return async function (dispatch: any, getState: any) {
+
+
+
         id && clearTimeout(id)
         const {productState, auth: {auth}}: RootStateType = getState()
         let updatedCartProducts = [...productState.cartProducts]
 
         // toast("----------------------------------")
+
+
 
         if (auth) {
             let newCart: CartProductType;
@@ -216,6 +224,7 @@ export function toggleHandleCart(product: AddCartPayload, isShowPopup: boolean =
                             toast("Product added to cart")
                         }
                     } catch (ex) {
+                        toast.error(errorMessage(ex))
                         dispatch({
                             type: ActionTypes.ADD_CART_ITEM,
                             payload: null
@@ -276,7 +285,7 @@ export interface AddWishlistPayload {
     product_id: string
 }
 
-export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: boolean = false, popupTimeout?: number, cb?: any) {
+export function toggleHandleWishlist(product: AddWishlistPayload, cb?: any) {
     return async function (dispatch: (args: TOGGLE_WISHLIST_ACTION | SET_ACTION_TYPE) => TOGGLE_WISHLIST_ACTION, getState: any) {
 
         const {productState, auth: {auth}}: RootStateType = getState()
@@ -346,7 +355,7 @@ export function toggleHandleWishlist(product: AddWishlistPayload, isShowPopup: b
 export const fetchTransactions = (dispatch) => {
     return new Promise<Cart[]>(async (resolve, reject) => {
         try {
-            const response = await getApi.get<any[]>(`/api/orders/transactions`)
+            const response = await getApi().get<any[]>(`/api/orders/transactions`)
             if (response.status === 200 && response.data) {
 
                 dispatch({
