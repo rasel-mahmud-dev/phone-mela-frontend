@@ -174,7 +174,7 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
                                     <Button className="btn-primary" onClick={handleToggleAddShippingAddressForm}>
                                         <span>
                                             {recentShippingAddress?.length === 0 ?  "Add shipping address" :
-                                            <Preload to={"/dashboard/shipping-addresses"}>"Manage Shipping Address"</Preload> }
+                                            <Preload to={"/dashboard/address-book"}>Manage Shipping Address</Preload> }
                                         </span>
                                     </Button>
 

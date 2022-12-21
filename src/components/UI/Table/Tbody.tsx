@@ -58,7 +58,7 @@ const Tbody: FC<TbodyProps> = (props) => {
                     (() => {
                       if (col.dataIndex) {
                         if(col.render){
-                          return col.render(data[col.dataIndex])
+                          return col.render(data[col.dataIndex], data)
                         } else {
                           return  data[col.dataIndex]
                         }

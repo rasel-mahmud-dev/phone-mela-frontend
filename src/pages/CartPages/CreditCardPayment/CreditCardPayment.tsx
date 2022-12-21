@@ -8,7 +8,7 @@ import {RootStateType} from "store/index";
 import {getApi} from "apis/api";
 import Button from "UI/Button/Button";
 import HttpResponse from "components/HttpResponse/HttpResponse";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const stripePromise = loadStripe(import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY);
 
@@ -32,6 +32,7 @@ const StripeForm = ()=>{
 function CheckoutForm() {
 
     const location = useLocation()
+    const navigate = useNavigate()
 
     const stripe = useStripe();
     const elements = useElements();
@@ -139,7 +140,7 @@ function CheckoutForm() {
                 if (res.status === 201) {
                     setTimeout(()=>{
                         setHttpResponse({message: "Your payment Payment has been created", loading: false, isSuccess: true})
-                        console.log(location)
+                        navigate("/order/completed", {state: { orderId: res.data._id }})
                     }, 300)
                 }
             }).catch(ex=>{

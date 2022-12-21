@@ -24,12 +24,10 @@ const Orders = (props) => {
 
 
     useEffect(() => {
-
         if(!orders || orders.length === 0) {
             fetchOrders(dispatch).then(r => {}).catch(ex => {})
         }
     }, [])
-
 
 
     let columns = [
@@ -39,12 +37,18 @@ const Orders = (props) => {
             dataIndex: "product_id",
             render: (product_id: any) => <div style={{width: "40px"}}>
                 <img className="w-full"
-                     src={fullLink(product_id.cover)}/></div>
+                     src={fullLink(product_id?.cover)}/></div>
         },
         {
             title: "Order ID",
             key: "1122",
-            dataIndex: "_id",
+            dataIndex: "orderId",
+            render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+        },
+        {
+            title: "Transaction ID",
+            key: "112234232",
+            dataIndex: "transactionId",
             render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
         },
         {
@@ -54,17 +58,18 @@ const Orders = (props) => {
             width: 200,
             sorter: {
                 compare: (a: any, b: any) => {
-                    if (a.product_id.title.toLowerCase() > b.product_id.title.toLowerCase()) {
+                    if (a.product_id?.title.toLowerCase() > b.product_id?.title.toLowerCase()) {
                         return 1
-                    } else if (a.product_id.title.toLowerCase() < b.product_id.title.toLowerCase()) {
+                    } else if (a.product_id?.title.toLowerCase() < b.product_id?.title.toLowerCase()) {
                         return -1
                     } else {
                         return 0
                     }
                 }
             },
-            render: (product_id: any) => {
-                return product_id.title
+            render: (product_id: any, order) => {
+                console.log(order)
+                return product_id?.title ? product_id.title : "Package (" + order?.products?.length + " items)"
             }
         },
         {

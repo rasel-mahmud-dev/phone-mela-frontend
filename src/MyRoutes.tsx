@@ -45,6 +45,7 @@ const SignupPage = ReactLazyPreload(() => import("pages/auth/signupPage/SignupPa
 const CartPage = ReactLazyPreload(() => import("pages/CartPages/CartPage"));
 const Wishlist = ReactLazyPreload(() => import("src/pages/CartPages/wishlist/Wishlist"));
 const CheckoutPage = ReactLazyPreload(() => import("pages/CartPages/checkout/CheckoutPage"));
+const OrderComplete = ReactLazyPreload(() => import("pages/CartPages/OrderComplete/OrderComplete"));
 const DashboardHome = ReactLazyPreload(() => import("pages/Dashboard/DashboardHome"));
 
 const AdminDashboard = ReactLazyPreload(() => import("pages/Dashboard/Admin/AdminDashboardHome"));
@@ -157,6 +158,14 @@ function MyRoutes(props: any) {
                     element: (
                         <PrivateRoute>
                             <PaymentPage/>
+                        </PrivateRoute>
+                    ),
+                },{
+                    path: "completed",
+                    index: true,
+                    element: (
+                        <PrivateRoute>
+                            <OrderComplete/>
                         </PrivateRoute>
                     ),
                 },
