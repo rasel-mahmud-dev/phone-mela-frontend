@@ -1,0 +1,102 @@
+{
+    "General": [
+        "In The Box",
+        "Model Number",
+        "Model Name",
+        "Color",
+        "Browse Type",
+        "SIM Type",
+        "Hybrid Sim Slot",
+        "Touchscreen",
+        "OTG Compatible",
+        "Quick Charging",
+        "Sound Enhancements"
+    ],
+    "Display": [
+        "Display Size",
+        "Resolution",
+        "Resolution Type",
+        "GPU",
+        "Display Type",
+        "Other Display Features"
+    ],
+    "Connectivity Features": [
+        "Network Type",
+        "Supported Networks",
+        "Internet Connectivity",
+        "3G",
+        "Pre-installed Browser",
+        "Bluetooth Support",
+        "Bluetooth Version",
+        "Wi-Fi",
+        "Wi-Fi Version",
+        "Wi-Fi Hotspot",
+        "NFC",
+        "EDGE",
+        "Map Support",
+        "GPS Support"
+    ],
+    "Lunch": [
+        "Announced"
+    ],
+    "Body": [
+        "Weight"
+    ],
+    "Os & Processor Features": [
+        "Operating System",
+        "Processor Type",
+        "Processor Core",
+        "Primary Clock Speed",
+        "Secondary Clock Speed",
+        "Chipset"
+    ],
+    "Memory": [
+        "Ram"
+    ],
+    "Storage": [
+        "Card slot",
+        "Internal Storage"
+    ],
+    "Camera Features": [
+        "Primary Camera Available",
+        "Primary Camera",
+        "Primary Camera Features",
+        "Secondary Camera Available",
+        "Secondary Camera",
+        "Secondary Camera Features",
+        "Flash",
+        "HD Recording",
+        "Full HD Recording",
+        "Video Recording Resolution",
+        "Frame Rate",
+        "Dual Camera Lens"
+    ],
+    "Sound": [
+        "3.5mm jack"
+    ],
+    "Commons": [
+        "WLAN",
+        "Bluetooth",
+        "NFC",
+        "USB"
+    ],
+    "Features": [
+        "Sensors",
+        "Mobile Tracker",
+        "Removable Battery",
+        "GPS Type"
+    ],
+    "Battery": [
+        "Type"
+    ],
+    "Dimensions": [
+        "Width",
+        "Height",
+        "Depth",
+        "Weight"
+    ],
+    "Warranty": [
+        "Warranty Summary",
+        "Domestic Warranty"
+    ]
+}

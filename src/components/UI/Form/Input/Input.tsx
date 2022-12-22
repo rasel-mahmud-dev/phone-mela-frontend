@@ -7,6 +7,7 @@ const Input = (props) => {
         label,
         onChange,
         placeholder,
+        labelClass = "",
         name,
         inputClass="",
         validate,
@@ -33,7 +34,7 @@ const Input = (props) => {
         return (
             <div className={`my-4 ${disabled ? "custom-input-group-disabled": ""}  `}>
                 {label && (
-                    <label htmlFor={name} className="flex items-center  gap-x-1">
+                    <label htmlFor={name} className={`flex items-center  gap-x-1 ${labelClass}`}>
                         {labelIcon}
                         {label}
                     </label>

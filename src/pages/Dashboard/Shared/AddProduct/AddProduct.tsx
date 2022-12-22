@@ -6,7 +6,7 @@ import {addNewBrand, fetchProduct, loading} from 'actions/productAction'
 
 import Input2 from "UI/Form/Input/Input2"
 import Button from "UI/Button/Button"
-import api from "apis/api"
+import api, {getApi} from "apis/api"
 
 import fullLink from "src/utils/fullLink";
 import {BrandType, ProductStateType} from "reducers/productReducer";
@@ -27,6 +27,10 @@ import ImageChoose from "components/ImageChooser/ImageChooser";
 import HttpResponse from "components/HttpResponse/HttpResponse";
 import {toast} from "react-toastify";
 import uploadImage from "../../../../utils/uploadImage";
+
+
+import detailShapeData from "./productDetailShapeData.json"
+
 
 type UpdateProductType = {
     id: number
@@ -61,10 +65,10 @@ interface Props {
 type UserDataType = {
     title: { value?: string, touched: boolean, errorMessage?: string },
     description: { value?: string, touched: boolean, errorMessage?: string },
-    price: { value: number | null, touched: boolean, errorMessage?: string },
-    discount: { value: number | null, touched: boolean, errorMessage?: string },
+    price: { value: number | string | null, touched: boolean, errorMessage?: string },
+    discount: { value: number | string | null, touched: boolean, errorMessage?: string },
     cover: { value?: string, touched: boolean, errorMessage?: string },
-    stock: { value: number | null, touched: boolean, errorMessage?: string },
+    stock: { value: number | string | null, touched: boolean, errorMessage?: string },
     brand_id: { value: { name: string, _id: string | null }, touched: boolean, errorMessage?: string },
     tags: string[],
 
@@ -115,6 +119,8 @@ interface State {
     // },
     filterAttributes: FilterAttributesType,
     errorsFilterAttribute: FilterAttributeErrorType,
+    detailShapeData: { [key: string]: any }
+    detailData: { [key: string]: string[] }
     brands: BrandType[],
     newBrandAdd: boolean,
     isShowStaticPhotos: boolean,
@@ -133,12 +139,12 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         super(props);
         this.state = {
             userData: {
-                title: {value: "234234", touched: false, errorMessage: ""},
-                description: {value: "23423", touched: false, errorMessage: ""},
-                price: {value: 234, touched: false, errorMessage: ""},
-                discount: {value: 234, touched: false, errorMessage: ""},
+                title: {value: "", touched: false, errorMessage: ""},
+                description: {value: "", touched: false, errorMessage: ""},
+                price: {value: "", touched: false, errorMessage: ""},
+                discount: {value: "", touched: false, errorMessage: ""},
                 brand_id: {value: {name: "", _id: ""}, touched: false, errorMessage: ""},
-                stock: {value: 20, touched: false, errorMessage: ""},
+                stock: {value: "", touched: false, errorMessage: ""},
                 cover: {value: "", touched: false, errorMessage: ""},
                 tags: []
             },
@@ -180,6 +186,8 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
                 screen_size: "",
                 secondary_camera: ""
             },
+            detailShapeData: {},
+            detailData: {},
             brands: [],
             newBrandAdd: false,
             isShowStaticPhotos: false,
@@ -197,6 +205,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         const {productId} = this.props.params
 
         let updateState: any = {...this.state}
+
 
         // fetch all brand for adding categories
         api.get("/api/brands").then(response => {
@@ -273,6 +282,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
             //     })
             // }
         }
+        updateState.detailShapeData = detailShapeData
 
         this.setState(updateState)
     }
@@ -362,6 +372,76 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
     }
 
+
+    handleFillTestData = (isClear?: boolean) => {
+        this.setState(prev => {
+            // populated filterAttributes first option value to selected filter attributes value
+            let updateFilterAttributeValue = {...prev.filterAttributes}
+            for (let updateFilterAttributeValueKey in updateFilterAttributeValue) {
+                let item = updateFilterAttributeValue[updateFilterAttributeValueKey]
+                if (item) {
+                    if (isClear) {
+                        item.value = ""
+                    } else {
+                        item.value = item.options[0].value
+                    }
+                }
+            }
+
+
+            // populated filterAttributes first option value to selected filter attributes value
+            let updateDetailShapeData = {...prev.detailShapeData}
+            let detailData = {}
+            for (let updateDetailShapeDataKey in updateDetailShapeData) {
+                let sectionItem = updateDetailShapeData[updateDetailShapeDataKey]
+                let sections = []
+                sectionItem.forEach(item => {
+                    if (isClear) {
+                        sections.push({[item]: ""})
+                    } else {
+                        sections.push({[item]: "Test data " + item})
+                    }
+                })
+                detailData[updateDetailShapeDataKey] = sections
+            }
+
+            return {
+                ...prev,
+                userData: {
+                    title: {value: isClear ? "" : "Asus Rock Phone 12", touched: false, errorMessage: ""},
+                    description: {value: isClear ? "" : "Some test description about this phone", touched: false, errorMessage: ""},
+                    price: {value: isClear ? "" : 435435, touched: false, errorMessage: ""},
+                    discount: {value: isClear ? "" : 20, touched: false, errorMessage: ""},
+                    brand_id: {
+                        value: isClear ? {name: "", _id: ""} : {name: "", _id: "62a638e8bf617d070dc47303"},
+                        touched: false,
+                        errorMessage: ""
+                    },
+                    stock: {value: isClear ? "" : 10, touched: false, errorMessage: ""},
+                    cover: {value: isClear ? "" : "", touched: false, errorMessage: ""},
+                    tags: ["test tag 1", "test tag 2", "test tag 3"]
+                },
+                filterAttributes: updateFilterAttributeValue,
+                detailData,
+            }
+        })
+
+        toast.success(isClear ? "All fake data cleared" : "All fake data generated")
+    }
+
+    handleChangeDetail = (e: any) => {
+        const target = e.target as typeof e.target & {
+            name: string;
+            value: string;
+        };
+
+
+        const {name, value} = target
+        console.log(name, value)
+
+
+    }
+
     handleSave = async (e: any) => {
         e.preventDefault()
 
@@ -409,6 +489,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
         let errorMessage = ""
 
+
         let key: keyof UserDataType
         for (key in userData) {
             let item: UserDataItem = userData[key] as UserDataItem
@@ -422,8 +503,8 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
                         isCompleted = false
                         errors.brand_id = "Brand is Required"
 
-                        if(!errorMessage){
-                            errorMessage =   "Brand is Required"
+                        if (!errorMessage) {
+                            errorMessage = "Brand is Required"
                         }
                     }
                 }
@@ -432,8 +513,8 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
             } else {
                 if (!item.value) {
-                    if(!errorMessage){
-                        errorMessage =  key.toUpperCase() + " is Required"
+                    if (!errorMessage) {
+                        errorMessage = key.toUpperCase() + " is Required"
                     }
                     errors[key] = key.toUpperCase() + " is Required"
                     isCompleted = false
@@ -446,12 +527,19 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
             if (!filterAttributes[key2].value) {
                 attrErrors[key2] = key2 + " required."
                 isCompleted = false
-                if(!errorMessage){
+                if (!errorMessage) {
                     errorMessage = key2 + " required."
                 }
             }
         }
 
+       let detailData = this.state.detailData
+        if(Object.keys(detailData).length === 0){
+            if(!errorMessage) {
+                errorMessage = "Please fill some detail fields."
+                isCompleted = false
+            }
+        }
 
         if (!isCompleted) {
             toast.error(errorMessage)
@@ -476,6 +564,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
             stock: Number(userData.stock.value),
             cover: userData.cover.value,
             tags: userData.tags,
+            detailData,
         }
 
 
@@ -501,9 +590,8 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         })
 
 
-
-        if(reqPayload.cover && typeof reqPayload.cover === "object"){
-            if(reqPayload.cover.size > 1024 * 200){
+        if (reqPayload.cover && typeof reqPayload.cover === "object") {
+            if (reqPayload.cover.size > 1024 * 200) {
                 toast.info("Please choose image under 200kb")
             }
         } else {
@@ -523,9 +611,11 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
                 })
             }
 
-            reqPayload.cover = uploadResult?.data?.url
 
-            let {data, status} =  await api.post(`/api/add-product`, reqPayload)
+            reqPayload.cover = uploadResult?.data?.url
+            reqPayload.details = this.state.detailData
+
+            let {data, status} = await getApi().post(`/api/add-product`, reqPayload)
             if (status === 201) {
                 return this.setState(prevState => {
                     return {
@@ -535,7 +625,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
                 })
             }
 
-        } catch (ex){
+        } catch (ex) {
             toast.error(ex.message || "Internal error, please try again")
         } finally {
             this.setState(prevState => {
@@ -548,7 +638,7 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
         // if (updatedProductId) {
         //     // update a existing  product
-        //     api.put(`/api/products/update/${updatedProductId}`, reqPayload).then(response => {
+        //     getApi().put(`/api/products/update/${updatedProductId}`, reqPayload).then(response => {
         //         if (response.status === 201) {
         //             // let q: any = queryString.parse(this.props.location.search)
         //             // this.props.navigate(q.callback)
@@ -560,8 +650,6 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         //     })
         // }
     }
-
-
 
     handleChangeAttribute = (e: { target: { name: string, value: string } }) => {
         let {value} = e.target
@@ -652,9 +740,6 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
         )
     }
 
-    handleTagChange(e) {
-
-    }
 
     render() {
         const {
@@ -664,15 +749,21 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
             brands,
             filterAttributes,
             updatedProductId,
-            newBrandAdd
+            newBrandAdd,
+            detailShapeData,
+            detailData
         } = this.state
+
         return (
             <div className="py-4">
 
                 <HttpResponse
                     {...this.state.httpResponse}
                     loadingTitle="Product adding..."
-                    onClose={()=> this.state.httpResponse.message && this.setState(p=>({...p, httpResponse:{message: "", loading: false, isSuccess: false }})) } />
+                    onClose={() => this.state.httpResponse.message && this.setState(p => ({
+                        ...p,
+                        httpResponse: {message: "", loading: false, isSuccess: false}
+                    }))}/>
 
                 <WithSidebarButton>
                     <h2 className="page-title mb-0"> {updatedProductId ? "Update Product" : "Add New Product"}</h2>
@@ -775,14 +866,59 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
                     </div>
 
+                    <div className="card p-4 mt-10">
+
+                        <h1 className="text-lg font-medium text-start uppercase">Deep Detail</h1>
+
+                        {Object.keys(detailShapeData).map(key => (
+                            <div key={key}>
+                                <h4 className="font-medium mt-4">{key}</h4>
+                                <div className="grid grid-cols-4 gap-x-4">
+                                    {detailShapeData[key] && Array.isArray(detailShapeData[key]) && detailShapeData[key].map((item, index) => (
+                                        <div key={item}>
+                                            <Input
+                                                inputClass="text-sm"
+                                                labelClass="text-sm"
+                                                onChange={this.handleChangeDetail}
+                                                label={item}
+                                                name={item}
+                                                value={detailData[key]?.[index][item]}
+                                                type="text"
+                                                placeholder={item}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
 
                     {/*<File value={state.cover_photo.previewLink} onChange={this.handleChange} name="cover_photo" type="file"/>*/}
 
-                    <Button
-                        className="bg-primary-400 text-white mt-6"
-                        type="submit">
-                        {updatedProductId ? "Update" : "Add Product"}
-                    </Button>
+                    <div className="flex items-center gap-x-4">
+
+
+                        <Button
+                            className="bg-primary-400 text-white mt-6"
+                            type="submit">
+                            {updatedProductId ? "Update" : "Add Product"}
+                        </Button>
+
+                        <Button onClick={() => this.handleFillTestData(false)} type="button"
+                                className="bg-primary-400 text-white mt-6">
+                            Fill-up with test data
+                        </Button>
+
+
+                        <Button onClick={() => this.handleFillTestData(true)} type="button"
+                                className="bg-primary-400 text-white mt-6">
+                            Clear Form
+                        </Button>
+
+                    </div>
+
+
                 </form>
             </div>
         )
