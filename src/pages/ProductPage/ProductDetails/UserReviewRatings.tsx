@@ -303,7 +303,7 @@ const UserReviewRatings = (props) => {
 
 
                 <div className="flex justify-between items-center">
-                    <h1 className="sec_label font-semibold text-2xl min-w-[150px]">All User Opinions and Reviews</h1>
+                    <h1 className="sec_label font-semibold text-2xl">All User Opinions and Reviews</h1>
                     <button className="btn bg-primary-400 text-white" onClick={() => setOpenAddRatingModal(true)}>Rate This</button>
                 </div>
                 <h2 className="mt-5 font-normal text-[14px]">{title} - USER OPINIONS AND REVIEWS AND

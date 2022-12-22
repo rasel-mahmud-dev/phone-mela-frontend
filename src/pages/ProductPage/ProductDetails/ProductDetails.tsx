@@ -1,4 +1,4 @@
-import React, {ReactEventHandler} from 'react'
+import React, {lazy, Suspense} from 'react'
 import {connect} from "react-redux"
 import {
     AddCartPayload, AddWishlistPayload,
@@ -32,16 +32,17 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Pagination from "UI/Pagination/Pagination";
 import {ActionTypes} from "actions/actionTypes";
 import {Dispatch} from "redux";
 
 import WithNavigate from "src/Hoc/WithNavigate";
 import WithParams from "src/Hoc/WithParams";
 import Button from "UI/Button/Button";
-import QuestionAnswer from "pages/ProductPage/ProductDetails/QuestionAnswer";
-import UserReviewRatings from "pages/ProductPage/ProductDetails/UserReviewRatings";
-import Slats from "pages/ProductPage/ProductDetails/Slats";
+import {FaHeart} from "react-icons/all";
+
+const QuestionAnswer = lazy(() => import("pages/ProductPage/ProductDetails/QuestionAnswer"));
+const UserReviewRatings = lazy(() => import("pages/ProductPage/ProductDetails/UserReviewRatings"));
+const Slats = lazy(() => import("pages/ProductPage/ProductDetails/Slats"));
 
 
 interface Props {
@@ -60,6 +61,20 @@ interface Props {
 
 interface State {
     productDetail: ProductDetailType,
+
+    detail: {
+        colors: string[],
+        createdAt: Date
+        description: string,
+        detail: object,
+        highlights: string[],
+        productId: string
+        ram: number[],
+        storage: number[]
+        updatedAt: Date,
+        _id: string
+
+    }
     amountOfRate: {
         [key: number]: number
     },
@@ -102,6 +117,18 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                 colors: null,
                 ram: null,
                 storage: null
+            },
+            detail: {
+                colors: [],
+                createdAt: null,
+                description: "",
+                detail: {},
+                highlights: [],
+                productId: null,
+                ram: [],
+                storage: [],
+                updatedAt: null,
+                _id: null
             },
             amountOfRate: {
                 1: 0,
@@ -176,7 +203,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                     // if(response.data.specification_id !== 0) {
                     //   await this.fetchProductSpecification(response.data.specification_id)
                     // }
-                    await this.fetchProductSpecification(response.data.specification_id)
+                    await this.fetchProductDetail(response.data._id)
 
 
                     // await this.fetchProductReviews(response.data._id)
@@ -211,43 +238,18 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
     };
 
 
-    fetchProductSpecification = async (specificationId: string | number) => {
+    fetchProductDetail = async (productId: string) => {
         // fetch product product_specification
 
         //? Note i use specification details for all from product specification for product id 1
-        const response2 = await api.get(`/api/specification/${1}`)
-        if (response2.status === 200) {
-            let {colors, description, highlights, ram, specification_id, specifications, storage} = response2.data
-            try {
-                specifications = specifications && JSON.parse(specifications)
-                colors = specifications && JSON.parse(colors)
-                highlights = highlights && JSON.parse(highlights)
-                ram = ram && JSON.parse(ram)
-                storage = storage && JSON.parse(storage)
+        const response = await api.get(`/api/product/detail/${productId}`)
 
-            } catch (ex) {
-
-            }
+        if (response.status === 200 && response.data) {
 
             this.setState((prevState: State): State => {
-                let specifications = null;
-                try {
-                    specifications = response2.data.specifications && JSON.parse(response2.data.specifications)
-                } catch (ex) {
-
-                }
                 return {
                     ...prevState,
-                    productDetail: {
-                        ...prevState.productDetail,
-                        // description: description, // skip description from product specifications for test mode only
-                        specifications: specifications ? specifications : null,
-                        colors: colors ? colors : null,
-                        highlights: highlights ? highlights : null,
-                        ram: ram ? ram : null,
-                        storage: storage ? storage : null,
-                        specification_id: specification_id
-                    }
+                    detail: response.data
                 }
             })
         }
@@ -286,49 +288,12 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
 
     render() {
-
-
-        // function renderDeepDetails() {
-        //   if(productDescription.details) {
-        //     return Object.keys(productDescription.details).map(sectionKey=>{
-        //       return ( <div className="description_section">
-        //           <Row align="top" className="mt-5">
-        //             <div className="description_key description_key_att" >{sectionKey}</div>
-        //             <div className="description_value">
-        //               {productDescription.details && productDescription.details[sectionKey] && Object.keys(productDescription.details[sectionKey]).map(sec=>(
-        //                 <Row className="description_section_row">
-        //                   <li className="description_key--key">{sec}</li>
-        //                   <li className="description_key--value">{productDescription.details && productDescription.details[sectionKey][sec]}</li>
-        //                 </Row>
-        //               ))}
-        //             </div>
-        //           </Row>
-        //         </div>
-        //
-        //       )
-        //
-        //     })
-        //   }
-        // }
-
-        const {productDetail, currentPageForReview, amountOfRate} = this.state
+        const {productDetail, detail, currentPageForReview, amountOfRate} = this.state
 
         return (
             <div className="container-1400 px-4 product_detail_page bg-white">
 
-                {/*{ props.isLoading && <ProgressBar /> }*/}
-                {/*<Button*/}
-                {/*  onClick={pushBack}*/}
-                {/*  theme="red"*/}
-                {/*  iconStyle={{marginRight: "5px"}}*/}
-                {/*  waves="green" color="white" flat*/}
-                {/*  icon="fal fa-arrow-left">Back</Button>*/}
-
-                {/*<h1>Details</h1>*/}
-                {/*{isLoading && <Loader isLoading={isLoading} style={{top: "100px"}}/>}*/}
-
                 {productDetail && productDetail._id ? (
-
                     <div className="product_detail ">
 
                         <Helmet>
@@ -392,19 +357,17 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                                     Now
                                                 </Button>
                                             </div>
-
-
                                         </div>
 
                                         <div className={["heart_btn", this.isInWished(productDetail._id) ? "active" : ""].join(" ")}>
-                                            {/*<FontAwesomeIcon*/}
-                                            {/*  onClick={()=>this.props.toggleHandleWishlist({*/}
-                                            {/*    title: productDetail.title,*/}
-                                            {/*    price: productDetail.price,*/}
-                                            {/*    cover: productDetail.cover,*/}
-                                            {/*    product_id: productDetail._id*/}
-                                            {/*  }, true, 1000)}*/}
-                                            {/*  icon={faHeart}/>*/}
+                                            <FaHeart
+                                                onClick={() => this.props.toggleHandleWishlist({
+                                                    title: productDetail.title,
+                                                    price: productDetail.price,
+                                                    cover: productDetail.cover,
+                                                    product_id: productDetail._id
+                                                })}
+                                            />
                                         </div>
 
                                     </div>
@@ -509,14 +472,14 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
                                     <div className="sec ">
                                         {ProductDetails.renderTwoColSection("Description",
-                                            this.state.productDetail.description,
+                                            detail?.description,
                                             (description: any) => <p className="whitespace-pre-wrap text-gray-900 text-sm">{description}</p>
                                         )}
                                     </div>
 
-
-                                    <Slats productDetail={this.state.productDetail}/>
-
+                                    <Suspense fallback={<h1>Loading...</h1>}>
+                                        <Slats detail={detail} productDetail={this.state.productDetail}/>
+                                    </Suspense>
 
                                     <div className="sec">
                                         <h1 className="sec_label font-normal text-[14px]  min-w-[150px]">Disclaimer</h1>
@@ -525,56 +488,18 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                     </div>
 
 
-                                    {/*<QuestionAnswer productDetail={this.state.productDetail} />*/}
-                                    <UserReviewRatings productDetail={this.state.productDetail}/>
+                                    <Suspense fallback={<h1>Loading...</h1>}>
+                                        <UserReviewRatings productDetail={this.state.productDetail}/>
+                                    </Suspense>
+
+                                    <Suspense fallback={<h1>Loading...</h1>}>
+                                        <QuestionAnswer productDetail={detail}/>
+                                    </Suspense>
 
 
                                 </div>
                             </div>
                         </div>
-
-
-                        {/*<Row direction={"column"}>*/}
-                        {/*  <div className="d-flex mt-5">*/}
-                        {/*    <div>*/}
-                        {/*      <div className="rating_badge bg-transparent rating-star big-rating ">*/}
-                        {/*        <span>{calculateRate()}</span>*/}
-                        {/*        <i className="fa fa-star" />*/}
-                        {/*      </div>*/}
-                        {/*      <h4 className="text-grey fs-14 mt-5" > {totalRating()} Total Ratings</h4>*/}
-                        {/*      <h4>&</h4>*/}
-                        {/*      <h4 className="text-grey fs-14" > {reviews.length} Total Ratings</h4>*/}
-                        {/*    </div>*/}
-                        {/*    <Row direction={"column"} className="ml-5">*/}
-                        {/*      { rating.map(rat=>(*/}
-                        {/*        <div className="rate">*/}
-                        {/*          <div className="rating_badge bg-transparent rating-star ">*/}
-                        {/*            <span>{rat.rating}</span>*/}
-                        {/*            <i className="fa fa-star" />*/}
-                        {/*          </div>*/}
-                        {/*          <span className="user_rate-wrapper">*/}
-                        {/*              <div style={{width: ((rat.amount * 100) / totalRating())+"%"} } className="user_rate"/>*/}
-                        {/*            </span>*/}
-                        {/*          <span className="rate-amount text-grey fs-14 ml-5">{rat.amount}</span>*/}
-                        {/*        </div>*/}
-                        {/*      )) }*/}
-
-                        {/*    </Row>*/}
-                        {/*  </div>*/}
-
-                        {/*  <div className="mt-5">*/}
-                        {/*    <h4>Customer Gallery</h4>*/}
-                        {/*    <div  className="customer_gallery flex-wrap">*/}
-                        {/*      { new  Array(30).fill("", 1, 30).map(a=>(*/}
-                        {/*        <div>*/}
-                        {/*          /!*<Image className="m-2" maxWidth={25} src={image2} />*!/*/}
-                        {/*        </div>*/}
-
-                        {/*      ))}*/}
-                        {/*    </div>*/}
-                        {/*  </div>*/}
-                        {/*</Row>*/}
-
 
                     </div>
 

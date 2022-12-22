@@ -533,9 +533,9 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
             }
         }
 
-       let detailData = this.state.detailData
-        if(Object.keys(detailData).length === 0){
-            if(!errorMessage) {
+        let detailData = this.state.detailData
+        if (Object.keys(detailData).length === 0) {
+            if (!errorMessage) {
                 errorMessage = "Please fill some detail fields."
                 isCompleted = false
             }
@@ -617,12 +617,18 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
             let {data, status} = await getApi().post(`/api/add-product`, reqPayload)
             if (status === 201) {
-                return this.setState(prevState => {
-                    return {
-                        ...prevState,
-                        httpResponse: {message: "Product upload successful", isSuccess: true, loading: false}
-                    }
-                })
+                toast.success("Product added successful");
+                setTimeout(() => {
+                    this.setState(prevState => {
+                        return {
+                            ...prevState,
+                            httpResponse: {message: "Product added successful", isSuccess: true, loading: false}
+                        }
+                    })
+
+                    // clear form
+                    this.handleFillTestData(true)
+                }, 300)
             }
 
         } catch (ex) {
