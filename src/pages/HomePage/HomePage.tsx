@@ -214,9 +214,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                                                                                         price: prod.price,
                                                                                         cover: prod.cover,
                                                                                         product_id: prod._id,
-                                                                                    },
-                                                                                    true,
-                                                                                    1000
+                                                                                    }
                                                                                 )
                                                                             )
                                                                         }
@@ -228,9 +226,7 @@ const HomePage: FC<HomePageProps> = (props) => {
                                                                                         price: prod.price,
                                                                                         cover: prod.cover,
                                                                                         product_id: prod._id,
-                                                                                    },
-                                                                                    true,
-                                                                                    1000
+                                                                                    }
                                                                                 )
                                                                             )
                                                                         }

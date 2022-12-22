@@ -214,7 +214,7 @@ const MyCart = () => {
                                                  price: product.price,
                                                  cover: product.cover ? product.cover : "",
                                                  product_id: product.product_id
-                                             }, false))}
+                                             }))}
                                     />
 
 
@@ -225,7 +225,7 @@ const MyCart = () => {
                                                  price: product.price,
                                                  cover: product.cover ? product.cover : "",
                                                  product_id: product.product_id
-                                             }, false))}
+                                             }))}
                                     />
                                 )}
                                 <BsFillTrash2Fill className=" py-1 ml-2 text-2xl cursor-pointer" title="Delete from cart"
@@ -234,7 +234,7 @@ const MyCart = () => {
                                                       price: product.price,
                                                       cover: product.cover ? product.cover : "",
                                                       product_id: product.product_id
-                                                  }, false))}
+                                                  }))}
                                 />
 
                             </div>

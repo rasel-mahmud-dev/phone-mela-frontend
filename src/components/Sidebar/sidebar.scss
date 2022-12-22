@@ -1,3 +1,4 @@
+@import "src/sass/_media.scss";
 .dashboard-wrapper {
 
 }
@@ -34,6 +35,11 @@
 .sidebar-backdrop {
     z-index: 998;
     background: red;
+
+    @include get_up(1024px){
+        display: none;
+    }
+
 }
 
 .backdrop-open {
@@ -59,7 +65,7 @@
 
 .sidebar-open {
     left: 0 !important;
-    overflow-y: hidden;
+    //overflow-y: hidden;
 }
 
 /* force close sidebar if resize browser width */

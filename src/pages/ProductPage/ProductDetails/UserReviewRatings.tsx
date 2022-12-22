@@ -2,35 +2,33 @@ import React, {SyntheticEvent, useEffect, useState} from 'react';
 import fullLink from "../../../utils/fullLink";
 import Pagination from "UI/Pagination/Pagination";
 import api, {getApi} from "apis/api";
-import {TbStar} from "react-icons/all";
-import AccountInfo from "pages/Dashboard/Customer/AccountInfo/AccountInfo";
+import {BsStar, TbStar} from "react-icons/all";
 import RatingChooser from "components/RatingChooser/RatingChooser";
 import Modal from "UI/Modal/Modal";
 import Input from "UI/Form/Input/Input";
 import Button from "UI/Button/Button";
-import productDetails from "pages/ProductPage/ProductDetails/ProductDetails";
 import {toast} from "react-toastify";
 
 import errorMessage from "../../../response/errorResponse";
 import Avatar from "components/Avatar/Avatar";
+import {BsStarFill} from "react-icons/all.js";
 
 const UserReviewRatings = (props) => {
 
     const {_id, title,} = props.productDetail
-
-    const rating = []
 
     const [state, setState] = useState({
         amountOfRate: 0,
         allStar: [],
         totalReviews: 0,
         // totalAverageRate: Number((allStar / totalRate).toFixed(1)),
+        totalAverageRate: 4.4,
         reviews: []
     })
 
     const [paginate, setPaginate] = useState({
         pageNumber: 1,
-        perPage: 5
+        perPage: 10
     })
 
 
@@ -45,7 +43,7 @@ const UserReviewRatings = (props) => {
         //!Note i use reviews for all from product review for product id 1
         const response: any = await api.get(`/api/reviews/${_id}?pageNumber=${paginate.pageNumber}`)
         if (response.status === 200) {
-            setState((prevState) => {
+            setState((prevState: any) => {
 
 
                 let stars = {
@@ -173,16 +171,19 @@ const UserReviewRatings = (props) => {
         return (
             <div className="rating_ flex-1 flex justify-between items-center">
                 <div className="rating_left flex-1">
-                    <div className="flex items-center justify-center">
-                        <h1 className="big_rating_num ">
-                            {state.averageRate}
+                    <div className="flex flex-col items-center">
+
+                        <h1 className="text-6xl font-bold flex items-center ">
+                            {state.totalAverageRate}
+                            <BsStarFill className="!text-4xl ml-2 text-orange-400"/>
                         </h1>
-                        {/*<FontAwesomeIcon icon={faStar} className="text-4xl text-dark-800"/>*/}
-                    </div>
-                    <div className="total_rating_count">
-                        <h2>{state.reviews?.length} ratings</h2>
-                        <h2>&</h2>
-                        <h2>{state.totalReviews} reviews</h2>
+
+
+                        <div className="text-center">
+                            <h2>{state.reviews?.length} ratings</h2>
+                            <h2>&</h2>
+                            <h2>{state.totalReviews} reviews</h2>
+                        </div>
                     </div>
                 </div>
                 <div className="rating_right flex-1">
@@ -292,7 +293,7 @@ const UserReviewRatings = (props) => {
 
 
     return (
-        <div>
+        <div className="mt-20">
             <div className="">
 
                 <Modal isOpen={isOpenAddRatingModal} className="max-w-lg" backdropClass="bg-dark-900/80"
@@ -302,7 +303,7 @@ const UserReviewRatings = (props) => {
 
 
                 <div className="flex justify-between items-center">
-                    <h1 className="sec_label font-normal text-base min-w-[150px]">All User Opinions and Reviews</h1>
+                    <h1 className="sec_label font-semibold text-2xl min-w-[150px]">All User Opinions and Reviews</h1>
                     <button className="btn bg-primary-400 text-white" onClick={() => setOpenAddRatingModal(true)}>Rate This</button>
                 </div>
                 <h2 className="mt-5 font-normal text-[14px]">{title} - USER OPINIONS AND REVIEWS AND
@@ -362,7 +363,7 @@ const UserReviewRatings = (props) => {
                         totalItems={state.totalReviews}
                         perPageShow={paginate.perPage}
                         currentPage={paginate.pageNumber}
-                        onPageChange={(pageNumber) => setPaginate(p=>({...p, pageNumber}))}
+                        onPageChange={(pageNumber) => setPaginate(p => ({...p, pageNumber}))}
                     />
                 </div>
             </div>

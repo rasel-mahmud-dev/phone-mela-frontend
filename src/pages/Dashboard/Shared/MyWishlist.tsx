@@ -128,7 +128,7 @@ const MyWishlist = () => {
                                     price: wish.price,
                                     cover: wish.cover ? wish.cover : "",
                                     product_id: wish.product_id
-                                }, false))}
+                                }))}
                                 className="flex-nowrap white-space-nowrap flex-nowrap  text-[13px] font-normal  px-2 py-1 flex items-center ml-2">
                                 <BsFillCartDashFill className="text-lg"/>
                             </button>
@@ -140,7 +140,7 @@ const MyWishlist = () => {
                                     price: wish.price,
                                     cover: wish.cover ? wish.cover : "",
                                     product_id: wish.product_id
-                                }, false))}
+                                }))}
 
                             >
                                 <BsCartPlusFill className="text-lg"/>

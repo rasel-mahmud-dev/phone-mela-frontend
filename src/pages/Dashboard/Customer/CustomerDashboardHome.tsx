@@ -1,27 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import "./styles.scss"
 import api from "apis/api";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "store/index";
 import Table from "UI/Table/Table";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import Avatar from "../../../components/Avatar/Avatar";
 import fullLink from 'src/utils/fullLink';
 import {Link} from 'react-router-dom';
+import {fetchOrders} from "actions/productAction";
 
 const CustomerDashboardHome = (props) => {
 
-    const {auth} = useSelector((state: RootStateType) => state.auth);
+    const {auth: {auth}, productState: {orders}} = useSelector((state: RootStateType) => state)
 
-    const [orders, setOrders] = React.useState([])
+    const dispatch = useDispatch()
 
 
-    React.useEffect(() => {
-        api.get("/api/orders").then(response => {
-            if (response.status === 200) {
-                setOrders(response.data)
-            }
-        })
+    useEffect(() => {
+        if(!orders || orders.length === 0) {
+            fetchOrders(dispatch).then(r => {}).catch(ex => {})
+        }
     }, [])
 
     function calculateCosts(orders) {
@@ -35,21 +34,23 @@ const CustomerDashboardHome = (props) => {
 
     let columns = [
         {
-            title: "Cover",
+            title: "Image",
             key: "1",
             dataIndex: "product_id",
             render: (product_id: any) => <div style={{width: "40px"}}>
-                <Avatar imgClass="rounded-none" src={fullLink(product_id?.cover)}/>
-            </div>
+                <img className="w-full"
+                     src={fullLink(product_id?.cover)}/></div>
         },
         {
-            title: "ID",
+            title: "Order ID",
             key: "1122",
-            dataIndex: "_id",
-            sorter: {
-                compare: (a: any, b: any) => a._id > b._id ? 1 : a._id < b._id ? -1 : 0
-            },
-            render: (_id) => <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+            dataIndex: "orderId",
+            render: (_id)=> <Link to={`/dashboard/orders/${_id}`}>{_id}</Link>
+        },
+        {
+            title: "Transaction ID",
+            key: "112234232",
+            dataIndex: "transactionId"
         },
         {
             title: "Product Name",
@@ -58,17 +59,17 @@ const CustomerDashboardHome = (props) => {
             width: 200,
             sorter: {
                 compare: (a: any, b: any) => {
-                    if (a.product_id.title.toLowerCase() > b.product_id.title.toLowerCase()) {
+                    if (a.product_id?.title.toLowerCase() > b.product_id?.title.toLowerCase()) {
                         return 1
-                    } else if (a.product_id.title.toLowerCase() < b.product_id.title.toLowerCase()) {
+                    } else if (a.product_id?.title.toLowerCase() < b.product_id?.title.toLowerCase()) {
                         return -1
                     } else {
                         return 0
                     }
                 }
             },
-            render: (product_id: any) => {
-                return product_id?.title
+            render: (product_id: any, order) => {
+                return product_id?.title ? product_id.title : "Package (" + order?.products?.length + " items)"
             }
         },
         {
@@ -110,6 +111,7 @@ const CustomerDashboardHome = (props) => {
     ]
 
 
+
     return (
         <div className="p-4">
             <WithSidebarButton>
@@ -119,7 +121,7 @@ const CustomerDashboardHome = (props) => {
             <div className="flex mt-4 flex-wrap flex-col sm:flex-row">
                 <div className="border border-primary-400 rounded flex-1 py-6 bg-white ">
                     <h1 className="text-primary-400 text-xl text-center font-medium">PURCHASES</h1>
-                    <h4 className="text-sm text-center font-medium mt-2">{orders.length} items</h4>
+                    <h4 className="text-sm text-center font-medium mt-2">{orders?.length} items</h4>
                 </div>
 
                 <div className="border border-primary-400 bg-white rounded flex-1 py-6 sm:ml-10 ml-0 mt-4 sm:mt-0">
@@ -133,17 +135,21 @@ const CustomerDashboardHome = (props) => {
                 <h2 className="text-xl font-medium mt-5">My Orders</h2>
 
 
-                {orders || orders.length > 0 ? <div className="card overflow-hidden mt-4">
-                    <div className="overflow-x-auto">
+                <div className="mt-5">
+                    {orders && orders.length > 0 ? (
+                        <div className="card overflow-hidden mt-4">
+                            <div className="overflow-x-auto">
 
+                                <Table dataSource={orders} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
 
-                        <Table dataSource={orders} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
-
-
-                    </div>
-                </div> : (
-                    <h1>No Order found</h1>
-                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            <h3>No Order found.</h3>
+                        </div>
+                    )}
+                </div>
 
             </div>
 

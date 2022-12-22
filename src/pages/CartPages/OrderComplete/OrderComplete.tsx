@@ -3,17 +3,30 @@ import Button from "UI/Button/Button";
 import {getApi} from "apis/api";
 import {useLocation} from "react-router-dom";
 import Avatar from "components/Avatar/Avatar";
+import {ActionTypes} from "../../../store/actions/actionTypes";
+import {useDispatch} from "react-redux";
 
 const OrderComplete = () => {
     const [orderDetail, setOrderDetail] = useState(null)
     const location: any = useLocation()
     const orderId = location.state?.orderId
+    const dispatch = useDispatch()
 
     useEffect(() => {
 
         if (orderId) {
             getApi().get("/api/order/" + orderId).then(({data, status}) => {
                 setOrderDetail(data)
+
+                localStorage.removeItem("checkout")
+                dispatch({
+                    type: ActionTypes.SET_CHECKOUT_PRODUCTS,
+                    payload: {
+                        shippingAddress: null,
+                        products: []
+                    }
+                })
+
             })
         }
 

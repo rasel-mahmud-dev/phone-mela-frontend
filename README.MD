@@ -5,7 +5,6 @@ filter with varies attributes.
 Customer can added mobile wishlist, cart, also they can buy with credit card and cash on delivery build with Nodejs, React js and Mongodb
 
 
-
 ## Application Features
 - Search mobile phone using title, filter with varies attributes.
 - It has multiple role customer and admin, customer can buy products. Also has customer and admin dashboard.

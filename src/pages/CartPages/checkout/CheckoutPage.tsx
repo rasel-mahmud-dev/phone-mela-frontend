@@ -3,9 +3,6 @@ import {useParams, Link, useNavigate} from "react-router-dom"
 
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "store/index";
-
-import Input2 from "UI/Form/Input/Input2";
-import Checkbox from "UI/Form/Checkbox/Checkbox";
 import OrderSummary from "pages/CartPages/orderSummary/OrderSummary";
 import {ShippingAddress} from "reducers/userReducer";
 import api, {getApi} from "src/apis/api";
@@ -14,7 +11,6 @@ import Button from "UI/Button/Button";
 import {ActionTypes} from "actions/actionTypes";
 import AddShippingAddress from "pages/Dashboard/Customer/AddressBook/AddShippingAddress";
 import Preload from "UI/Preload/Preload";
-import shippingCheckout from "pages/CartPages/shippingCheckout/ShippingCheckout";
 import useRestoreCheckoutData from "hooks/useRestoreCheckoutData";
 
 
@@ -23,10 +19,11 @@ type CheckoutPageProps = {}
 
 const CheckoutPage: FC<CheckoutPageProps> = (props) => {
 
+
     const dispatch = useDispatch()
 
 
-    let navigator = useNavigate()
+    let navigate = useNavigate()
 
     const {productState, auth: {auth}} = useSelector((state: RootStateType) => state)
 
@@ -50,7 +47,7 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
     useEffect(() => {
         (async function () {
             if (auth) {
-                let response = await api.get(`/api/shipping-addresses`)
+                let response = await getApi().get(`/api/shipping-addresses`)
                 for (const responseElement of response.data) {
                     if (responseElement.isDefault) {
                         setSelectShippingAddress(responseElement._id)
@@ -83,6 +80,14 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
             }
         }
     }, [selectShippingAddress])
+
+
+    useEffect(()=>{
+        // if product not selected for checkout then push back
+        if(!(productState.checkout &&  productState.checkout.products && productState.checkout.products.length > 0)){
+            navigate(-1)
+        }
+    }, [productState.checkout.products])
 
 
 
@@ -149,7 +154,7 @@ const CheckoutPage: FC<CheckoutPageProps> = (props) => {
                     shippingAddress: s,
                     cartProducts: cartProducts
                 })
-                navigator("/order/payment")
+                navigate("/order/payment")
             }
         }
 

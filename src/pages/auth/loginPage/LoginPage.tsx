@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import Input2 from "src/components/UI/Form/Input/Input2";
+import Input2 from "UI/Form/Input/Input2";
 import Preload from "UI/Preload/Preload";
 import {login} from "src/store/actions/authAction";
 import Loader from "src/components/UI/Loader/Loader";

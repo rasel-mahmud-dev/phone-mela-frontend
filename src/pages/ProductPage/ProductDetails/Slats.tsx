@@ -24,11 +24,9 @@ const Slats = (props) => {
         )
     }
 
-    console.log(productDetail)
-
     return (
-        <div>
-            <h1 className="mt-5 sec_label font-normal text-base min-w-[150px]">Product Description</h1>
+        <div className="mt-20">
+            <h1 className="mt-5 sec_label font-semibold text-2xl min-w-[150px] min-w-[150px]">Product Description</h1>
             <div className="sec !mt-0">
                 {productDetail.specifications && renderDetailSpecifications(productDetail.specifications)}
             </div>

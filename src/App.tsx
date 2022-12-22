@@ -11,7 +11,6 @@ import {FILTERED_PRODUCTS_TYPE} from "store/types/prouductReduceTypes";
 import Footer from "./Common/Footer/Footer";
 import MyRoutes from "./MyRoutes";
 import {AuthStateType} from "reducers/authReducer";
-import StripeForm from "pages/CartPages/paymentPage/StripeForm";
 
 type AppProps = {
     togglePopup: any;

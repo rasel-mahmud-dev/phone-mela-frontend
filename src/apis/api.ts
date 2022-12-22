@@ -5,7 +5,7 @@ import axios, {Axios, AxiosInstance, AxiosRequestHeaders} from 'axios'
 export let baseUri =  import.meta.env.DEV
     // ? 'http://192.168.91.224:1000'
     ? 'http://localhost:1000'
-    : 'https://phone-mela-api-server.netlify.app/.netlify/functions/server'
+    : 'https://phone-mela-server-nine.vercel.app'
 
 interface MyHeaders  extends  AxiosRequestHeaders {
   token: string

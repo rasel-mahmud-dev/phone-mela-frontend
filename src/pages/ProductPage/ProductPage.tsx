@@ -6,12 +6,11 @@ import {
     toggleHandleCart,
     toggleHandleWishlist,
     setFilteredProducts,
-    onSearchChange, AddCartPayload, AddWishlistPayload,
+    onSearchChange, AddCartPayload, AddWishlistPayload, onFilterSearchChange,
 } from "src/store/actions/productAction"
 import "./ProductPage.scss"
 
 import {toggleBackdrop, toggleSideBar} from "src/store/actions/toolsAction";
-import Loader from "src/components/UI/Loader/Loader";
 
 
 import api from "src/apis/api";
@@ -23,14 +22,19 @@ import {FilterAttributesType, FILTERED_PRODUCTS_TYPE, ProductAttributesName} fro
 import Modal from "UI/Modal/Modal";
 import FilterSidebar from "src/Common/FilterSidebar/FilterSidebar";
 
-import withLocation from "../../Hoc/WithLocation";
+
 import {OpenSideBarType, ToolsReducerType} from "reducers/toolsReducer";
 import Layout from "../../Common/Layout/Layout";
 import fullLink from "src/utils/fullLink";
 import Sidebar from "components/Sidebar/Sidebar";
 import HomePageSidebar from "pages/HomePage/components/HomePageSidebar";
-import {FaAngleLeft, FaFilter} from "react-icons/all";
+import {BiSort, BiSortDown, BiSortUp, FaAngleLeft, FaFilter} from "react-icons/all";
 import Preload from "UI/Preload/Preload";
+import Loader2 from "components/Loader/Loader"
+import WithSearchParams from "../../Hoc/WithSearchParams";
+import WithLocation from "../../Hoc/WithLocation";
+import Loader from "UI/Loader/Loader";
+import Backdrop from "UI/Backdrop/Backdrop";
 
 
 interface ProductPageProps {
@@ -45,6 +49,7 @@ interface ProductPageProps {
     toggleHandleCart: (arg0: AddCartPayload, isShowPopup: boolean, timeout: number) => void,
     toggleHandleWishlist: (arg0: AddWishlistPayload, isShowPopup: boolean, timeout: number) => void,
     toggleSideBar: (args: OpenSideBarType) => void,
+    searchParams: [URLSearchParams]
 }
 
 interface State {
@@ -66,27 +71,34 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
             httpMessage: ""
         }
 
+        this.handleClearSearch = this.handleClearSearch.bind(this)
         this.handleToggleSideBar = this.handleToggleSideBar.bind(this)
         this.returnFilterResultItems = this.returnFilterResultItems.bind(this)
     }
 
+
     componentDidMount() {
-        // let q = queryString.parse(this.props.location.search)
-        // if (q.search) {
-        //     this.props.onSearchChange(q.search as string)
-        // }
-        //
-        // this.props.fetchBrands((brands) => {
-        // })
-        // const {
-        //     selectedAttributeFilter,
-        //     currentPage,
-        //     perPageShow,
-        //     sortValue: {field, order},
-        //     filterGroup
-        // } = this.props.productState
-        // this.handleFetchProduct(selectedAttributeFilter)
+        const [params] = this.props.searchParams
+        let search = params.get("search")
+
+        if (search) {
+            this.props.onSearchChange(search)
+        }
+
+        this.props.fetchBrands((brands) => {
+        })
+
+        const {
+            selectedAttributeFilter,
+            currentPage,
+            perPageShow,
+            sortValue: {field, order},
+            filterGroup
+        } = this.props.productState
+
+        this.handleFetchProduct(selectedAttributeFilter)
     }
+
 
     handleFetchProduct(selectedAttributeFilter: FilterAttributesType) {
 
@@ -161,6 +173,7 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
             isLoading: true,
             message: "Loading"
         })
+
         api.post("/api/v2/filter-products", {
             in: inV,
             range: {  // range: {internal_storage: [[64, 127], [128, 255]]}
@@ -229,8 +242,10 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
         if (prevProps.productState.filterGroup.selectedBrands !== this.props.productState.filterGroup.selectedBrands) {
             this.handleFetchProduct(this.props.productState.selectedAttributeFilter)
         }
-
     }
+
+
+
 
     changePageNumber = (pageNumber: number) => {
         this.props.setFilteredProducts({
@@ -297,9 +312,10 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
         })
     }
 
-    handleClearSearch = () => {
+    handleClearSearch(){
         this.props.onSearchChange("")
     }
+
 
     returnFilterResultItems(returnJSX, selected) {
         if (selected) {
@@ -317,6 +333,7 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
             perPageShow,
             currentPage
         } = this.props.productState
+
 
         const {isOpenSideBar} = this.props.tools
 
@@ -340,7 +357,8 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
         return (
             <div className="container-1400 flex">
 
-                <Sidebar isOpenSidebar={isOpenSideBar} onClose={this.handleCloseSidebar}>
+
+                <Sidebar backdropClass="product-page-sidebar" isOpenSidebar={isOpenSideBar} onClose={this.handleCloseSidebar}>
                     <h2 className="font-medium text-md m-2 ">Filter</h2>
                     <FilterSidebar
                         returnFilterResultItems={this.returnFilterResultItems}
@@ -354,7 +372,7 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                         <div className="flex justify-between items-start">
                             <h4 className="m-0 p-0 text-sm font-normal white-space-wrap">Search Result for <span
                                 className="text-primary-400 ">{this.props.productState.search.value}</span></h4>
-                            <span onClick={this.handleClearSearch}
+                            <span onClick={()=>this.handleClearSearch()}
                                   className="text-sm bg-primary-400 rounded px-4 py-1 text-white">Clear Search</span>
                         </div>
                     )}
@@ -371,11 +389,11 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                                     products of {filteredProducts.totalProducts} products)</span>
                             </h1>
 
-                            <div className="flex items-center justify-between mt-2">
-                                <button className="text-sm bg-primary-400 rounded px-4 py-1 text-white"
+                            <div className="mt-2 flex items-center justify-between">
+                                <button className="flex items-center justify-between  text-sm bg-primary-400 rounded px-4 py-1 text-white"
                                         onClick={this.handleToggleSideBar}>
                                     <span className="font-normal text-sm mr-2">Filter</span>
-                                    <FaFilter />
+                                    <FaFilter/>
                                 </button>
 
 
@@ -385,12 +403,15 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                                     </li>
                                     <li className="list-none ml-4">
                                         <div className="flex items-center">
-                                            {/*<FontAwesomeIcon*/}
-                                            {/*    onClick={this.changeSortDirectionHandler}*/}
-                                            {/*    icon={filteredProducts.orderDirection === "asc" ? faSortAmountUp : faSortAmountDown}*/}
-                                            {/*    className="text-primary-400 link mr-2"*/}
-                                            {/*/>*/}
-                                            {/*<span className="text-primary-500 text-sm font-medium ml-1">Most Popular</span>*/}
+
+                                            {filteredProducts.orderDirection !== "asc" ? <BiSortUp
+                                                className="text-primary-400 link mr-2"
+                                                onClick={this.changeSortDirectionHandler}
+                                            /> : <BiSortDown
+                                                className="text-primary-400 link mr-2"
+                                                onClick={this.changeSortDirectionHandler}
+                                            />}
+
                                             <select value={filteredProducts.orderBy} onChange={this.changeSortHandler}
                                                     className="link border-none bg-transparent text-sm font-normal outline-none"
                                                     name="" id="">
@@ -455,13 +476,10 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
                 </div>
 
 
-                <div className="container-1600">
-
-                    {filteredProducts.isLoading &&
-                        <Modal className="top-[20vh]" isOpen={filteredProducts.isLoading}>
-                            <Loader className="big_loader"/>
-                        </Modal>}
-                </div>
+                {filteredProducts.isLoading && <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 flex justify-center items-center">
+                    <Backdrop isOpenBackdrop={filteredProducts.isLoading} className="bg-dark-800/40" />
+                        <Loader className="big_loader"/>
+                </div> }
             </div>
         )
     }
@@ -482,8 +500,9 @@ export default connect(mapStateToProps, {
     setFilteredProducts,
     onSearchChange,
     toggleHandleCart,
+    onFilterSearchChange,
     toggleHandleWishlist,
     toggleSideBar,
-})(withLocation(ProductPage))
+})(WithSearchParams(WithLocation(ProductPage)))
 
 

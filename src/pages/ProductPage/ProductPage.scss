@@ -77,3 +77,9 @@
     display: block;
   }
 }
+
+.product-page-sidebar{
+    @include get_up(1024px) {
+        display: none;
+    }
+}

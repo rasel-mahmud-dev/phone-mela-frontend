@@ -6,6 +6,7 @@ import {CartProductType, ProductType, WishList} from "reducers/productReducer";
 import brokenImg from "../../asserts/images/no-img.png";
 import slugify from "../../utils/slugify";
 import Preload from "UI/Preload/Preload";
+import {AiOutlineEye, FaHeart, FaLayerGroup} from "react-icons/all";
 
 interface ProductComponentProps {
     prod: ProductType,
@@ -146,18 +147,18 @@ const Product: FC<ProductComponentProps> = (props) => {
 
                     <div className="floating_btns_item">
                         <Preload to={`/product/${slugify(prod.title)}/${prod._id}`}>
-                            {/*<FontAwesomeIcon icon={faEye} />*/}
+                            <AiOutlineEye />
                         </Preload>
                     </div>
 
                     <div className="floating_btns_item">
-                        {/*<FontAwesomeIcon icon={faLayerGroup} />*/}
+                        <FaLayerGroup />
                     </div>
 
                     <div
                         className={["floating_btns_item", isInWished(prod._id) ? "bg-primary-400 text-white floating_btns_item__active" : ""].join(" ")}
                         onClick={() => handleToggleWishlist(prod)}>
-                        {/*<FontAwesomeIcon icon={faHeart} />*/}
+                        <FaHeart />
                     </div>
                 </div>
 

@@ -401,7 +401,6 @@ const productsReducer = (state = initialProductState, action: any): ProductState
 
         case ActionTypes.INCREASE_CART_ITEM:
             index = updatedState.cartProducts.findIndex(cp => cp._id === action.payload)
-            console.log(index)
             updatedState.cartProducts[index].quantity++
             return updatedState
 
@@ -415,7 +414,14 @@ const productsReducer = (state = initialProductState, action: any): ProductState
             return updatedState
 
         case ActionTypes.SEARCH_CHANGE:
+
             updatedState.search.value = action.payload.value
+            if(action.payload.value === ""){
+                updatedState.filteredProducts = {
+                    ...updatedState.filteredProducts,
+                    search: action.payload
+                }
+            }
             return updatedState
 
         case ActionTypes.FILTER_SEARCH_CHANGE:

@@ -5,7 +5,6 @@ import { logoutAction} from "src/store/actions/authAction";
 import "./Navigation.scss";
 
 import {useLocation, useNavigate} from "react-router-dom";
-import Modal from "UI/Modal/Modal";
 import {toggleSearchBar, toggleSideBar} from "actions/toolsAction";
 
 import {onFilterSearchChange, onSearchChange} from "actions/productAction";
@@ -16,6 +15,7 @@ import {BiShoppingBag, BiUser} from "react-icons/bi";
 import {HiOutlineShoppingBag} from "react-icons/hi";
 import {FaAngleDown, FaHeart, FaSearch, FaSignInAlt, FaSignOutAlt, FaTimes, FaUserAlt} from "react-icons/all";
 import Dropdown from "UI/Dropdown/Dropdown";
+import SocialLinks from "components/SocialLinks/SocialLinks";
 
 const offerText =
     "ফোন মেলা এর যেকোনো আউটলেট অথবা অনলাইন শপ\n" +
@@ -58,7 +58,7 @@ const Navigation = (props) => {
         let callback = location.pathname + location.search;
 
         return (
-            <Dropdown inProp={isShow} className="w-52 left-0 bg-white  overflow-hidden">
+            <Dropdown inProp={isShow} className="w-52 right-0 bg-white  overflow-hidden">
                 <div className="">
                     <ul className="bg-white text-sm font-normal">
                         {auth ? (
@@ -209,14 +209,6 @@ const Navigation = (props) => {
         setShowSearchBar(!showSearchBar);
     }
 
-    function renderSearchBar() {
-        return (
-            <div className="search_input_wrapper">
-                <input type="text" placeholder="Enter Search Products"/>
-            </div>
-        );
-    }
-
     function handleSearch(e) {
         e.preventDefault();
         // let val = searchInput.current?.value
@@ -230,7 +222,6 @@ const Navigation = (props) => {
 
     function onChangeSearch(e) {
         if (e.target.value === "") {
-            dispatch(onFilterSearchChange(""));
             dispatch(onSearchChange(""));
             return Preload.Load("/q", () => {
                 navigate("/q");
@@ -263,29 +254,7 @@ const Navigation = (props) => {
                 <div className="container-1400 flex-1 px-2">
                     {/* top_navigation hide on mobile view */}
                     <div className="md:flex justify-between hidden pt-3">
-                        <div className="flex items-center gap-x-2">
-                            <a
-                                target={"_blank"}
-                                href="https://www.facebook.com/raselmraju"
-                                className="top_navigation__icon_item"
-                            >
-                                {/*<FontAwesomeIcon icon={faFacebookF}/>*/}
-                            </a>
-                            <a
-                                target={"_blank"}
-                                href="https://rasel-portfolio.vercel.app"
-                                className="top_navigation__icon_item"
-                            >
-                                {/*<FontAwesomeIcon icon={faGlobe}/>*/}
-                            </a>
-                            <a
-                                target={"_blank"}
-                                href="https://github.com/rasel-mahmud-dev"
-                                className="top_navigation__icon_item"
-                            >
-                                {/*<FontAwesomeIcon icon={faGithub}/>*/}
-                            </a>
-                        </div>
+                        <SocialLinks />
                         <div className="flex-1 px-0 sm:px-4">
                             <marquee className="text-sm font-light flex" behavior="slider">
                                 {offerText}
@@ -380,12 +349,12 @@ const Navigation = (props) => {
                             >
                                 <span className="hidden text-sm font-normal  sm:inline-block">My Account</span>
 
-                                <div>
+                                <div className="relative">
                                     {auth ? (
                                         <div className="flex items-center gap-x-1">
                                             <Avatar src={auth.avatar} username={auth.username} imgClass="w-8 h-8 !text-xs !bg-dark-900/30"
                                                     className="ml-2"/>
-                                            <span>{auth.username}</span>
+                                            <span className="hidden sm:block">{auth.username}</span>
                                         </div>
                                     ) : (
                                         <BiUser className="text-light-500 text-2xl"/>
@@ -394,13 +363,6 @@ const Navigation = (props) => {
                                 </div>
                             </li>
                         </div>
-
-                        <Modal isOpen={showSearchBar} title="Search Products">
-                            <div>
-                                {renderSearchBar()}
-                                <button className="search_btn">Search</button>
-                            </div>
-                        </Modal>
                     </div>
                 </div>
             </div>

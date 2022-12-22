@@ -14,10 +14,19 @@ function useRestoreCheckoutData(){
             localStorage.setItem("checkout", JSON.stringify(productState.checkout))
         } else {
             // take checkout product from localstorage
-            dispatch({
-                type: ActionTypes.SET_CHECKOUT_PRODUCTS,
-                payload: JSON.parse( localStorage.getItem("checkout"))
-            })
+            let str =  localStorage.getItem("checkout")
+            if(str) {
+                try{
+                    let data = JSON.parse(str)
+                    dispatch({
+                        type: ActionTypes.SET_CHECKOUT_PRODUCTS,
+                        payload:  data
+                    })
+                }catch (ex){
+
+                }
+
+            }
         }
     }, [productState.checkout.products])
 

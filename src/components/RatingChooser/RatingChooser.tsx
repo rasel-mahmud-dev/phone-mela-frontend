@@ -38,7 +38,7 @@ const RatingChooser = ({name, defaultValue, label, onChange, inputClass = "", to
             >
                 {Array(total).fill(1).map((_, index) => (
                     <BsStarFill key={index} onClick={() => handleChangeRate(index + 1)}
-                                className={`text-dark-50/50 cursor-pointer ${state.value >= index + 1 ? "!text-orange-400" : ""} `}
+                                className={`text-dark-50/50 cursor-pointer ${state.value >= String(index + 1) ? "!text-orange-400" : ""} `}
 
                     />
                 ))}

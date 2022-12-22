@@ -11,6 +11,7 @@ import {NavigateFunction} from "react-router-dom"
 
 
 import Loader from "UI/Loader/Loader";
+import Loader2 from "components/Loader/Loader";
 
 
 import "./product_details.scss"
@@ -150,6 +151,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                             productDetail: {
                                 ...prevState.productDetail,
                                 _id: response.data._id,
+                                stock: response.data.stock,
                                 averageRate: response.data.averageRate,
                                 title: response.data.title,
                                 brand_id: response.data.brand_id,
@@ -177,12 +179,12 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                     await this.fetchProductSpecification(response.data.specification_id)
 
 
-                    await this.fetchProductReviews(response.data._id)
+                    // await this.fetchProductReviews(response.data._id)
                     await this.fetchProductQuestions(response.data._id)
                 }
             }
         } catch (ex) {
-            console.log(ex)
+            // console.log(ex)
         }
     }
 
@@ -271,18 +273,14 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
     }
 
 
-
-
-
-
     isInCart = (id: string) => {
-        let i = this.props.cartProducts && this.props.cartProducts.findIndex(cp => cp.product_id.toString() === id.toString())
+        let i = this.props.cartProducts?.findIndex(cp => cp.product_id.toString() === id.toString())
         return i !== -1
     }
 
 
     isInWished = (id: string) => {
-        let i = this.props.wishlist.findIndex(cp => cp.product_id.toString() === id.toString())
+        let i = this.props.wishlist?.findIndex(cp => cp.product_id.toString() === id.toString())
         return i !== -1
     }
 
@@ -315,7 +313,6 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
         const {productDetail, currentPageForReview, amountOfRate} = this.state
 
-
         return (
             <div className="container-1400 px-4 product_detail_page bg-white">
 
@@ -330,7 +327,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                 {/*<h1>Details</h1>*/}
                 {/*{isLoading && <Loader isLoading={isLoading} style={{top: "100px"}}/>}*/}
 
-                {productDetail && productDetail._id && (
+                {productDetail && productDetail._id ? (
 
                     <div className="product_detail ">
 
@@ -339,7 +336,6 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                   href={`https://phone-mela.vercel.app/product/${productDetail.title}`}/>
                             <title>{productDetail.title} on phone-mela.vercel.app</title>
                         </Helmet>
-
 
                         <div className="page_wrapper2">
                             <div className="left_sidebar2">
@@ -378,7 +374,8 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                                 </div>
                                             </div>
 
-                                            <h4 className="text-center font-bold text-xl mt-10">{productDetail.stock ? productDetail.stock +" Stock": <span className="text-red-300">Stock Out</span>}</h4>
+                                            <h4 className="text-center font-medium text-xl mt-10">{productDetail.stock ? productDetail.stock + " Stock" :
+                                                <span className="text-red-300">Out of Stock</span>}</h4>
 
 
                                             <div className="flex justify-center mt-4">
@@ -391,7 +388,8 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                                         className="bg-secondary-400 font-normal text-white text-xl px-4 py-2 mr-1">{this.isInCart(productDetail._id) ? "Remove from cart" : "Add to Cart"}</Button>
 
                                                 <Button onClick={this.handleBuy}
-                                                        className={`bg-primary-400  font-normal text-white text-xl px-4 py-2 ${!productDetail.stock && 'btn-disable'}`}>Buy Now
+                                                        className={`bg-primary-400  font-normal text-white text-xl px-4 py-2 ${!productDetail.stock && 'btn-disable'}`}>Buy
+                                                    Now
                                                 </Button>
                                             </div>
 
@@ -517,7 +515,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                     </div>
 
 
-                                    <Slats productDetail={this.state.productDetail} />
+                                    <Slats productDetail={this.state.productDetail}/>
 
 
                                     <div className="sec">
@@ -527,10 +525,8 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                     </div>
 
 
-
                                     {/*<QuestionAnswer productDetail={this.state.productDetail} />*/}
-                                    <UserReviewRatings productDetail={this.state.productDetail} />
-
+                                    <UserReviewRatings productDetail={this.state.productDetail}/>
 
 
                                 </div>
@@ -582,6 +578,10 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
                     </div>
 
+                ) : (
+                    <h1 className="text-center mt-40 flex justify-center ">
+                        <Loader2 size={100} title="Please await a Moment"/>
+                    </h1>
                 )}
 
             </div>
@@ -646,13 +646,12 @@ const mapStateToProps = (state: RootStateType, p: any) => ({
 })
 
 
-
 export default connect(mapStateToProps, {
     fetchProduct,
     deleteProduct,
     clearProductDetails,
     toggleHandleCart,
     toggleHandleWishlist,
-    dispatch: (dispatch: Dispatch)=> dispatch
+    dispatch: (dispatch: Dispatch) => dispatch
 })(WithNavigate(WithParams(ProductDetails)))
 

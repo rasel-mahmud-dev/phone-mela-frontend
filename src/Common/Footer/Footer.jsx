@@ -1,19 +1,12 @@
 import React from 'react'
 import './Footer.scss'
 import {Link} from "react-router-dom";
+import SocialLinks from "components/SocialLinks/SocialLinks";
 
-const Footer = (props) => {
+const Footer = () => {
 
     const short = [
         [
-            {
-                id: 1,
-                label: "ABOUT",
-                sub: [
-                    {label: "Contact Me", to: "/contact-me"},
-                    {label: "About", to: "/about-me"},
-                ]
-            },
             {
                 id: 2,
                 label: "HELP",
@@ -27,14 +20,15 @@ const Footer = (props) => {
                 id: 4,
                 label: "SOCIAL",
                 sub: [
-                    {label: "Facebook", href: "https://www.facebook.com/raselmraju"},
+                    {label: "Facebook", href: "https://www.facebook.com/rasel-mahmud-dev"},
                 ]
             }],
         [{
             label: "Contact Me",
             sub: [
                 {label: "Portfolio", href: "https://rasel-portfolio.vercel.app"},
-                {label: "mail", to: ""},
+                {label: "Contact Me", to: "/contact-me"},
+                {label: "About", to: "/about-me"},
             ]
         }
         ]]
@@ -48,6 +42,16 @@ const Footer = (props) => {
                         {short.map((section, index) => (
                             <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 " + "sec-" + index}
                                  key={index}>
+
+                                {index === 0 && (
+                                    <div>
+
+                                        <h4 className="text-white text-xl font-medium mt-4">Phone Mela</h4>
+                                        <p>Online phone selling website</p>
+                                        <SocialLinks className="text-white my-4"/>
+                                    </div>
+                                )}
+
                                 {section.map((eachSec, i) => (
                                     <div className="" key={i}>
                                         <h4 className="text-white text-sm font-normal mt-4">{eachSec.label}</h4>

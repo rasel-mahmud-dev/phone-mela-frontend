@@ -1,8 +1,20 @@
-import React, {forwardRef} from 'react'
+import React, {FC, forwardRef} from 'react'
 
 import "./Input2.scss"
 
-const Input2 = forwardRef((props, ref)=>{
+interface Props{
+    label?: string,
+    error?: string,
+    tauched?: boolean,
+    onChange: any
+    value?: string | number,
+    name?: string,
+    ref?: any
+    type?: any,
+    className?: string
+}
+
+const Input2:FC<Props> = forwardRef((props, ref: any)=>{
 
     const {
         label,
@@ -74,7 +86,7 @@ const Input2 = forwardRef((props, ref)=>{
                        className={[
                            "cursor-pointer input_label",
                            focus ? "input_label--active" : "",
-                           ((value === 0) || value) && !focus ? "input_label--active" : "",
+                           ((value === "") || value) && !focus ? "input_label--active" : "",
                            errorMessage ? "input_label--error input_label--active" : ""
                        ].join(" ")}
                 >
