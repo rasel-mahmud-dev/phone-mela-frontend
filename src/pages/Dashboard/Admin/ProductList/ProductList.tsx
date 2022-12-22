@@ -6,9 +6,10 @@ import fullLink from 'src/utils/fullLink';
 // import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 // import {faPen, faTrash, faTrashAlt} from "@fortawesome/pro-regular-svg-icons";
 import {ProductType} from "reducers/productReducer";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import WithSidebarButton from "components/WithSidebarButton/WithSidebarButton";
 import Switch from "UI/Form/Switch/Switch";
+import Button from "UI/Button/Button";
 
 
 const ProductList = () => {
@@ -173,9 +174,16 @@ const ProductList = () => {
     return (
         <div className="my-4">
 
-            <WithSidebarButton>
-                <h1 className="page-title">Product List ({products.length})</h1>
-            </WithSidebarButton>
+           <div className="flex items-center justify-between">
+               <WithSidebarButton>
+                   <h1 className="page-title">Product List ({products.length})</h1>
+               </WithSidebarButton>
+
+               <Link to="/admin/product/add-product">
+                   <Button className="btn-primary">Add Product</Button>
+               </Link>
+
+           </div>
 
             <Table dataSource={data} columns={columns} fixedHeader={true} scroll={{y: '80vh'}}/>
 

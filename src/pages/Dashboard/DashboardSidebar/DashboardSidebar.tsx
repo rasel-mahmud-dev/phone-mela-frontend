@@ -13,6 +13,7 @@ import fullLink from "../../../utils/fullLink";
 import Sidebar from "components/Sidebar/Sidebar";
 import Avatar from "components/Avatar/Avatar";
 import {logoutAction} from "actions/authAction";
+import {CgProductHunt, FaUsers} from "react-icons/all";
 
 
 const DashboardSidebar = () => {
@@ -210,7 +211,7 @@ const DashboardSidebar = () => {
                         {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
-                to: `/dashboard`
+                to: `/admin/dashboard`
             },
             {
                 id: 213122343,
@@ -221,7 +222,7 @@ const DashboardSidebar = () => {
                         {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
-                to: `/dashboard/sales`
+                to: `/admin/sales`
             },
             {
                 menu_section_name: "Products",
@@ -236,12 +237,12 @@ const DashboardSidebar = () => {
                     {
                         name: "Products",
                         onClick: closeSidebar,
-                        to: "/dashboard/products",
+                        to: "/admin/products",
                     },
                     {
                         name: "Add Products",
                         onClick: closeSidebar,
-                        to: "/auth/customer/address-book"
+                        to: "/admin/product/add-product"
                     },
                     // {name: "Payment Option", to: "/dashboard/brands"},
                     // {name: "Vouchers", to: "/dashboard/brands"},
@@ -256,26 +257,24 @@ const DashboardSidebar = () => {
                         {/*<FontAwesomeIcon icon={faHomeAlt}/>*/}
                     </div>
                 ),
-                to: `/dashboard/brands`
+                to: `/admin/brands`
             },
             {
                 menu_section_name: "Customer",
                 name: "Customer",
                 id: 1,
+                to: `/admin/customers`,
                 iconRender: () => (
-                    <div className="mr-2">
-                        {/*<FontAwesomeIcon icon={faUser}/>*/}
-                    </div>
+                    <div className="mr-2"><FaUsers /></div>
                 )
             },
             {
                 menu_section_name: "Orders",
                 name: "Orders",
                 id: 1,
+                to: `/admin/orders`,
                 iconRender: () => (
-                    <div className="mr-2">
-                        {/*<FontAwesomeIcon icon={faUser}/>*/}
-                    </div>
+                    <div className="mr-2"><CgProductHunt /> </div>
                 )
             },
         ]

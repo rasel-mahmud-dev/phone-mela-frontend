@@ -18,8 +18,7 @@ import {RootStateType} from "store/index";
 import {ProductStateType} from "reducers/productReducer";
 import Product from "../../Common/Product/Product";
 import Pagination from "UI/Pagination/Pagination";
-import {FilterAttributesType, FILTERED_PRODUCTS_TYPE, ProductAttributesName} from "store/types/prouductReduceTypes";
-import Modal from "UI/Modal/Modal";
+import {FilterAttributesType, FILTERED_PRODUCTS_TYPE, ProductAttributesName, ProductAttributesType} from "store/types/prouductReduceTypes";
 import FilterSidebar from "src/Common/FilterSidebar/FilterSidebar";
 
 
@@ -56,6 +55,7 @@ interface State {
     httpFetch: boolean
     httpMessage: string
 }
+
 
 let prevPageNumber;
 

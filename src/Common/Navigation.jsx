@@ -63,30 +63,19 @@ const Navigation = (props) => {
                     <ul className="bg-white text-sm font-normal">
                         {auth ? (
                             <>
-                                {auth.role === "admin" && (
+
+
                                     <li className="auth-menu__item">
                                         <FaUserAlt className="mr-2 text-gray-800"/>
                                         <Preload
                                             onClickCallback={() => setExpandDropdown("_")}
                                             className="font-normal text-gray-800"
                                             onClick={() => setExpandDropdown("_")}
-                                            to="/admin/dashboard"
+                                            to={`${auth.role === "ADMIN" ? "/admin/dashboard": "/dashboard"}`}
                                         >
                                             Dashboard
                                         </Preload>
                                     </li>
-                                )}
-
-                                <li className="auth-menu__item">
-                                    <Preload
-                                        onClickCallback={() => setExpandDropdown("_")}
-                                        className="text-sm font-normal flex items-center"
-                                        to={`/dashboard`}
-                                    >
-                                        <FaUserAlt  className="mr-2 dark_title text-gray-800"/>
-                                        Dashboard
-                                    </Preload>
-                                </li>
 
                                 <li className="auth-menu__item">
                                     <Preload
