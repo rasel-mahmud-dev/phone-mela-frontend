@@ -135,8 +135,8 @@ const UserReviewRatings = (props) => {
     function renderRatings() {
 
         return (
-            <div className="rating_ flex-1 flex justify-between items-center">
-                <div className="rating_left flex-1">
+            <div className="w-full grid  grid-cols-1 md:grid-cols-2 ">
+                <div className="rating_left">
                     <div className="flex flex-col items-center">
 
                         <h1 className="text-6xl font-bold flex items-center  text-dark-800">
@@ -152,7 +152,7 @@ const UserReviewRatings = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="rating_right flex-1">
+                <div className="rating_right">
                     {Object.keys(state.amountOfRate).map(rate => (
                         <div className="flex items-center">
                 <span className="flex items-center">

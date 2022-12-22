@@ -71,24 +71,23 @@ export const deleteProduct = (id: number) => async (dispatch: any) => {
 }
 
 
-export const fetchBrands = (cb: (data: BrandType[]) => void) => async (dispatch: (arg0: FetchBrands) => void, getState: any) => {
+export const fetchBrands = async (dispatch) => {
+
     try {
-        let {productState} = getState()
-        if (productState.brands.length === 0) {
-            const response = await getApi().get(`/api/brands`)
-            if (response.status === 200) {
-                if (response.data) {
-                    cb(response.data)
-                    dispatch({
-                        type: ActionTypes.FETCH_BRANDS,
-                        payload: response.data
-                    })
-                }
-            }
+        const response = await getApi().get(`/api/brands`)
+        if (response.status === 200) {
+
+            dispatch({
+                type: ActionTypes.FETCH_BRANDS,
+                payload: response.data
+            })
+
         }
     } catch (ex) {
 
     }
+
+
 }
 
 export const fetchOrders = (dispatch) => {
@@ -179,9 +178,7 @@ let id: NodeJS.Timeout;
 export function toggleHandleCart(product: AddCartPayload) {
 
 
-
     return async function (dispatch: any, getState: any) {
-
 
 
         id && clearTimeout(id)
@@ -189,7 +186,6 @@ export function toggleHandleCart(product: AddCartPayload) {
         let updatedCartProducts = [...productState.cartProducts]
 
         // toast("----------------------------------")
-
 
 
         if (auth) {
@@ -348,7 +344,6 @@ export function toggleHandleWishlist(product: AddWishlistPayload, cb?: any) {
         }
     }
 }
-
 
 
 // fetch all transactions from database

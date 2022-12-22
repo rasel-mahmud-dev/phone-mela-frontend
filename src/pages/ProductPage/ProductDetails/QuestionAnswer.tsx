@@ -3,11 +3,12 @@ import Button from "../../../components/UI/Button/Button";
 import Input from "../../../components/UI/Form/Input/Input";
 import Modal from "../../../components/UI/Modal/Modal";
 import {toast} from "react-toastify";
-import {getApi} from "../../../apis/api";
+import api, {getApi} from "../../../apis/api";
 import errorMessage from "../../../response/errorResponse";
 
-const QuestionAnswer = (props) => {
-    const {productDetail} = props
+const QuestionAnswer = () => {
+
+    const FAKE_POST_DETAIL = "63a48393355d872777f973d2"
 
     const [questions, setQuestions] = useState<{
         question: string,
@@ -17,10 +18,18 @@ const QuestionAnswer = (props) => {
     }[]>([])
 
     useEffect(() => {
-        if (productDetail.questions) {
-            setQuestions(productDetail.questions)
-        }
-    }, [productDetail.questions])
+       (async function(productId: string){
+           // fetch product Questions and Answers
+
+           //!Note i use product_questions for all from product product_questions for product id 1
+           const response2 = await api.get(`/api/product/questions/${productId}`)
+           if (response2.status === 200) {
+               // let {  answer, answerer_id, created_at, product_id, question, question_id, questioner_id } = response2.data
+               setQuestions(response2.data.questions)
+
+           }
+       }(FAKE_POST_DETAIL)) // fake product questions for re use ability
+    }, [])
 
 
     function handleAddQuestion(e: SyntheticEvent<HTMLFormElement>) {
@@ -35,7 +44,7 @@ const QuestionAnswer = (props) => {
         }
 
         getApi().post("/api/product/question", {
-            productId: "63a48393355d872777f973d2", // fake id
+            productId: FAKE_POST_DETAIL, // fake id
             // productId: productDetail._id,
             question: question,
         }).then(({status, data}) => {
@@ -53,6 +62,7 @@ const QuestionAnswer = (props) => {
     function addQuestionModal() {
         return (
             <form onSubmit={handleAddQuestion}>
+                <h3 className="my-2 font-medium text-center">Ask Question</h3>
                 <Input name="question" type="textarea" label="Question"/>
                 <Button type="submit" className="btn-primary">Submit</Button>
 

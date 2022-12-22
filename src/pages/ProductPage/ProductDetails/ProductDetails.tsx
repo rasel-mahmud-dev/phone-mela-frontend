@@ -38,7 +38,7 @@ import {Dispatch} from "redux";
 import WithNavigate from "src/Hoc/WithNavigate";
 import WithParams from "src/Hoc/WithParams";
 import Button from "UI/Button/Button";
-import {FaHeart} from "react-icons/all";
+import {BsStar, FaHeart} from "react-icons/all";
 
 const QuestionAnswer = lazy(() => import("pages/ProductPage/ProductDetails/QuestionAnswer"));
 const UserReviewRatings = lazy(() => import("pages/ProductPage/ProductDetails/UserReviewRatings"));
@@ -71,6 +71,7 @@ interface State {
         productId: string
         ram: number[],
         storage: number[]
+        questions?: object[]
         updatedAt: Date,
         _id: string
 
@@ -81,6 +82,9 @@ interface State {
     allStar: number
     currentPageForReview: number
 }
+
+
+const FAKE_POST_DETAIL = "63a48393355d872777f973d2"
 
 class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
@@ -199,8 +203,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                         }
                     })
 
-                    await this.fetchProductDetail("63a48393355d872777f973d2") // fake product data for re use able all data
-                    // await this.fetchProductQuestions("63a48393355d872777f973d2") // fake product data for re use able all data
+                    await this.fetchProductDetail(FAKE_POST_DETAIL) // fake product data for re use able all data
                 }
             }
         } catch (ex) {
@@ -243,25 +246,6 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                 return {
                     ...prevState,
                     detail: response.data
-                }
-            })
-        }
-    }
-
-    fetchProductQuestions = async (productId: string | number) => {
-        // fetch product Questions and Answers
-
-        //!Note i use product_questions for all from product product_questions for product id 1
-        const response2 = await api.get(`/api/product_questions/${productId}`)
-        if (response2.status === 200) {
-            // let {  answer, answerer_id, created_at, product_id, question, question_id, questioner_id } = response2.data
-            this.setState((prevState: State): State => {
-                return {
-                    ...prevState,
-                    productDetail: {
-                        ...prevState.productDetail,
-                        product_questions: response2.data
-                    }
                 }
             })
         }
@@ -368,15 +352,15 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                             </div>
                             <div className="content mx-2 md:mx-3">
                                 <div className="">
-                                    <h1 className="big_title mt-6 sm:mt-0">{productDetail.title}</h1>
+                                    <h1 className="text-3xl font-semibold my-4 ">{productDetail.title}</h1>
                                     <div className="flex items-center">
-                    <span className="bg-primary-400 px-1.5 py-0.5 text-sm relative text-white rounded-[3px] mr-1.5">
-                      <span>{this.state.productDetail.averageRate}</span>
+                    <span className="bg-primary-400 px-1.5 py-0.5 text-sm relative text-white rounded-[3px] mr-1.5 flex items-center">
+                      <span>{this.state.productDetail.averageRate || 4.4}</span>
                       <span className="relative -top-[1px] ml-1">
-                          {/*<FontAwesomeIcon className="text-xs text-secondary-400" icon={faStar} />*/}
+                          <BsStar className="text-xs"/>
                       </span>
                     </span>
-                                        <h4>{productDetail.reviews?.length} Ratings & Reviews</h4>
+                                        <h4>{productDetail.reviews?.length} Ratings</h4>
                                     </div>
 
                                     <div>
@@ -414,12 +398,12 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
                                     <div className="sec">
                                         {ProductDetails.renderTwoColSection("Color variant",
-                                            this.state.productDetail.colors,
+                                            this.state.detail.colors,
                                             (colors: { v: string, url: string }[]) => <ul className="color_image_gallery">
                                                 {colors.map((color: any) => (
-                                                    <li className="flex flex-col items-center justify-center">
-                                                        <img src={fullLink(color.url)} alt=""/>
-                                                        <span className="text-[12px] font-normal">Red</span>
+                                                    <li className="mr-3 border px-2 py-1 rounded border-primary-300/30">
+                                                        {/*<img src={fullLink(color.url)} alt=""/>*/}
+                                                        <span className="text-sm font-normal">{color}</span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -427,30 +411,21 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                     </div>
                                     <div className="sec">
                                         {ProductDetails.renderTwoColSection("Storage",
-                                            this.state.productDetail.storage,
-                                            (storage: { v: string, url: string }[]) => storage.map((s, i) =>
-                                                    <span
-                                                        className={["mr-2", s.v === productDetail.attributes.internal_storage + "GB" ? "current_variant" : ""].join(" ")}>
-                      <span key={i} className="text-sm font-normal hover:underline hover:text-primary-400 cursor-pointer">{s.v}</span>
-                    </span>
-                                            )
-                                        )}
+                                            this.state.detail.storage,
+                                            (storage) => storage.map((s) => <span
+                                                className="mr-3 border px-2 py-1 rounded border-primary-300/30">{s}GB</span>))}
                                     </div>
                                     <div className="sec">
                                         {ProductDetails.renderTwoColSection("Ram",
-                                            this.state.productDetail.ram,
-                                            (ram: { v: string, url: string }[]) => ram.map((r, i) =>
-                                                    <span
-                                                        className={["mr-2", r.v === productDetail.attributes.ram + "GB" ? "current_variant" : ""].join(" ")}>
-                    <span key={i} className="text-sm font-normal hover:underline hover:text-primary-400 cursor-pointer">{r.v}</span>
-                  </span>
-                                            )
+                                            this.state.detail.ram,
+                                            (ram: string[]) => ram.map((s, i) => <span
+                                                className="mr-3 border px-2 py-1 rounded border-primary-300/30">{s}GB</span>)
                                         )}
                                     </div>
                                     <div className="sec">
                                         {ProductDetails.renderTwoColSection(
                                             "Highlights",
-                                            this.state.productDetail.highlights,
+                                            this.state.detail.highlights,
                                             (data: any) => (
                                                 <ul className="text-gray-900 text-sm">
                                                     {
@@ -481,15 +456,13 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                     </div>
 
                                     <Suspense fallback={<h1>Loading...</h1>}>
-                                        <QuestionAnswer productDetail={detail}/>
+                                        <QuestionAnswer/>
                                     </Suspense>
 
 
                                     <Suspense fallback={<h1>Loading...</h1>}>
                                         <UserReviewRatings productDetail={this.state.productDetail}/>
                                     </Suspense>
-
-
 
 
                                 </div>

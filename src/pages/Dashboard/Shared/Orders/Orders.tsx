@@ -90,6 +90,23 @@ const Orders = (props) => {
             },
         },
         {
+            title: "Status",
+            key: "323423",
+            dataIndex: "order_status",
+            width: 150,
+            sorter: {
+                compare: (a: any, b: any) => {
+                    if (a.status > b.status) {
+                        return 1
+                    } else if (a.status < b.status) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            },
+        },
+        {
             title: "Price",
             key: "3",
             dataIndex: "price",
@@ -113,9 +130,9 @@ const Orders = (props) => {
     return (
         <div className="my-4">
 
-            <WithSidebarButton>
+            {props.roleFor !== "ADMIN" &&  <WithSidebarButton>
                 <h1 className="page-title">My Orders</h1>
-            </WithSidebarButton>
+            </WithSidebarButton> }
 
             <div className="mt-5">
 

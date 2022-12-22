@@ -18,7 +18,7 @@ const ReactLazyPreload = (importStatement: any) => {
 const GoogleLogin = ReactLazyPreload(() => import("pages/auth/GoogleLogin"));
 const AccountInfo = ReactLazyPreload(() => import("pages/Dashboard/Customer/AccountInfo/AccountInfo"));
 const AddressBook = ReactLazyPreload(() => import("pages/Dashboard/Customer/AddressBook/AddressBook"));
-const Orders = ReactLazyPreload(() => import("pages/Dashboard/Customer/Orders/Orders"));
+const Orders = ReactLazyPreload(() => import("pages/Dashboard/Shared/Orders/Orders"));
 const MyReviews = ReactLazyPreload(() => import("pages/Dashboard/Customer/MyReviews/MyReviews"));
 const OrderDetails = ReactLazyPreload(() => import("pages/Dashboard/Customer/OrderDetails/OrderDetails"));
 const MyCart = ReactLazyPreload(() => import("pages/Dashboard/Customer/MyCart/MyCart"));
@@ -83,12 +83,6 @@ function MyRoutes() {
                 {path: "transactions", index: true, element: <Transactions/>},
                 {path: "wishlist", index: true, element: <MyWishlist/>},
                 {path: "reviews", index: true, element: <MyReviews/>},
-
-                // admin routes
-                {path: "sales", index: true, element: <Sales/>},
-                {path: "customers", index: true, element: <Customers/>},
-                {path: "products", index: true, element: <ProductList/>},
-                {path: "brands", index: true, element: <BrandList/>},
             ],
         },
         {
@@ -97,6 +91,10 @@ function MyRoutes() {
             children: [
                 {path: "dashboard", index: true, element: <AdminDashboardHome/>},
                 {path: "products", index: true, element: <ProductList/>},
+                {path: "sales", index: true, element: <Sales/>},
+                {path: "brands", index: true, element: <BrandList/>},
+                {path: "orders", index: true, element: <Orders/>},
+                {path: "customers", index: true, element: <Customers/>},
                 {path: "products/category", index: true, element: <Category/>},
                 {path: "product/add-product", index: true, element: <AddProduct/>},
                 {path: "product/update-product/:productId", index: true, element: <AddProduct/>}

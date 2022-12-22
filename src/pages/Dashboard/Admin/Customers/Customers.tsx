@@ -38,8 +38,8 @@ const Customer = (props) => {
             title: "Image",
             key: "1",
             dataIndex: "avatar",
-            render: (avatar: any) =>
-                <Avatar className="w-20" src={fullLink(avatar)}/>
+            render: (avatar: any, user: any) =>
+                <Avatar imgClass="w-20 h-20" username={user.username} src={fullLink(avatar)}/>
         },
         {
             title: "Name",
@@ -51,6 +51,40 @@ const Customer = (props) => {
                     if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) {
                         return 1
                     } else if (a.first_name.toLowerCase() < b.first_name.toLowerCase()) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            }
+        },
+        {
+            title: "Email",
+            key: "1235345",
+            dataIndex: "email",
+            width: 200,
+            sorter: {
+                compare: (a: any, b: any) => {
+                    if (a.email.toLowerCase() > b.email.toLowerCase()) {
+                        return 1
+                    } else if (a.email.toLowerCase() < b.email.toLowerCase()) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                }
+            }
+        },
+        {
+            title: "Role",
+            key: "1132",
+            dataIndex: "role",
+            width: 200,
+            sorter: {
+                compare: (a: any, b: any) => {
+                    if (a.role.toLowerCase() > b.role.toLowerCase()) {
+                        return 1
+                    } else if (a.role.toLowerCase() < b.role.toLowerCase()) {
                         return -1
                     } else {
                         return 0
@@ -96,7 +130,7 @@ const Customer = (props) => {
         <div className="my-4">
 
             <WithSidebarButton>
-                <h1 className="page-title">My Customer</h1>
+                <h1 className="page-title">Customer</h1>
             </WithSidebarButton>
 
             <div className="mt-5">
