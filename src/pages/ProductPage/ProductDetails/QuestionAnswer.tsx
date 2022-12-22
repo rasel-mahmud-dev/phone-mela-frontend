@@ -1,15 +1,86 @@
-import React from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import Button from "../../../components/UI/Button/Button";
+import Input from "../../../components/UI/Form/Input/Input";
+import Modal from "../../../components/UI/Modal/Modal";
+import {toast} from "react-toastify";
+import {getApi} from "../../../apis/api";
+import errorMessage from "../../../response/errorResponse";
 
 const QuestionAnswer = (props) => {
     const {productDetail} = props
+
+    const [questions, setQuestions] = useState<{
+        question: string,
+        answer?: string,
+        customerId?: string
+        createdAt: Date
+    }[]>([])
+
+    useEffect(() => {
+        if (productDetail.questions) {
+            setQuestions(productDetail.questions)
+        }
+    }, [productDetail.questions])
+
+
+    function handleAddQuestion(e: SyntheticEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+
+        let a = e.target as any;
+
+        let question = (a.question as HTMLInputElement).value
+        if (!question) {
+            return toast.error("Please write your question")
+        }
+
+        getApi().post("/api/product/question", {
+            productId: "63a48393355d872777f973d2", // fake id
+            // productId: productDetail._id,
+            question: question,
+        }).then(({status, data}) => {
+            if (status === 201) {
+                toast.success("Review Added successfully")
+                setOpenAddQuestionModal(false)
+                setQuestions(data)
+            }
+        }).catch(ex => {
+            return toast.error(errorMessage(ex))
+        })
+    }
+
+
+    function addQuestionModal() {
+        return (
+            <form onSubmit={handleAddQuestion}>
+                <Input name="question" type="textarea" label="Question"/>
+                <Button type="submit" className="btn-primary">Submit</Button>
+
+            </form>
+        )
+    }
+
+    const [isOpenAddQuestionModal, setOpenAddQuestionModal] = useState(false)
+
+
     return (
         <div>
             <div className="mt-6">
-                <h1 className="sec_label font-semibold text-2xl">Questions and Answers</h1>
-                <div className="flex w-full">
-                    {productDetail && productDetail.product_questions && productDetail.product_questions.map(qus => (
-                        <div className="each_qus_section flex-1">
+
+                <Modal isOpen={isOpenAddQuestionModal} className="max-w-lg" backdropClass="bg-dark-900/80"
+                       onClose={() => setOpenAddQuestionModal(false)}>
+                    {addQuestionModal()}
+                </Modal>
+
+                <div className="flex justify-between items-center">
+                    <h1 className="sec_label font-semibold text-2xl">Questions and Answers</h1>
+                    <button className="btn bg-primary-400 text-white" onClick={() => setOpenAddQuestionModal(true)}>Add Question</button>
+                </div>
+
+
+                <div className="w-full">
+                    {questions && questions?.map(qus => (
+                        <div className="each_qus_section flex flex-col">
                             <div>
                                 <span>Q:</span>
                                 <span className="text-gray-600 text-sm ml-2"><label

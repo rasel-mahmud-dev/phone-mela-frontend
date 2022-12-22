@@ -102,40 +102,6 @@ const UserReviewRatings = (props) => {
                     reviews: reviews
                 }
             })
-
-            // let { created_at, customer_id, customer_uploads, customer_avatar, product_id, rate, review_id, summary, title } = response.data
-            // try {
-            //   specifications = specifications && JSON.parse(specifications)
-            //   colors = specifications && JSON.parse(colors)
-            //   highlights = highlights && JSON.parse(highlights)
-            //   ram = ram && JSON.parse(ram)
-            //   storage = storage && JSON.parse(storage)
-            //
-            // } catch (ex ){
-            //
-            // }
-            //
-            // this.setState((prevState: State): State => {
-            //   let specifications = null;
-            //   try {
-            //     specifications = response2.data.specifications && JSON.parse(response2.data.specifications)
-            //   } catch (ex ){
-            //
-            //   }
-            //   return {
-            //     ...prevState,
-            //     productDetail: {
-            //       ...prevState.productDetail,
-            //       description: description,
-            //       specifications: specifications ? specifications : null ,
-            //       colors: colors ? colors : null ,
-            //       highlights: highlights ? highlights : null ,
-            //       ram: ram ? ram : null ,
-            //       storage: storage ? storage : null,
-            //       specification_id: specification_id
-            //     }
-            //   }
-            // })
         }
     }
 
@@ -173,9 +139,9 @@ const UserReviewRatings = (props) => {
                 <div className="rating_left flex-1">
                     <div className="flex flex-col items-center">
 
-                        <h1 className="text-6xl font-bold flex items-center ">
+                        <h1 className="text-6xl font-bold flex items-center  text-dark-800">
                             {state.totalAverageRate}
-                            <BsStarFill className="!text-4xl ml-2 text-orange-400"/>
+                            <BsStarFill className="!text-4xl ml-2 "/>
                         </h1>
 
 

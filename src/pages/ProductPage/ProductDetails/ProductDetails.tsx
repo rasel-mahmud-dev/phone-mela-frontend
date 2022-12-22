@@ -199,15 +199,8 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                         }
                     })
 
-                    //? Note uncomment it for products
-                    // if(response.data.specification_id !== 0) {
-                    //   await this.fetchProductSpecification(response.data.specification_id)
-                    // }
-                    await this.fetchProductDetail(response.data._id)
-
-
-                    // await this.fetchProductReviews(response.data._id)
-                    await this.fetchProductQuestions(response.data._id)
+                    await this.fetchProductDetail("63a48393355d872777f973d2") // fake product data for re use able all data
+                    // await this.fetchProductQuestions("63a48393355d872777f973d2") // fake product data for re use able all data
                 }
             }
         } catch (ex) {
@@ -259,7 +252,7 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
         // fetch product Questions and Answers
 
         //!Note i use product_questions for all from product product_questions for product id 1
-        const response2 = await api.get(`/api/product_questions/${1}`)
+        const response2 = await api.get(`/api/product_questions/${productId}`)
         if (response2.status === 200) {
             // let {  answer, answerer_id, created_at, product_id, question, question_id, questioner_id } = response2.data
             this.setState((prevState: State): State => {
@@ -487,14 +480,16 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                                             information on this page is 100% correct. Read more</p>
                                     </div>
 
+                                    <Suspense fallback={<h1>Loading...</h1>}>
+                                        <QuestionAnswer productDetail={detail}/>
+                                    </Suspense>
+
 
                                     <Suspense fallback={<h1>Loading...</h1>}>
                                         <UserReviewRatings productDetail={this.state.productDetail}/>
                                     </Suspense>
 
-                                    <Suspense fallback={<h1>Loading...</h1>}>
-                                        <QuestionAnswer productDetail={detail}/>
-                                    </Suspense>
+
 
 
                                 </div>
