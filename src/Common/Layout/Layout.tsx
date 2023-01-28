@@ -1,6 +1,4 @@
 import React, {useRef} from 'react';
-import Footer from "../Footer/Footer";
-import Search from "../Search/Search";
 import {useLocation} from "react-router-dom";
 
 const Layout = (props) => {

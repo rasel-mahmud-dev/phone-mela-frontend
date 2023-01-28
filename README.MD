@@ -17,7 +17,7 @@ Customer can add mobile wishlist, cart, also they can buy with credit card and c
 
 # This Application under development
 
-Live Link https://phone-mela.vercel.app
+Live Link https://phone-mela1.netlify.app
 
 
 ## Technology used.
