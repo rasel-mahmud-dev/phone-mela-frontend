@@ -1,6 +1,6 @@
 
 :root{
-    --skeleton-bg: rgba(169, 169, 169, 1);
+    --skeleton-bg: rgba(169, 169, 169, 0.2);
 }
 
 .skeleton-circle{
@@ -27,10 +27,10 @@
 
 @keyframes loader-animation {
     0%{
-        background: rgba(0, 0, 0, 0.4)
+        background: rgba(105, 105, 105, 0.4)
     }
     100%{
-        background: rgba(0, 0, 0, 1)
+        background: rgba(222, 222, 222, 0.7)
     }
 }
 

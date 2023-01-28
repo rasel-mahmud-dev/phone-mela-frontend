@@ -25,7 +25,7 @@ const QuestionAnswer = () => {
            const response2 = await api.get(`/api/product/questions/${productId}`)
            if (response2.status === 200) {
                // let {  answer, answerer_id, created_at, product_id, question, question_id, questioner_id } = response2.data
-               setQuestions(response2.data.questions)
+               setQuestions(response2.data)
 
            }
        }(FAKE_POST_DETAIL)) // fake product questions for re use ability

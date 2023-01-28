@@ -17,10 +17,10 @@ interface CustomLocation extends Location {
 
 const signupPage = (props) => {
     const [state, setState] = React.useState({
-        firstName: {value: "rasel", touched: false, errorMessage: ""},
-        lastName: {value: "mahmud", touched: false, errorMessage: ""},
-        email: {value: "rasel@gmail.com", touched: false, errorMessage: ""},
-        password: {value: "123", touched: false, errorMessage: ""},
+        firstName: {value: "", touched: false, errorMessage: ""},
+        lastName: {value: "", touched: false, errorMessage: ""},
+        email: {value: "", touched: false, errorMessage: ""},
+        password: {value: "", touched: false, errorMessage: ""},
     });
 
 

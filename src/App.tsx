@@ -55,7 +55,7 @@ const App: FC<AppProps> = (props) => {
         <div className="App">
             <Navigation isOpenSearchBar={tools.isOpenSearchBar}/>
             <div className="main">
-                <MyRoutes auth={auth}/>
+                <MyRoutes/>
             </div>
             <Footer/>
         </div>

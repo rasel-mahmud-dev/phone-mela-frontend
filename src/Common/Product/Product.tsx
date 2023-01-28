@@ -119,18 +119,6 @@ const Product: FC<ProductComponentProps> = (props) => {
                     {renderProductAttr(field, prod)}</div>
             ))}
 
-            {/*<div className="flex items-center">*/}
-            {/*  <div className="product_rating">*/}
-            {/*    <FontAwesomeIcon icon={faStar} />*/}
-            {/*    <FontAwesomeIcon icon={faStar} />*/}
-            {/*    <FontAwesomeIcon icon={faStar} />*/}
-            {/*    <FontAwesomeIcon icon={faStar} />*/}
-            {/*    <FontAwesomeIcon icon={faStar} />*/}
-            {/*  </div>*/}
-            {/*  <span className="text-xs font-normal ml-2 text-dark-600">(10)</span>*/}
-            {/*</div>*/}
-
-
             <div className="discount_price mt-0">
                 <strong className="new_price">{calculatePrice(prod.price, prod.discount)}.TK</strong>
                 {prod.discount ? <div className="discount">{prod.discount}% off</div> : ''}

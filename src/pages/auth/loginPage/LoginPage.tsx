@@ -3,17 +3,17 @@ import {connect} from "react-redux";
 import Input2 from "UI/Form/Input/Input2";
 import Preload from "UI/Preload/Preload";
 import {login} from "src/store/actions/authAction";
-import Loader from "src/components/UI/Loader/Loader";
 import Helmet from "react-helmet";
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import Button from "UI/Button/Button";
 import api, {baseUri} from "apis/api";
 import HttpResponse from "components/HttpResponse/HttpResponse";
-import {loading} from "actions/productAction";
+
 
 interface CustomLocation extends Location {
     state?: { from?: string, message?: string }
 }
+
 
 const LoginPage = (props) => {
     const [state, setState] = useState({

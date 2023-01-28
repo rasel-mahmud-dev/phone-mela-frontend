@@ -11,7 +11,7 @@ import {NavigateFunction} from "react-router-dom"
 
 
 import Loader from "UI/Loader/Loader";
-import Loader2 from "components/Loader/Loader";
+
 
 
 import "./product_details.scss"
@@ -39,6 +39,7 @@ import WithNavigate from "src/Hoc/WithNavigate";
 import WithParams from "src/Hoc/WithParams";
 import Button from "UI/Button/Button";
 import {BsStar, FaHeart} from "react-icons/all";
+import ProductDetailsSkeleton from "pages/ProductPage/ProductDetails/ProductDetails.Skeleton";
 
 const QuestionAnswer = lazy(() => import("pages/ProductPage/ProductDetails/QuestionAnswer"));
 const UserReviewRatings = lazy(() => import("pages/ProductPage/ProductDetails/UserReviewRatings"));
@@ -175,7 +176,6 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
 
                     }
 
-
                     this.setState((prevState: State): State => {
                         return {
                             ...prevState,
@@ -268,10 +268,10 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
         const {productDetail, detail, currentPageForReview, amountOfRate} = this.state
 
         return (
-            <div className="container-1400 px-4 product_detail_page bg-white">
+            <div className="container-1400 px-4 product_detail_page ">
 
                 {productDetail && productDetail._id ? (
-                    <div className="product_detail ">
+                    <div className="product_detail bg-white ">
 
                         <Helmet>
                             <link rel="canonical"
@@ -472,9 +472,9 @@ class ProductDetails extends React.Component<Readonly<Props>, Readonly<State>> {
                     </div>
 
                 ) : (
-                    <h1 className="text-center mt-40 flex justify-center ">
-                        <Loader2 size={100} title="Please await a Moment"/>
-                    </h1>
+                    <div className="container-1400 mt-4">
+                        <ProductDetailsSkeleton />
+                    </div>
                 )}
 
             </div>

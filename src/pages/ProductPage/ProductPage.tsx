@@ -34,11 +34,13 @@ import WithSearchParams from "../../Hoc/WithSearchParams";
 import WithLocation from "../../Hoc/WithLocation";
 import Loader from "UI/Loader/Loader";
 import Backdrop from "UI/Backdrop/Backdrop";
+import {Dispatch} from "redux";
 
 
 interface ProductPageProps {
     match: any
     location: any
+    dispatch: Dispatch,
     productState: ProductStateType
     tools: ToolsReducerType
     fetchProducts: () => void
@@ -85,8 +87,8 @@ class ProductPage extends React.Component<Readonly<ProductPageProps>, Readonly<S
             this.props.onSearchChange(search)
         }
 
-        this.props.fetchBrands((brands) => {
-        })
+
+        fetchBrands(this.props.dispatch)
 
         const {
             selectedAttributeFilter,
@@ -496,11 +498,11 @@ function mapStateToProps(state: RootStateType) {
 export default connect(mapStateToProps, {
     deleteProduct,
     toggleBackdrop,
-    fetchBrands,
     setFilteredProducts,
     onSearchChange,
     toggleHandleCart,
     onFilterSearchChange,
+    dispatch: (s: Dispatch)=>s,
     toggleHandleWishlist,
     toggleSideBar,
 })(WithSearchParams(WithLocation(ProductPage)))

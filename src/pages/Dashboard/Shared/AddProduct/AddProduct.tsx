@@ -878,13 +878,13 @@ class AddProduct extends React.Component<Readonly<Props>, State> {
 
                         {Object.keys(detailShapeData).map(key => (
                             <div key={key}>
-                                <h4 className="font-medium mt-4">{key}</h4>
+                                <h4 className="font-medium mt-4 text-dark-900">{key}</h4>
                                 <div className="grid grid-cols-4 gap-x-4">
                                     {detailShapeData[key] && Array.isArray(detailShapeData[key]) && detailShapeData[key].map((item, index) => (
                                         <div key={item}>
                                             <Input
                                                 inputClass="text-sm"
-                                                labelClass="text-sm"
+                                                labelClass="text-sm font-normal text-dark-800"
                                                 onChange={this.handleChangeDetail}
                                                 label={item}
                                                 name={item}
